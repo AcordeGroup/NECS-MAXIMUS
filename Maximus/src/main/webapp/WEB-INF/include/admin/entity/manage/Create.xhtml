@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ManageCreateDlg" widgetVar="ManageCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateManageTitle}" closeOnEscape="true">
+
+            <h:form id="ManageCreateForm">
+
+                <h:panelGroup id="display" rendered="#{manageController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_idQuote}" for="managePK_idQuote" />
+                        <h:panelGroup>
+                            <p:inputText id="managePK_idQuote" value="#{manageController.selected.managePK.idQuote}" title="#{maximusBundle.CreateManageTitle_managePK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_idQuote}"/>
+                            <p:tooltip for="managePK_idQuote" value="#{manageController.getComponentMessages('managePK_idQuote', maximusBundle.CreateManageHelpText_managePK_idQuote)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_idAgent}" for="managePK_idAgent" />
+                        <h:panelGroup>
+                            <p:inputText id="managePK_idAgent" value="#{manageController.selected.managePK.idAgent}" title="#{maximusBundle.CreateManageTitle_managePK_idAgent}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_idAgent}" size="20" maxlength="20"/>
+                            <p:tooltip for="managePK_idAgent" value="#{manageController.getComponentMessages('managePK_idAgent', maximusBundle.CreateManageHelpText_managePK_idAgent)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_notes}" for="managePK_notes" />
+                        <h:panelGroup>
+                            <p:inputText id="managePK_notes" value="#{manageController.selected.managePK.notes}" title="#{maximusBundle.CreateManageTitle_managePK_notes}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_notes}" size="100" maxlength="100"/>
+                            <p:tooltip for="managePK_notes" value="#{manageController.getComponentMessages('managePK_notes', maximusBundle.CreateManageHelpText_managePK_notes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_assignmentDate}" for="assignmentDate" />
+                        <h:panelGroup>
+                            <p:calendar id="assignmentDate" pattern="MM/dd/yyyy" value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.CreateManageTitle_assignmentDate}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_assignmentDate}" showOn="button"/>
+                            <p:tooltip for="assignmentDate" value="#{manageController.getComponentMessages('assignmentDate', maximusBundle.CreateManageHelpText_assignmentDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_agent}" for="agent" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="agent" value="#{manageController.selected.agent}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_agent}" converter="agentConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{agentController.items}"
+                                               var="agentItem"
+                                               itemValue="#{agentItem}"
+                                               itemLabel="#{agentItem.name.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="agent" value="#{manageController.getComponentMessages('agent', maximusBundle.CreateManageHelpText_agent)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_quote}" for="quote" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="quote" value="#{manageController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_quote}" converter="quoteConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{quoteController.items}"
+                                               var="quoteItem"
+                                               itemValue="#{quoteItem}"
+                                               itemLabel="#{quoteItem.idQuote.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="quote" value="#{manageController.getComponentMessages('quote', maximusBundle.CreateManageHelpText_quote)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{manageController.saveNew}" value="#{maximusBundle.Save}" update="display,:ManageListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ManageCreateDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('ManageCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

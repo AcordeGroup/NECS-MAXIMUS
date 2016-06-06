@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="AgentCreatePage" lazy="true">
+        <pm:header title="#{maximusBundle.CreateAgentTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:AgentListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="AgentCreateForm">
+
+                <h:panelGroup id="display" rendered="#{agentController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_idAgent}" for="idAgent" />
+                            <h:panelGroup>
+                                <p:inputText id="idAgent" value="#{agentController.selected.idAgent}" title="#{maximusBundle.CreateAgentTitle_idAgent}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_idAgent}" size="20" maxlength="20"/>
+                                <p:tooltip for="idAgent" value="#{agentController.getComponentMessages('idAgent', maximusBundle.CreateAgentHelpText_idAgent)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_name}" for="name" />
+                            <h:panelGroup>
+                                <p:inputText id="name" value="#{agentController.selected.name}" title="#{maximusBundle.CreateAgentTitle_name}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_name}" size="20" maxlength="20"/>
+                                <p:tooltip for="name" value="#{agentController.getComponentMessages('name', maximusBundle.CreateAgentHelpText_name)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_lastName}" for="lastName" />
+                            <h:panelGroup>
+                                <p:inputText id="lastName" value="#{agentController.selected.lastName}" title="#{maximusBundle.CreateAgentTitle_lastName}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_lastName}" size="20" maxlength="20"/>
+                                <p:tooltip for="lastName" value="#{agentController.getComponentMessages('lastName', maximusBundle.CreateAgentHelpText_lastName)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_type}" for="type" />
+                            <h:panelGroup>
+                                <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="20" maxlength="20"/>
+                                <p:tooltip for="type" value="#{agentController.getComponentMessages('type', maximusBundle.CreateAgentHelpText_type)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_email}" for="email" />
+                            <h:panelGroup>
+                                <p:inputText id="email" value="#{agentController.selected.email}" title="#{maximusBundle.CreateAgentTitle_email}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_email}" size="30" maxlength="30"/>
+                                <p:tooltip for="email" value="#{agentController.getComponentMessages('email', maximusBundle.CreateAgentHelpText_email)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateAgentLabel_passwordVal}" for="passwordVal" />
+                            <h:panelGroup>
+                                <p:inputText id="passwordVal" value="#{agentController.selected.passwordVal}" title="#{maximusBundle.CreateAgentTitle_passwordVal}" size="16" maxlength="16"/>
+                                <p:tooltip for="passwordVal" value="#{agentController.getComponentMessages('passwordVal', maximusBundle.CreateAgentHelpText_passwordVal)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{agentController.saveNew}" value="#{maximusBundle.Save}" update="display,:AgentListPage:AgentListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:AgentListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

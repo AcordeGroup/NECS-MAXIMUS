@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ManageEditDlg" widgetVar="ManageEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditManageTitle}" closeOnEscape="true">
+
+            <h:form id="ManageEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{manageController.selected != null}">
+
+
+                        <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_idQuote}" for="managePK_idQuote" />
+                        <h:panelGroup>
+                            <h:outputText id="managePK_idQuote" value="#{manageController.selected.managePK.idQuote}" />
+                            <p:tooltip for="managePK_idQuote" value="#{manageController.getComponentMessages('managePK_idQuote', maximusBundle.EditManageHelpText_managePK_idQuote)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_idAgent}" for="managePK_idAgent" />
+                        <h:panelGroup>
+                            <h:outputText id="managePK_idAgent" value="#{manageController.selected.managePK.idAgent}" />
+                            <p:tooltip for="managePK_idAgent" value="#{manageController.getComponentMessages('managePK_idAgent', maximusBundle.EditManageHelpText_managePK_idAgent)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_notes}" for="managePK_notes" />
+                        <h:panelGroup>
+                            <h:outputText id="managePK_notes" value="#{manageController.selected.managePK.notes}" />
+                            <p:tooltip for="managePK_notes" value="#{manageController.getComponentMessages('managePK_notes', maximusBundle.EditManageHelpText_managePK_notes)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditManageLabel_assignmentDate}" for="assignmentDate" />
+                        <h:panelGroup>
+                            <p:calendar id="assignmentDate" pattern="MM/dd/yyyy" value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.EditManageTitle_assignmentDate}" required="true" requiredMessage="#{maximusBundle.EditManageRequiredMessage_assignmentDate}" showOn="button"/>
+                            <p:tooltip for="assignmentDate" value="#{manageController.getComponentMessages('assignmentDate', maximusBundle.EditManageHelpText_assignmentDate)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditManageLabel_agent}" for="agent" />
+                        <h:panelGroup>
+                            <h:outputText id="agent" value="#{manageController.selected.agent}" />
+                            <p:tooltip for="agent" value="#{manageController.getComponentMessages('agent', maximusBundle.EditManageHelpText_agent)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditManageLabel_quote}" for="quote" />
+                        <h:panelGroup>
+                            <h:outputText id="quote" value="#{manageController.selected.quote}" />
+                            <p:tooltip for="quote" value="#{manageController.getComponentMessages('quote', maximusBundle.EditManageHelpText_quote)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{manageController.save}" value="#{maximusBundle.Save}" update="display,:ManageListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ManageEditDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('ManageEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

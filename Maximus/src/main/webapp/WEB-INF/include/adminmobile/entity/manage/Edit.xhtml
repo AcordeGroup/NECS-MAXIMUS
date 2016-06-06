@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ManageEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditManageTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ManageListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ManageEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{manageController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_idQuote}" for="managePK_idQuote" />
+                            <h:panelGroup>
+                                <h:outputText id="managePK_idQuote" value="#{manageController.selected.managePK.idQuote}" />
+                                <p:tooltip for="managePK_idQuote" value="#{manageController.getComponentMessages('managePK_idQuote', maximusBundle.EditManageHelpText_managePK_idQuote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_idAgent}" for="managePK_idAgent" />
+                            <h:panelGroup>
+                                <h:outputText id="managePK_idAgent" value="#{manageController.selected.managePK.idAgent}" />
+                                <p:tooltip for="managePK_idAgent" value="#{manageController.getComponentMessages('managePK_idAgent', maximusBundle.EditManageHelpText_managePK_idAgent)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_notes}" for="managePK_notes" />
+                            <h:panelGroup>
+                                <h:outputText id="managePK_notes" value="#{manageController.selected.managePK.notes}" />
+                                <p:tooltip for="managePK_notes" value="#{manageController.getComponentMessages('managePK_notes', maximusBundle.EditManageHelpText_managePK_notes)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditManageLabel_assignmentDate}" for="assignmentDate" />
+                            <h:panelGroup>
+                                <p:calendar id="assignmentDate" pattern="MM/dd/yyyy" value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.EditManageTitle_assignmentDate}" required="true" requiredMessage="#{maximusBundle.EditManageRequiredMessage_assignmentDate}" showOn="button"/>
+                                <p:tooltip for="assignmentDate" value="#{manageController.getComponentMessages('assignmentDate', maximusBundle.EditManageHelpText_assignmentDate)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditManageLabel_agent}" for="agent" />
+                            <h:panelGroup>
+                                <h:outputText id="agent" value="#{manageController.selected.agent}" />
+                                <p:tooltip for="agent" value="#{manageController.getComponentMessages('agent', maximusBundle.EditManageHelpText_agent)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditManageLabel_quote}" for="quote" />
+                            <h:panelGroup>
+                                <h:outputText id="quote" value="#{manageController.selected.quote}" />
+                                <p:tooltip for="quote" value="#{manageController.getComponentMessages('quote', maximusBundle.EditManageHelpText_quote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{manageController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:ManageListPage:ManageListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:ManageListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductListForm">
+
+        <p:panel header="#{maximusBundle.ListProductTitle}">
+            <p:contextMenu id="ProductDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('ProductListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('ProductListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('ProductListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ProductListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.ProductMenuItem_isSubstituteList}" icon="ui-icon-search"  action="#{productController.navigateIsSubstituteList}" disabled="#{empty productController.selected.isSubstituteList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.ProductMenuItem_hasList}" icon="ui-icon-search"  action="#{productController.navigateHasList}" disabled="#{empty productController.selected.hasList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.ProductMenuItem_productCostList}" icon="ui-icon-search"  action="#{productController.navigateProductCostList}" disabled="#{empty productController.selected.productCostList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{productController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{productController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{productController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.partNumber}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProductDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProductDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.partNumber}" filterBy="#{item.partNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_partNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.partNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.manufacture}" filterBy="#{item.manufacture}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_manufacture}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.manufacture}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.description}" filterBy="#{item.description}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_description}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.description}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_type}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.type}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.notes}" filterBy="#{item.notes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_notes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.notes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.retailPrice}" filterBy="#{item.retailPrice}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductTitle_retailPrice}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.retailPrice}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.wholesalePrice}" filterBy="#{item.wholesalePrice}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{maximusBundle.ListProductTitle_wholesalePrice}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.wholesalePrice}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.price}" filterBy="#{item.price}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{maximusBundle.ListProductTitle_price}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.price}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productController.prepareCreate}" update=":ProductCreateForm" oncomplete="PF('ProductCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty productController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ProductEditForm" oncomplete="PF('ProductEditDialog').show()" disabled="#{empty productController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{productController.delete}" update=":growl,datalist" disabled="#{empty productController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="QuoteEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditQuoteTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:QuoteListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="QuoteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{quoteController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditQuoteLabel_idQuote}" for="idQuote" />
+                            <h:panelGroup>
+                                <h:outputText id="idQuote" value="#{quoteController.selected.idQuote}" />
+                                <p:tooltip for="idQuote" value="#{quoteController.getComponentMessages('idQuote', maximusBundle.EditQuoteHelpText_idQuote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteLabel_notes}" for="notes" />
+                            <h:panelGroup>
+                                <p:inputText id="notes" value="#{quoteController.selected.notes}" title="#{maximusBundle.EditQuoteTitle_notes}" size="100" maxlength="100"/>
+                                <p:tooltip for="notes" value="#{quoteController.getComponentMessages('notes', maximusBundle.EditQuoteHelpText_notes)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteLabel_creationDate}" for="creationDate" />
+                            <h:panelGroup>
+                                <p:calendar id="creationDate" pattern="MM/dd/yyyy" value="#{quoteController.selected.creationDate}" title="#{maximusBundle.EditQuoteTitle_creationDate}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_creationDate}" showOn="button"/>
+                                <p:tooltip for="creationDate" value="#{quoteController.getComponentMessages('creationDate', maximusBundle.EditQuoteHelpText_creationDate)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteLabel_idAgent}" for="idAgent" />
+                            <h:panelGroup>
+                                <p:selectOneMenu id="idAgent" value="#{quoteController.selected.idAgent}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idAgent}" converter="agentConverter">
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{agentController.items}"
+                                                   var="idAgentItem"
+                                                   itemValue="#{idAgentItem}"
+                                                   itemLabel="#{idAgentItem.name.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <p:tooltip for="idAgent" value="#{quoteController.getComponentMessages('idAgent', maximusBundle.EditQuoteHelpText_idAgent)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteLabel_idCustomer}" for="idCustomer" />
+                            <h:panelGroup>
+                                <p:selectOneMenu id="idCustomer" value="#{quoteController.selected.idCustomer}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idCustomer}" converter="customerConverter">
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{customerController.items}"
+                                                   var="idCustomerItem"
+                                                   itemValue="#{idCustomerItem}"
+                                                   itemLabel="#{idCustomerItem.companyName.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <p:tooltip for="idCustomer" value="#{quoteController.getComponentMessages('idCustomer', maximusBundle.EditQuoteHelpText_idCustomer)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{quoteController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:QuoteListPage:QuoteListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:QuoteListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

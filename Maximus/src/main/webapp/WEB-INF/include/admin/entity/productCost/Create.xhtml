@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductCostCreateDlg" widgetVar="ProductCostCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateProductCostTitle}" closeOnEscape="true">
+
+            <h:form id="ProductCostCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productCostController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_cost}" for="cost" />
+                        <h:panelGroup>
+                            <p:inputText id="cost" value="#{productCostController.selected.cost}" title="#{maximusBundle.CreateProductCostTitle_cost}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_cost}"/>
+                            <p:tooltip for="cost" value="#{productCostController.getComponentMessages('cost', maximusBundle.CreateProductCostHelpText_cost)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_initDate}" for="initDate" />
+                        <h:panelGroup>
+                            <p:calendar id="initDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{productCostController.selected.initDate}" title="#{maximusBundle.CreateProductCostTitle_initDate}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_initDate}" showOn="button"/>
+                            <p:tooltip for="initDate" value="#{productCostController.getComponentMessages('initDate', maximusBundle.CreateProductCostHelpText_initDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_endDate}" for="endDate" />
+                        <h:panelGroup>
+                            <p:calendar id="endDate" pattern="HH:mm:ss" value="#{productCostController.selected.endDate}" title="#{maximusBundle.CreateProductCostTitle_endDate}"  showOn="button"/>
+                            <p:tooltip for="endDate" value="#{productCostController.getComponentMessages('endDate', maximusBundle.CreateProductCostHelpText_endDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_partNumber}" for="partNumber" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="partNumber" value="#{productCostController.selected.partNumber}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_partNumber}" converter="productConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{productController.items}"
+                                               var="partNumberItem"
+                                               itemValue="#{partNumberItem}"
+                                               itemLabel="#{partNumberItem.description.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="partNumber" value="#{productCostController.getComponentMessages('partNumber', maximusBundle.CreateProductCostHelpText_partNumber)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productCostController.saveNew}" value="#{maximusBundle.Save}" update="display,:ProductCostListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductCostCreateDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('ProductCostCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

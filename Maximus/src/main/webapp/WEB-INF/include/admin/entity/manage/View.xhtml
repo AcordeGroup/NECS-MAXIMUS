@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ManageViewDlg" widgetVar="ManageViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewManageTitle}" closeOnEscape="true">
+
+            <h:form id="ManageViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{manageController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_idQuote}"/>
+                        <h:outputText value="#{manageController.selected.managePK.idQuote}" title="#{maximusBundle.ViewManageTitle_managePK_idQuote}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_idAgent}"/>
+                        <h:outputText value="#{manageController.selected.managePK.idAgent}" title="#{maximusBundle.ViewManageTitle_managePK_idAgent}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_notes}"/>
+                        <h:outputText value="#{manageController.selected.managePK.notes}" title="#{maximusBundle.ViewManageTitle_managePK_notes}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_assignmentDate}"/>
+                        <h:outputText value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.ViewManageTitle_assignmentDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_agent}"/>
+                        <h:outputText value="#{manageController.selected.agent.name}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewManageLabel_quote}"/>
+                        <h:outputText value="#{manageController.selected.quote.idQuote}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('ManageViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

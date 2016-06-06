@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="QuoteViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewQuoteTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:QuoteListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="QuoteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{quoteController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteLabel_idQuote}"/>
+                            <h:outputText value="#{quoteController.selected.idQuote}" title="#{maximusBundle.ViewQuoteTitle_idQuote}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteLabel_notes}"/>
+                            <h:outputText value="#{quoteController.selected.notes}" title="#{maximusBundle.ViewQuoteTitle_notes}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteLabel_creationDate}"/>
+                            <h:outputText value="#{quoteController.selected.creationDate}" title="#{maximusBundle.ViewQuoteTitle_creationDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteLabel_idAgent}"/>
+                            <h:outputText value="#{quoteController.selected.idAgent.name}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteLabel_idCustomer}"/>
+                            <h:outputText value="#{quoteController.selected.idCustomer.companyName}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

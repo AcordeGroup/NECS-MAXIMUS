@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="QuoteStatusViewDlg" widgetVar="QuoteStatusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewQuoteStatusTitle}" closeOnEscape="true">
+
+            <h:form id="QuoteStatusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{quoteStatusController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_idQuoteStatus}"/>
+                        <h:outputText value="#{quoteStatusController.selected.idQuoteStatus}" title="#{maximusBundle.ViewQuoteStatusTitle_idQuoteStatus}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_status}"/>
+                        <h:outputText value="#{quoteStatusController.selected.status}" title="#{maximusBundle.ViewQuoteStatusTitle_status}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_initDate}"/>
+                        <h:outputText value="#{quoteStatusController.selected.initDate}" title="#{maximusBundle.ViewQuoteStatusTitle_initDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_endDate}"/>
+                        <h:outputText value="#{quoteStatusController.selected.endDate}" title="#{maximusBundle.ViewQuoteStatusTitle_endDate}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_idQuote}"/>
+                        <h:outputText value="#{quoteStatusController.selected.idQuote.idQuote}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('QuoteStatusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

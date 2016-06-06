@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="QuoteNoteEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditQuoteNoteTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:QuoteNoteListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="QuoteNoteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{quoteNoteController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_idQuoteNote}" for="idQuoteNote" />
+                            <h:panelGroup>
+                                <h:outputText id="idQuoteNote" value="#{quoteNoteController.selected.idQuoteNote}" />
+                                <p:tooltip for="idQuoteNote" value="#{quoteNoteController.getComponentMessages('idQuoteNote', maximusBundle.EditQuoteNoteHelpText_idQuoteNote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_note}" for="note" />
+                            <h:panelGroup>
+                                <p:inputTextarea rows="4" cols="30" id="note" value="#{quoteNoteController.selected.note}" title="#{maximusBundle.EditQuoteNoteTitle_note}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_note}"/>
+                                <p:tooltip for="note" value="#{quoteNoteController.getComponentMessages('note', maximusBundle.EditQuoteNoteHelpText_note)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_creationDate}" for="creationDate" />
+                            <h:panelGroup>
+                                <p:calendar id="creationDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{quoteNoteController.selected.creationDate}" title="#{maximusBundle.EditQuoteNoteTitle_creationDate}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_creationDate}" showOn="button"/>
+                                <p:tooltip for="creationDate" value="#{quoteNoteController.getComponentMessages('creationDate', maximusBundle.EditQuoteNoteHelpText_creationDate)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_idQuote}" for="idQuote" />
+                            <h:panelGroup>
+                                <p:selectOneMenu id="idQuote" value="#{quoteNoteController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_idQuote}" converter="quoteConverter">
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{quoteController.items}"
+                                                   var="idQuoteItem"
+                                                   itemValue="#{idQuoteItem}"
+                                                   itemLabel="#{idQuoteItem.idQuote.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <p:tooltip for="idQuote" value="#{quoteNoteController.getComponentMessages('idQuote', maximusBundle.EditQuoteNoteHelpText_idQuote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{quoteNoteController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:QuoteNoteListPage:QuoteNoteListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:QuoteNoteListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

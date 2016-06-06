@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="AgentViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewAgentTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:AgentListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="AgentViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{agentController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_idAgent}"/>
+                            <h:outputText value="#{agentController.selected.idAgent}" title="#{maximusBundle.ViewAgentTitle_idAgent}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_name}"/>
+                            <h:outputText value="#{agentController.selected.name}" title="#{maximusBundle.ViewAgentTitle_name}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_lastName}"/>
+                            <h:outputText value="#{agentController.selected.lastName}" title="#{maximusBundle.ViewAgentTitle_lastName}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_type}"/>
+                            <h:outputText value="#{agentController.selected.type}" title="#{maximusBundle.ViewAgentTitle_type}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_email}"/>
+                            <h:outputText value="#{agentController.selected.email}" title="#{maximusBundle.ViewAgentTitle_email}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewAgentLabel_passwordVal}"/>
+                            <h:outputText value="#{agentController.selected.passwordVal}" title="#{maximusBundle.ViewAgentTitle_passwordVal}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

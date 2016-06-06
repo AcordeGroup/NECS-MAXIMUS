@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="QuoteStatusEditDlg" widgetVar="QuoteStatusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditQuoteStatusTitle}" closeOnEscape="true">
+
+            <h:form id="QuoteStatusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{quoteStatusController.selected != null}">
+
+
+                        <h:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_idQuoteStatus}" for="idQuoteStatus" />
+                        <h:panelGroup>
+                            <h:outputText id="idQuoteStatus" value="#{quoteStatusController.selected.idQuoteStatus}" />
+                            <p:tooltip for="idQuoteStatus" value="#{quoteStatusController.getComponentMessages('idQuoteStatus', maximusBundle.EditQuoteStatusHelpText_idQuoteStatus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:inputText id="status" value="#{quoteStatusController.selected.status}" title="#{maximusBundle.EditQuoteStatusTitle_status}" required="true" requiredMessage="#{maximusBundle.EditQuoteStatusRequiredMessage_status}" size="20" maxlength="20"/>
+                            <p:tooltip for="status" value="#{quoteStatusController.getComponentMessages('status', maximusBundle.EditQuoteStatusHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_initDate}" for="initDate" />
+                        <h:panelGroup>
+                            <p:calendar id="initDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{quoteStatusController.selected.initDate}" title="#{maximusBundle.EditQuoteStatusTitle_initDate}" required="true" requiredMessage="#{maximusBundle.EditQuoteStatusRequiredMessage_initDate}" showOn="button"/>
+                            <p:tooltip for="initDate" value="#{quoteStatusController.getComponentMessages('initDate', maximusBundle.EditQuoteStatusHelpText_initDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_endDate}" for="endDate" />
+                        <h:panelGroup>
+                            <p:calendar id="endDate" pattern="HH:mm:ss" value="#{quoteStatusController.selected.endDate}" title="#{maximusBundle.EditQuoteStatusTitle_endDate}"  showOn="button"/>
+                            <p:tooltip for="endDate" value="#{quoteStatusController.getComponentMessages('endDate', maximusBundle.EditQuoteStatusHelpText_endDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_idQuote}" for="idQuote" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idQuote" value="#{quoteStatusController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.EditQuoteStatusRequiredMessage_idQuote}" converter="quoteConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{quoteController.items}"
+                                               var="idQuoteItem"
+                                               itemValue="#{idQuoteItem}"
+                                               itemLabel="#{idQuoteItem.idQuote.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idQuote" value="#{quoteStatusController.getComponentMessages('idQuote', maximusBundle.EditQuoteStatusHelpText_idQuote)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{quoteStatusController.save}" value="#{maximusBundle.Save}" update="display,:QuoteStatusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('QuoteStatusEditDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('QuoteStatusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

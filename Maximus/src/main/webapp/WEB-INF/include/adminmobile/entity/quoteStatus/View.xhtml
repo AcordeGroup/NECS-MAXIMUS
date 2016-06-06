@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="QuoteStatusViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewQuoteStatusTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:QuoteStatusListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="QuoteStatusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{quoteStatusController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_idQuoteStatus}"/>
+                            <h:outputText value="#{quoteStatusController.selected.idQuoteStatus}" title="#{maximusBundle.ViewQuoteStatusTitle_idQuoteStatus}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_status}"/>
+                            <h:outputText value="#{quoteStatusController.selected.status}" title="#{maximusBundle.ViewQuoteStatusTitle_status}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_initDate}"/>
+                            <h:outputText value="#{quoteStatusController.selected.initDate}" title="#{maximusBundle.ViewQuoteStatusTitle_initDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_endDate}"/>
+                            <h:outputText value="#{quoteStatusController.selected.endDate}" title="#{maximusBundle.ViewQuoteStatusTitle_endDate}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteStatusLabel_idQuote}"/>
+                            <h:outputText value="#{quoteStatusController.selected.idQuote.idQuote}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

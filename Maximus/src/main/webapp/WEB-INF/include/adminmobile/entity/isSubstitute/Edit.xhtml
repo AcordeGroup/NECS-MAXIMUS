@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="IsSubstituteEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditIsSubstituteTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:IsSubstituteListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="IsSubstituteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{isSubstituteController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
+                            <h:panelGroup>
+                                <h:outputText id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.isSubstitutePK.partNumber1}" />
+                                <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber1', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber1)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
+                            <h:panelGroup>
+                                <h:outputText id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.isSubstitutePK.partNumber2}" />
+                                <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber2', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber2)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_product}" for="product" />
+                            <h:panelGroup>
+                                <h:outputText id="product" value="#{isSubstituteController.selected.product}" />
+                                <p:tooltip for="product" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.EditIsSubstituteHelpText_product)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{isSubstituteController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:IsSubstituteListPage:IsSubstituteListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:IsSubstituteListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

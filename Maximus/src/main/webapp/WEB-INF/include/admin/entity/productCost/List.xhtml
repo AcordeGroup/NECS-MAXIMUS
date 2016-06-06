@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductCostListForm">
+
+        <p:panel header="#{maximusBundle.ListProductCostTitle}">
+            <p:contextMenu id="ProductCostDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('ProductCostListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('ProductCostListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('ProductCostListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ProductCostListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.ProductCostMenuItem_partNumber}" icon="ui-icon-search"  actionListener="#{productCostController.preparePartNumber}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty productCostController.selected.partNumber}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{productCostController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{productCostController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{productCostController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idProductCost}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProductCostDataTableContextMenu" listener="#{productCostController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProductCostDataTableContextMenu" listener="#{productCostController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{productCostController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductCostListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProductCost}" filterBy="#{item.idProductCost}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductCostTitle_idProductCost}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProductCost}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cost}" filterBy="#{item.cost}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductCostTitle_cost}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cost}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.initDate}" filterBy="#{item.initDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductCostTitle_initDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.initDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.endDate}" filterBy="#{item.endDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductCostTitle_endDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.endDate}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.partNumber.description}" filterBy="#{item.partNumber.description}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListProductCostTitle_partNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.partNumber.description}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productCostController.prepareCreate}" update=":ProductCostCreateForm" oncomplete="PF('ProductCostCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ProductCostViewForm" oncomplete="PF('ProductCostViewDialog').show()" disabled="#{empty productCostController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ProductCostEditForm" oncomplete="PF('ProductCostEditDialog').show()" disabled="#{empty productCostController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{productCostController.delete}" update=":growl,datalist" disabled="#{empty productCostController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

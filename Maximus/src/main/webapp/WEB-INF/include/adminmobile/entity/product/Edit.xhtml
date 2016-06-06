@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProductEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditProductTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProductListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProductEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{productController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditProductLabel_partNumber}" for="partNumber" />
+                            <h:panelGroup>
+                                <h:outputText id="partNumber" value="#{productController.selected.partNumber}" />
+                                <p:tooltip for="partNumber" value="#{productController.getComponentMessages('partNumber', maximusBundle.EditProductHelpText_partNumber)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_manufacture}" for="manufacture" />
+                            <h:panelGroup>
+                                <p:inputText id="manufacture" value="#{productController.selected.manufacture}" title="#{maximusBundle.EditProductTitle_manufacture}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_manufacture}" size="25" maxlength="25"/>
+                                <p:tooltip for="manufacture" value="#{productController.getComponentMessages('manufacture', maximusBundle.EditProductHelpText_manufacture)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_description}" for="description" />
+                            <h:panelGroup>
+                                <p:inputText id="description" value="#{productController.selected.description}" title="#{maximusBundle.EditProductTitle_description}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_description}" size="100" maxlength="100"/>
+                                <p:tooltip for="description" value="#{productController.getComponentMessages('description', maximusBundle.EditProductHelpText_description)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_type}" for="type" />
+                            <h:panelGroup>
+                                <p:inputText id="type" value="#{productController.selected.type}" title="#{maximusBundle.EditProductTitle_type}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_type}" size="25" maxlength="25"/>
+                                <p:tooltip for="type" value="#{productController.getComponentMessages('type', maximusBundle.EditProductHelpText_type)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_notes}" for="notes" />
+                            <h:panelGroup>
+                                <p:inputText id="notes" value="#{productController.selected.notes}" title="#{maximusBundle.EditProductTitle_notes}" size="100" maxlength="100"/>
+                                <p:tooltip for="notes" value="#{productController.getComponentMessages('notes', maximusBundle.EditProductHelpText_notes)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_retailPrice}" for="retailPrice" />
+                            <h:panelGroup>
+                                <p:inputText id="retailPrice" value="#{productController.selected.retailPrice}" title="#{maximusBundle.EditProductTitle_retailPrice}"/>
+                                <p:tooltip for="retailPrice" value="#{productController.getComponentMessages('retailPrice', maximusBundle.EditProductHelpText_retailPrice)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_wholesalePrice}" for="wholesalePrice" />
+                            <h:panelGroup>
+                                <p:inputText id="wholesalePrice" value="#{productController.selected.wholesalePrice}" title="#{maximusBundle.EditProductTitle_wholesalePrice}"/>
+                                <p:tooltip for="wholesalePrice" value="#{productController.getComponentMessages('wholesalePrice', maximusBundle.EditProductHelpText_wholesalePrice)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditProductLabel_price}" for="price" />
+                            <h:panelGroup>
+                                <p:inputText id="price" value="#{productController.selected.price}" title="#{maximusBundle.EditProductTitle_price}"/>
+                                <p:tooltip for="price" value="#{productController.getComponentMessages('price', maximusBundle.EditProductHelpText_price)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{productController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:ProductListPage:ProductListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:ProductListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

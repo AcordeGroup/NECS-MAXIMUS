@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="QuoteViewDlg" widgetVar="QuoteViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewQuoteTitle}" closeOnEscape="true">
+
+            <h:form id="QuoteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{quoteController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_idQuote}"/>
+                        <h:outputText value="#{quoteController.selected.idQuote}" title="#{maximusBundle.ViewQuoteTitle_idQuote}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_notes}"/>
+                        <h:outputText value="#{quoteController.selected.notes}" title="#{maximusBundle.ViewQuoteTitle_notes}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_creationDate}"/>
+                        <h:outputText value="#{quoteController.selected.creationDate}" title="#{maximusBundle.ViewQuoteTitle_creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_idAgent}"/>
+                        <h:outputText value="#{quoteController.selected.idAgent.name}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_idCustomer}"/>
+                        <h:outputText value="#{quoteController.selected.idCustomer.companyName}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('QuoteViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

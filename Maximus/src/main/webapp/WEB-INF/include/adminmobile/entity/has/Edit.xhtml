@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="HasEditPage" lazy="true">
+        <pm:header title="#{maximusBundle.EditHasTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:HasListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="HasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{hasController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_idQuote}" for="hasPK_idQuote" />
+                            <h:panelGroup>
+                                <h:outputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" />
+                                <p:tooltip for="hasPK_idQuote" value="#{hasController.getComponentMessages('hasPK_idQuote', maximusBundle.EditHasHelpText_hasPK_idQuote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_partNumber}" for="hasPK_partNumber" />
+                            <h:panelGroup>
+                                <h:outputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" />
+                                <p:tooltip for="hasPK_partNumber" value="#{hasController.getComponentMessages('hasPK_partNumber', maximusBundle.EditHasHelpText_hasPK_partNumber)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditHasLabel_customerTargetPrice}" for="customerTargetPrice" />
+                            <h:panelGroup>
+                                <p:inputText id="customerTargetPrice" value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.EditHasTitle_customerTargetPrice}"/>
+                                <p:tooltip for="customerTargetPrice" value="#{hasController.getComponentMessages('customerTargetPrice', maximusBundle.EditHasHelpText_customerTargetPrice)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditHasLabel_qtyRequested}" for="qtyRequested" />
+                            <h:panelGroup>
+                                <p:inputText id="qtyRequested" value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.EditHasTitle_qtyRequested}" required="true" requiredMessage="#{maximusBundle.EditHasRequiredMessage_qtyRequested}"/>
+                                <p:tooltip for="qtyRequested" value="#{hasController.getComponentMessages('qtyRequested', maximusBundle.EditHasHelpText_qtyRequested)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditHasLabel_suggestedSalesPrice}" for="suggestedSalesPrice" />
+                            <h:panelGroup>
+                                <p:inputText id="suggestedSalesPrice" value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
+                                <p:tooltip for="suggestedSalesPrice" value="#{hasController.getComponentMessages('suggestedSalesPrice', maximusBundle.EditHasHelpText_suggestedSalesPrice)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.EditHasLabel_qtyFound}" for="qtyFound" />
+                            <h:panelGroup>
+                                <p:inputText id="qtyFound" value="#{hasController.selected.qtyFound}" title="#{maximusBundle.EditHasTitle_qtyFound}"/>
+                                <p:tooltip for="qtyFound" value="#{hasController.getComponentMessages('qtyFound', maximusBundle.EditHasHelpText_qtyFound)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditHasLabel_product}" for="product" />
+                            <h:panelGroup>
+                                <h:outputText id="product" value="#{hasController.selected.product}" />
+                                <p:tooltip for="product" value="#{hasController.getComponentMessages('product', maximusBundle.EditHasHelpText_product)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{maximusBundle.EditHasLabel_quote}" for="quote" />
+                            <h:panelGroup>
+                                <h:outputText id="quote" value="#{hasController.selected.quote}" />
+                                <p:tooltip for="quote" value="#{hasController.getComponentMessages('quote', maximusBundle.EditHasHelpText_quote)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{hasController.save}" value="#{maximusBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:HasListPage:HasListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:HasListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

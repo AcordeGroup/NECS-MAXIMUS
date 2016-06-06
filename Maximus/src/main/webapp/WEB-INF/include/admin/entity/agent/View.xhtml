@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AgentViewDlg" widgetVar="AgentViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewAgentTitle}" closeOnEscape="true">
+
+            <h:form id="AgentViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{agentController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_idAgent}"/>
+                        <h:outputText value="#{agentController.selected.idAgent}" title="#{maximusBundle.ViewAgentTitle_idAgent}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_name}"/>
+                        <h:outputText value="#{agentController.selected.name}" title="#{maximusBundle.ViewAgentTitle_name}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_lastName}"/>
+                        <h:outputText value="#{agentController.selected.lastName}" title="#{maximusBundle.ViewAgentTitle_lastName}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_type}"/>
+                        <h:outputText value="#{agentController.selected.type}" title="#{maximusBundle.ViewAgentTitle_type}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_email}"/>
+                        <h:outputText value="#{agentController.selected.email}" title="#{maximusBundle.ViewAgentTitle_email}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewAgentLabel_passwordVal}"/>
+                        <h:outputText value="#{agentController.selected.passwordVal}" title="#{maximusBundle.ViewAgentTitle_passwordVal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('AgentViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

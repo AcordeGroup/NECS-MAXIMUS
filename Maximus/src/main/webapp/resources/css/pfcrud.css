@@ -1,0 +1,93 @@
+.ui-widget {
+    font-size: 12px !important;
+}
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ui-datatable .ui-datatable-footer .footer-section {
+    text-align: left;
+}
+.column {
+    font-weight: bold;
+    background-color: menu;
+}
+
+/********************************************
+   MAXIMUS STYLES
+********************************************/ 
+/********************************************
+   HTML ELEMENTS
+********************************************/ 
+
+/* top elements */
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: url(../images/bg.jpg) repeat-x center 0 #00356a;
+    font: 12px/1.55 Arial, Helvetica, sans-serif;
+    color: #2f2f2f;
+    text-align: center;
+}
+
+/* links */
+a {
+    color: #1e7ec8;
+    text-decoration: underline;
+}
+a:hover {
+	color: #9EC068;
+	background-color: inherit;
+	text-decoration: none;
+}
+
+/* headers */
+.header-container {
+}
+.header {
+    text-align: right;
+    position: relative;
+    z-index: 10;
+    padding-bottom: 13px;
+}
+.header .tagline {
+    font: 16px 'UbuntuRegular';
+    color: #6e798c;
+    float: left;
+    padding: 28px 0 0 24px;
+}
+.header .logo {
+    float: left;
+    margin: 9px 0 0 9px;
+    text-decoration: none !important;
+}
+.logo {
+    float: left;
+}
+.top-block {
+    float: right;
+}
+.top-logout {
+    background: url(../images/top-cart-bg.gif) repeat-x 0 0;
+    border: none;
+    height: 45px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    float: right;
+    margin-top: 20px;
+    min-width: 188px;
+}
+.btn-logout {
+    float: left;
+    margin: 0 16px 0 0;
+}

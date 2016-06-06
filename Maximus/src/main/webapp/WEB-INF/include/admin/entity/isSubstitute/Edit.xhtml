@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="IsSubstituteEditDlg" widgetVar="IsSubstituteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditIsSubstituteTitle}" closeOnEscape="true">
+
+            <h:form id="IsSubstituteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{isSubstituteController.selected != null}">
+
+
+                        <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
+                        <h:panelGroup>
+                            <h:outputText id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.isSubstitutePK.partNumber1}" />
+                            <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber1', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber1)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
+                        <h:panelGroup>
+                            <h:outputText id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.isSubstitutePK.partNumber2}" />
+                            <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber2', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber2)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_product}" for="product" />
+                        <h:panelGroup>
+                            <h:outputText id="product" value="#{isSubstituteController.selected.product}" />
+                            <p:tooltip for="product" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.EditIsSubstituteHelpText_product)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{isSubstituteController.save}" value="#{maximusBundle.Save}" update="display,:IsSubstituteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IsSubstituteEditDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('IsSubstituteEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

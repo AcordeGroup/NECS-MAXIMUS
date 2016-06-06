@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HasViewDlg" widgetVar="HasViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewHasTitle}" closeOnEscape="true">
+
+            <h:form id="HasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{hasController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_idQuote}"/>
+                        <h:outputText value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.ViewHasTitle_hasPK_idQuote}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_partNumber}"/>
+                        <h:outputText value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.ViewHasTitle_hasPK_partNumber}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_customerTargetPrice}"/>
+                        <h:outputText value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.ViewHasTitle_customerTargetPrice}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_qtyRequested}"/>
+                        <h:outputText value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.ViewHasTitle_qtyRequested}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_suggestedSalesPrice}"/>
+                        <h:outputText value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.ViewHasTitle_suggestedSalesPrice}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_qtyFound}"/>
+                        <h:outputText value="#{hasController.selected.qtyFound}" title="#{maximusBundle.ViewHasTitle_qtyFound}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_product}"/>
+                        <h:outputText value="#{hasController.selected.product.description}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewHasLabel_quote}"/>
+                        <h:outputText value="#{hasController.selected.quote.idQuote}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('HasViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

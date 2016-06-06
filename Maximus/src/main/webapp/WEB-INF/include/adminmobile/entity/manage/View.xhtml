@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ManageViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewManageTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ManageListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ManageViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{manageController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_idQuote}"/>
+                            <h:outputText value="#{manageController.selected.managePK.idQuote}" title="#{maximusBundle.ViewManageTitle_managePK_idQuote}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_idAgent}"/>
+                            <h:outputText value="#{manageController.selected.managePK.idAgent}" title="#{maximusBundle.ViewManageTitle_managePK_idAgent}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_managePK_notes}"/>
+                            <h:outputText value="#{manageController.selected.managePK.notes}" title="#{maximusBundle.ViewManageTitle_managePK_notes}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_assignmentDate}"/>
+                            <h:outputText value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.ViewManageTitle_assignmentDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_agent}"/>
+                            <h:outputText value="#{manageController.selected.agent.name}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewManageLabel_quote}"/>
+                            <h:outputText value="#{manageController.selected.quote.idQuote}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

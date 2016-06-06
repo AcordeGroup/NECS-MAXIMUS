@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsSubstituteCreateDlg" widgetVar="IsSubstituteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateIsSubstituteTitle}" closeOnEscape="true">
+
+            <h:form id="IsSubstituteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{isSubstituteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
+                        <h:panelGroup>
+                            <p:inputText id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.isSubstitutePK.partNumber1}" title="#{maximusBundle.CreateIsSubstituteTitle_isSubstitutePK_partNumber1}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_isSubstitutePK_partNumber1}" size="20" maxlength="20"/>
+                            <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber1', maximusBundle.CreateIsSubstituteHelpText_isSubstitutePK_partNumber1)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
+                        <h:panelGroup>
+                            <p:inputText id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.isSubstitutePK.partNumber2}" title="#{maximusBundle.CreateIsSubstituteTitle_isSubstitutePK_partNumber2}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_isSubstitutePK_partNumber2}" size="20" maxlength="20"/>
+                            <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber2', maximusBundle.CreateIsSubstituteHelpText_isSubstitutePK_partNumber2)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_product}" for="product" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="product" value="#{isSubstituteController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="productConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{productController.items}"
+                                               var="productItem"
+                                               itemValue="#{productItem}"
+                                               itemLabel="#{productItem.description.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="product" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.CreateIsSubstituteHelpText_product)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{isSubstituteController.saveNew}" value="#{maximusBundle.Save}" update="display,:IsSubstituteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IsSubstituteCreateDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('IsSubstituteCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

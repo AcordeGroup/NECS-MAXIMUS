@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="QuoteNoteListForm">
+
+        <p:panel header="#{maximusBundle.ListQuoteNoteTitle}">
+            <p:contextMenu id="QuoteNoteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('QuoteNoteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('QuoteNoteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('QuoteNoteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('QuoteNoteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.QuoteNoteMenuItem_idQuote}" icon="ui-icon-search"  actionListener="#{quoteNoteController.prepareIdQuote}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty quoteNoteController.selected.idQuote}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{quoteNoteController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{quoteNoteController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{quoteNoteController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idQuoteNote}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{quoteNoteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('QuoteNoteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idQuoteNote}" filterBy="#{item.idQuoteNote}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuoteNote}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idQuoteNote}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.note}" filterBy="#{item.note}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_note}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.note}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_creationDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.creationDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuote}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idQuote.idQuote}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{quoteNoteController.prepareCreate}" update=":QuoteNoteCreateForm" oncomplete="PF('QuoteNoteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":QuoteNoteViewForm" oncomplete="PF('QuoteNoteViewDialog').show()" disabled="#{empty quoteNoteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":QuoteNoteEditForm" oncomplete="PF('QuoteNoteEditDialog').show()" disabled="#{empty quoteNoteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{quoteNoteController.delete}" update=":growl,datalist" disabled="#{empty quoteNoteController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

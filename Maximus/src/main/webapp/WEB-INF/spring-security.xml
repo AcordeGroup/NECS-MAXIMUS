@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd 
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd ">
+    
+    <!-- Determina las ubicaciones que no requieren seguridad -->
+    <http pattern="/faces/resources/**"  xmlns="http://www.springframework.org/schema/security" security="none"/>
+    <!-- Se inyecta un filtro para:
+    Todas las Urls del portal
+    - Se exige un ROL especifico denominado LOGIN_USER_PROFILE
+    NOTA: SE DEBE CREAR EL ROL LOGIN_USER_PROFILE EN LA BD DE DANA
+    -->
+    <http auto-config="true" xmlns="http://www.springframework.org/schema/security"
+          access-decision-manager-ref="accessDecisionManager" use-expressions="true">
+        <intercept-url pattern="/faces/login/*" access="isAnonymous()"/>
+        <intercept-url pattern="/faces/*" access="hasAnyRole('Purchasing','Sales','Administrator')" />
+        <intercept-url pattern="/faces/admin/**" access="hasAnyRole('Administrator')" />
+        <intercept-url pattern="/faces/sales/**" access="hasAnyRole('Sales')" />
+        <intercept-url pattern="/faces/purchasing/**" access="hasAnyRole('Purchasing')" />
+        <form-login login-page='/faces/login/login.xhtml'/>
+        <access-denied-handler error-page="/faces/login/login.xhtml" />
+        <session-management invalid-session-url="/faces/login/login.xhtml" />
+        <logout delete-cookies="JSESSIONID" />
+    </http>
+    <!-- Se inyecta un Autenticacion Manager,
+    - Se delega esta tarea al bean userDetails
+    - Se delega la comprobación del password  al bean passwordEncoder
+    -->
+    <authentication-manager alias="authenticationManager"
+                            xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref='userDetails'>
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+    <!-- Se inyecta el servicio encargado de servir los detalles del usuario
+    para la autorizacion via Credenciales del Usuario
+    -Se delegar la obtencion de las credenciales a una clase de DANA
+    -->
+    <bean id="userDetails"
+          class="com.necs.maximus.security.services.UserService">
+        <property name="agentFacadeEjb" ref="agentFacade"/>
+    </bean>
+    <!-- Se inyecta el EJB encargado de recuperar las credenciales del usuario
+    a través de JPA -->
+    <bean id="agentFacade" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:global/Maximus/AgentFacade"/>
+    </bean>
+    <!-- Se inyecta el bean encargado de la comprobación del Password
+    - Se delega esta tarea al bean utilityBean
+    -->
+    <bean id="passwordEncoder"
+          class="com.necs.maximus.security.services.PasswordService">
+    </bean>
+    <!-- Se inyecta la clase encargada de validar el acceso a los recursos
+    - Se configura el manejador de roles para no esperar ningun PREFIJO, por
+      defecto Spring espera todos los ROLES tener el prefinjo ROLE 
+    -->
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased"
+          xmlns="http://www.springframework.org/schema/beans">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter">
+                    <property name="rolePrefix" value=""/>
+                </bean>
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+                <bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
+            </list>
+        </constructor-arg>
+    </bean>
+        
+</beans>

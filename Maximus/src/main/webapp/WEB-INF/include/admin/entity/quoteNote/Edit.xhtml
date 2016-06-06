@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="QuoteNoteEditDlg" widgetVar="QuoteNoteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditQuoteNoteTitle}" closeOnEscape="true">
+
+            <h:form id="QuoteNoteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{quoteNoteController.selected != null}">
+
+
+                        <h:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_idQuoteNote}" for="idQuoteNote" />
+                        <h:panelGroup>
+                            <h:outputText id="idQuoteNote" value="#{quoteNoteController.selected.idQuoteNote}" />
+                            <p:tooltip for="idQuoteNote" value="#{quoteNoteController.getComponentMessages('idQuoteNote', maximusBundle.EditQuoteNoteHelpText_idQuoteNote)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_note}" for="note" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="4" cols="30" id="note" value="#{quoteNoteController.selected.note}" title="#{maximusBundle.EditQuoteNoteTitle_note}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_note}"/>
+                            <p:tooltip for="note" value="#{quoteNoteController.getComponentMessages('note', maximusBundle.EditQuoteNoteHelpText_note)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_creationDate}" for="creationDate" />
+                        <h:panelGroup>
+                            <p:calendar id="creationDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{quoteNoteController.selected.creationDate}" title="#{maximusBundle.EditQuoteNoteTitle_creationDate}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_creationDate}" showOn="button"/>
+                            <p:tooltip for="creationDate" value="#{quoteNoteController.getComponentMessages('creationDate', maximusBundle.EditQuoteNoteHelpText_creationDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditQuoteNoteLabel_idQuote}" for="idQuote" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idQuote" value="#{quoteNoteController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.EditQuoteNoteRequiredMessage_idQuote}" converter="quoteConverter">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{quoteController.items}"
+                                               var="idQuoteItem"
+                                               itemValue="#{idQuoteItem}"
+                                               itemLabel="#{idQuoteItem.idQuote.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idQuote" value="#{quoteNoteController.getComponentMessages('idQuote', maximusBundle.EditQuoteNoteHelpText_idQuote)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{quoteNoteController.save}" value="#{maximusBundle.Save}" update="display,:QuoteNoteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('QuoteNoteEditDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('QuoteNoteEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

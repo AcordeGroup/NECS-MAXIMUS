@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ManageListForm">
+
+        <p:panel header="#{maximusBundle.ListManageTitle}">
+            <p:contextMenu id="ManageDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('ManageListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('ManageListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('ManageListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ManageListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.ManageMenuItem_agent}" icon="ui-icon-search"  actionListener="#{manageController.prepareAgent}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty manageController.selected.agent}"/>  
+                <p:menuitem value="#{maximusBundle.ManageMenuItem_quote}" icon="ui-icon-search"  actionListener="#{manageController.prepareQuote}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty manageController.selected.quote}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{manageController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{manageController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{manageController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.managePK}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{manageController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ManageListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.managePK.idQuote}" filterBy="#{item.managePK.idQuote}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idQuote}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.managePK.idQuote}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.managePK.idAgent}" filterBy="#{item.managePK.idAgent}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idAgent}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.managePK.idAgent}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.managePK.notes}" filterBy="#{item.managePK.notes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_managePK_notes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.managePK.notes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.assignmentDate}" filterBy="#{item.assignmentDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_assignmentDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.assignmentDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.agent.name}" filterBy="#{item.agent.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_agent}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.agent.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.quote.idQuote}" filterBy="#{item.quote.idQuote}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListManageTitle_quote}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quote.idQuote}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{manageController.prepareCreate}" update=":ManageCreateForm" oncomplete="PF('ManageCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ManageViewForm" oncomplete="PF('ManageViewDialog').show()" disabled="#{empty manageController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ManageEditForm" oncomplete="PF('ManageEditDialog').show()" disabled="#{empty manageController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{manageController.delete}" update=":growl,datalist" disabled="#{empty manageController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

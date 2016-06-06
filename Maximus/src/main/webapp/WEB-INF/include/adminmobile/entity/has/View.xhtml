@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="HasViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewHasTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:HasListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="HasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{hasController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_idQuote}"/>
+                            <h:outputText value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.ViewHasTitle_hasPK_idQuote}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_partNumber}"/>
+                            <h:outputText value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.ViewHasTitle_hasPK_partNumber}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_customerTargetPrice}"/>
+                            <h:outputText value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.ViewHasTitle_customerTargetPrice}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_qtyRequested}"/>
+                            <h:outputText value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.ViewHasTitle_qtyRequested}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_suggestedSalesPrice}"/>
+                            <h:outputText value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.ViewHasTitle_suggestedSalesPrice}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_qtyFound}"/>
+                            <h:outputText value="#{hasController.selected.qtyFound}" title="#{maximusBundle.ViewHasTitle_qtyFound}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_product}"/>
+                            <h:outputText value="#{hasController.selected.product.description}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewHasLabel_quote}"/>
+                            <h:outputText value="#{hasController.selected.quote.idQuote}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

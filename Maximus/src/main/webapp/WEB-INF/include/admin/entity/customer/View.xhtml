@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CustomerViewDlg" widgetVar="CustomerViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewCustomerTitle}" closeOnEscape="true">
+
+            <h:form id="CustomerViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_idCustomer}"/>
+                        <h:outputText value="#{customerController.selected.idCustomer}" title="#{maximusBundle.ViewCustomerTitle_idCustomer}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryContact}"/>
+                        <h:outputText value="#{customerController.selected.primaryContact}" title="#{maximusBundle.ViewCustomerTitle_primaryContact}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryPhoneNumber}"/>
+                        <h:outputText value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.ViewCustomerTitle_primaryPhoneNumber}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryEmail}"/>
+                        <h:outputText value="#{customerController.selected.primaryEmail}" title="#{maximusBundle.ViewCustomerTitle_primaryEmail}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_type}"/>
+                        <h:outputText value="#{customerController.selected.type}" title="#{maximusBundle.ViewCustomerTitle_type}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_companyName}"/>
+                        <h:outputText value="#{customerController.selected.companyName.companyName}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="PF('CustomerViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProductViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewProductTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProductListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProductViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{productController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_partNumber}"/>
+                            <h:outputText value="#{productController.selected.partNumber}" title="#{maximusBundle.ViewProductTitle_partNumber}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_manufacture}"/>
+                            <h:outputText value="#{productController.selected.manufacture}" title="#{maximusBundle.ViewProductTitle_manufacture}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_description}"/>
+                            <h:outputText value="#{productController.selected.description}" title="#{maximusBundle.ViewProductTitle_description}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_type}"/>
+                            <h:outputText value="#{productController.selected.type}" title="#{maximusBundle.ViewProductTitle_type}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_notes}"/>
+                            <h:outputText value="#{productController.selected.notes}" title="#{maximusBundle.ViewProductTitle_notes}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_retailPrice}"/>
+                            <h:outputText value="#{productController.selected.retailPrice}" title="#{maximusBundle.ViewProductTitle_retailPrice}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_wholesalePrice}"/>
+                            <h:outputText value="#{productController.selected.wholesalePrice}" title="#{maximusBundle.ViewProductTitle_wholesalePrice}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewProductLabel_price}"/>
+                            <h:outputText value="#{productController.selected.price}" title="#{maximusBundle.ViewProductTitle_price}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

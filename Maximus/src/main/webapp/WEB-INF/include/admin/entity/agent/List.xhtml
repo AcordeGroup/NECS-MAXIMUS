@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AgentListForm">
+
+        <p:panel header="#{maximusBundle.ListAgentTitle}">
+            <p:contextMenu id="AgentDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('AgentListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('AgentListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('AgentListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('AgentListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.AgentMenuItem_quoteList}" icon="ui-icon-search"  action="#{agentController.navigateQuoteList}" disabled="#{empty agentController.selected.quoteList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.AgentMenuItem_manageList}" icon="ui-icon-search"  action="#{agentController.navigateManageList}" disabled="#{empty agentController.selected.manageList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{agentController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{agentController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{agentController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idAgent}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AgentListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idAgent}" filterBy="#{item.idAgent}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_idAgent}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAgent}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.name}" filterBy="#{item.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_name}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_lastName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lastName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_type}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.type}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_email}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.email}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.passwordVal}" filterBy="#{item.passwordVal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListAgentTitle_passwordVal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.passwordVal}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{agentController.prepareCreate}" update=":AgentCreateForm" oncomplete="PF('AgentCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty agentController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":AgentEditForm" oncomplete="PF('AgentEditDialog').show()" disabled="#{empty agentController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{agentController.delete}" update=":growl,datalist" disabled="#{empty agentController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

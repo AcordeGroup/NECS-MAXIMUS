@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HasEditDlg" widgetVar="HasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditHasTitle}" closeOnEscape="true">
+
+            <h:form id="HasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{hasController.selected != null}">
+
+
+                        <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_idQuote}" for="hasPK_idQuote" />
+                        <h:panelGroup>
+                            <h:outputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" />
+                            <p:tooltip for="hasPK_idQuote" value="#{hasController.getComponentMessages('hasPK_idQuote', maximusBundle.EditHasHelpText_hasPK_idQuote)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_partNumber}" for="hasPK_partNumber" />
+                        <h:panelGroup>
+                            <h:outputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" />
+                            <p:tooltip for="hasPK_partNumber" value="#{hasController.getComponentMessages('hasPK_partNumber', maximusBundle.EditHasHelpText_hasPK_partNumber)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditHasLabel_customerTargetPrice}" for="customerTargetPrice" />
+                        <h:panelGroup>
+                            <p:inputText id="customerTargetPrice" value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.EditHasTitle_customerTargetPrice}"/>
+                            <p:tooltip for="customerTargetPrice" value="#{hasController.getComponentMessages('customerTargetPrice', maximusBundle.EditHasHelpText_customerTargetPrice)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditHasLabel_qtyRequested}" for="qtyRequested" />
+                        <h:panelGroup>
+                            <p:inputText id="qtyRequested" value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.EditHasTitle_qtyRequested}" required="true" requiredMessage="#{maximusBundle.EditHasRequiredMessage_qtyRequested}"/>
+                            <p:tooltip for="qtyRequested" value="#{hasController.getComponentMessages('qtyRequested', maximusBundle.EditHasHelpText_qtyRequested)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditHasLabel_suggestedSalesPrice}" for="suggestedSalesPrice" />
+                        <h:panelGroup>
+                            <p:inputText id="suggestedSalesPrice" value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
+                            <p:tooltip for="suggestedSalesPrice" value="#{hasController.getComponentMessages('suggestedSalesPrice', maximusBundle.EditHasHelpText_suggestedSalesPrice)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.EditHasLabel_qtyFound}" for="qtyFound" />
+                        <h:panelGroup>
+                            <p:inputText id="qtyFound" value="#{hasController.selected.qtyFound}" title="#{maximusBundle.EditHasTitle_qtyFound}"/>
+                            <p:tooltip for="qtyFound" value="#{hasController.getComponentMessages('qtyFound', maximusBundle.EditHasHelpText_qtyFound)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditHasLabel_product}" for="product" />
+                        <h:panelGroup>
+                            <h:outputText id="product" value="#{hasController.selected.product}" />
+                            <p:tooltip for="product" value="#{hasController.getComponentMessages('product', maximusBundle.EditHasHelpText_product)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{maximusBundle.EditHasLabel_quote}" for="quote" />
+                        <h:panelGroup>
+                            <h:outputText id="quote" value="#{hasController.selected.quote}" />
+                            <p:tooltip for="quote" value="#{hasController.getComponentMessages('quote', maximusBundle.EditHasHelpText_quote)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{hasController.save}" value="#{maximusBundle.Save}" update="display,:HasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HasEditDialog'));">
+                        <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('HasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

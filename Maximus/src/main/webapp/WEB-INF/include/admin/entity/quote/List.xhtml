@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="QuoteListForm">
+
+        <p:panel header="#{maximusBundle.ListQuoteTitle}">
+            <p:contextMenu id="QuoteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('QuoteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('QuoteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('QuoteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('QuoteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idAgent}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdAgent}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty quoteController.selected.idAgent}"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idCustomer}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdCustomer}" update=":CustomerViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty quoteController.selected.idCustomer}"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_hasList}" icon="ui-icon-search"  action="#{quoteController.navigateHasList}" disabled="#{empty quoteController.selected.hasList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteNoteList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteNoteList}" disabled="#{empty quoteController.selected.quoteNoteList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteStatusList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteStatusList}" disabled="#{empty quoteController.selected.quoteStatusList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_manageList}" icon="ui-icon-search"  action="#{quoteController.navigateManageList}" disabled="#{empty quoteController.selected.manageList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{quoteController.lazyItems}"
+                         lazy="true"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{quoteController.selected}">
+                <!--
+                         To disable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{quoteController.items}"
+                         lazy="false"
+                         rowKey="HASH{item.idQuote}"
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteDataTableContextMenu" listener="#{quoteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteDataTableContextMenu" listener="#{quoteController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{quoteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('QuoteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteTitle_idQuote}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idQuote}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.notes}" filterBy="#{item.notes}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteTitle_notes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.notes}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteTitle_creationDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.creationDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAgent.name}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idCustomer.companyName}" filterBy="#{item.idCustomer.companyName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListQuoteTitle_idCustomer}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCustomer.companyName}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{quoteController.prepareCreate}" update=":QuoteCreateForm" oncomplete="PF('QuoteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty quoteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":QuoteEditForm" oncomplete="PF('QuoteEditDialog').show()" disabled="#{empty quoteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{quoteController.delete}" update=":growl,datalist" disabled="#{empty quoteController.selected}">
+                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

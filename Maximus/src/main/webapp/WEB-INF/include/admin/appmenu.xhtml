@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{maximusBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{maximusBundle.Maintenance}">
+                    <p:menuitem value="#{maximusBundle.AgentHeading}..." outcome="/admin/agent/index" />
+                    <p:menuitem value="#{maximusBundle.CompanyHeading}..." outcome="/admin/company/index" />
+                    <p:menuitem value="#{maximusBundle.CustomerHeading}..." outcome="/admin/customer/index" />
+                    <p:menuitem value="#{maximusBundle.HasHeading}..." outcome="/admin/has/index" />
+                    <p:menuitem value="#{maximusBundle.IsSubstituteHeading}..." outcome="/admin/isSubstitute/index" />
+                    <p:menuitem value="#{maximusBundle.ManageHeading}..." outcome="/admin/manage/index" />
+                    <p:menuitem value="#{maximusBundle.ProductHeading}..." outcome="/admin/product/index" />
+                    <p:menuitem value="#{maximusBundle.ProductCostHeading}..." outcome="/admin/productCost/index" />
+                    <p:menuitem value="#{maximusBundle.QuoteHeading}..." outcome="/admin/quote/index" />
+                    <p:menuitem value="#{maximusBundle.QuoteNoteHeading}..." outcome="/admin/quoteNote/index" />
+                    <p:menuitem value="#{maximusBundle.QuoteStatusHeading}..." outcome="/admin/quoteStatus/index" />
+                </p:submenu>
+                <p:menuitem value="#{maximusBundle.Mobile}" outcome="/adminmobile/index" icon="ui-icon-signal"/>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

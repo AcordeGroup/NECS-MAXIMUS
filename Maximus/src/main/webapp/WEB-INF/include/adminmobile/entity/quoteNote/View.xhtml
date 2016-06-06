@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="QuoteNoteViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewQuoteNoteTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:QuoteNoteListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="QuoteNoteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{quoteNoteController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteNoteLabel_idQuoteNote}"/>
+                            <h:outputText value="#{quoteNoteController.selected.idQuoteNote}" title="#{maximusBundle.ViewQuoteNoteTitle_idQuoteNote}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteNoteLabel_note}"/>
+                            <h:outputText value="#{quoteNoteController.selected.note}" title="#{maximusBundle.ViewQuoteNoteTitle_note}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteNoteLabel_creationDate}"/>
+                            <h:outputText value="#{quoteNoteController.selected.creationDate}" title="#{maximusBundle.ViewQuoteNoteTitle_creationDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewQuoteNoteLabel_idQuote}"/>
+                            <h:outputText value="#{quoteNoteController.selected.idQuote.idQuote}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

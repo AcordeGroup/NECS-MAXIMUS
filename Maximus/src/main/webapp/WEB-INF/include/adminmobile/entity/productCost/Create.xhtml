@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProductCostCreatePage" lazy="true">
+        <pm:header title="#{maximusBundle.CreateProductCostTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProductCostListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProductCostCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productCostController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_cost}" for="cost" />
+                            <h:panelGroup>
+                                <p:inputText id="cost" value="#{productCostController.selected.cost}" title="#{maximusBundle.CreateProductCostTitle_cost}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_cost}"/>
+                                <p:tooltip for="cost" value="#{productCostController.getComponentMessages('cost', maximusBundle.CreateProductCostHelpText_cost)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_initDate}" for="initDate" />
+                            <h:panelGroup>
+                                <p:calendar id="initDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{productCostController.selected.initDate}" title="#{maximusBundle.CreateProductCostTitle_initDate}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_initDate}" showOn="button"/>
+                                <p:tooltip for="initDate" value="#{productCostController.getComponentMessages('initDate', maximusBundle.CreateProductCostHelpText_initDate)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_endDate}" for="endDate" />
+                            <h:panelGroup>
+                                <p:calendar id="endDate" pattern="HH:mm:ss" value="#{productCostController.selected.endDate}" title="#{maximusBundle.CreateProductCostTitle_endDate}"  showOn="button"/>
+                                <p:tooltip for="endDate" value="#{productCostController.getComponentMessages('endDate', maximusBundle.CreateProductCostHelpText_endDate)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_partNumber}" for="partNumber" />
+                            <h:panelGroup>
+                                <p:selectOneMenu id="partNumber" value="#{productCostController.selected.partNumber}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_partNumber}" converter="productConverter">
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{productController.items}"
+                                                   var="partNumberItem"
+                                                   itemValue="#{partNumberItem}"
+                                                   itemLabel="#{partNumberItem.description.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                                <p:tooltip for="partNumber" value="#{productCostController.getComponentMessages('partNumber', maximusBundle.CreateProductCostHelpText_partNumber)}"/>
+                            </h:panelGroup>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{productCostController.saveNew}" value="#{maximusBundle.Save}" update="display,:ProductCostListPage:ProductCostListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:ProductCostListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>
