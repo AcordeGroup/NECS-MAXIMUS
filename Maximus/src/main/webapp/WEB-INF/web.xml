@@ -19,7 +19,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/login/login.xhtml</welcome-file>
+        <welcome-file>faces/admin/index.xhtml</welcome-file>
     </welcome-file-list>
     
      <!-- Se inyecta el listener de contexto de spring y los archivos de contexto:

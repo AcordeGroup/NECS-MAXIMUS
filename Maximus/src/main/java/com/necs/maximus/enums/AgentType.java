@@ -11,8 +11,8 @@ package com.necs.maximus.enums;
  */
 public enum AgentType {
     
-    ADMINISTRATOR,
-    SALES,
-    PURSHASING;
+    Administrator,
+    Sales,
+    Purchasing;
     
 }

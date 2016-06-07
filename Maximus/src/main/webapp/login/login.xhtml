@@ -6,24 +6,33 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Maximus Login Page</title>
+        <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
     </h:head>
     <h:body>
-        <h:form>            
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+        <center>
+            <div class="login-panel absolute-center">
+                <img src="#{request.getContextPath()}/resources/images/logo_login01.jpg" id="logo_login"/>
+                <h:form id="login" class="input-forms">            
+                    <p:growl id="growl" showDetail="true" autoUpdate="true" life="5000" />
 
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="username" value="Username:" />
-                <p:inputText id="username" value="#{agentLoginController.username}" required="true" label="username" />
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{agentLoginController.username}" required="true" label="username" />
+                        <h:message for="username" />
 
-                <h:outputLabel for="password" value="Password:" />
-                <p:password id="password" value="#{agentLoginController.password}" required="true" label="password" />
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{agentLoginController.password}" required="true" label="password" />
+                        <h:message for="password" />
+                        <f:facet name="footer">
+                            <div  class="buttons-login">
+                                <p:commandButton value="Login" update="growl" action="#{agentLoginController.login}" ajax="false"/>
+                            </div>
+                        </f:facet>
 
-                <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl" action="#{agentLoginController.login}"
-                                     oncomplete="handleLoginRequest(xhr, status, args)" />
-                </f:facet>  
-            </h:panelGrid>
-        </h:form>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </center>
     </h:body>
 </html>
-

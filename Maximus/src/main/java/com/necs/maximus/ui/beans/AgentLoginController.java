@@ -9,16 +9,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.ui.beans.util.MobilePageController;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
@@ -62,22 +62,47 @@ public class AgentLoginController extends AbstractController<Agent> {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getUserLogged() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName(); //get logged in username
+    }
+    
+    
+    public String logout() {
+        System.out.println("logout");
+        return "/login/login.xhtml";
+    }
 
     public String login() {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
         boolean loggedIn = false;
-        String ret = "";
+        String ret = "fail";
 
         try {
             if (username != null && password != null) {
                 loggedIn = true;
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
                 Authentication request = new UsernamePasswordAuthenticationToken(username, password);
                 Authentication result = authenticationManager.authenticate(request);
                 SecurityContextHolder.getContext().setAuthentication(result);
                 if (result.isAuthenticated()) {
-                    ret = this.mobilePageController.getMobilePagesPrefix() + "/index";
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+                    if (result.getAuthorities() != null) {
+                        String role = ((GrantedAuthority)result.getAuthorities().toArray()[0]).getAuthority();
+                        switch (AgentType.valueOf(role)) {
+                            case Administrator:
+                                ret = "admin";
+                                break;
+                            case Sales:
+                                ret = "sales";
+                                break;
+                            case Purchasing:
+                                ret = "purchasing";
+                                break;
+                            default:                                
+                        }
+                    }
                 } else {
                     loggedIn = false;
                     message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
@@ -92,7 +117,6 @@ public class AgentLoginController extends AbstractController<Agent> {
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
-
         return ret;
     }
 

@@ -12,23 +12,38 @@
     </h:head>
 
     <h:body>
-        <div class="header-container">
-            <div class="header">
-                <a href="http://necsweb.com/" title="Magento Commerce" class="logo"><strong>Magento Commerce</strong><img src="http://necsweb.com/skin/frontend/base/necs/images/logo.gif" alt="Magento Commerce"></a>
-                <span class="tagline">Maximus - NECS's quotes system control</span>
-                <div class="top-block">
-
-                    <div class="top-logout">
-                        <div class="btn-logout"><a href="http://necsweb.com/checkout/cart/" title="My Cart"></a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <p:growl id="growl" life="3000" globalOnly="true"/>
 
-        <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="100" header="#{maximusBundle.AppName}">
+        <p:layout class="layout-principal absolute-center">
+            <p:layoutUnit position="north" size="150">
+                <div class="wrapper">
+                    <noscript>
+                        <div class="noscript">
+                            <div class="noscript-inner">
+                                <p><strong>JavaScript seem to be disabled in your browser.</strong></p>
+                                <p>You must have JavaScript enabled in your browser to utilize the functionality of this website.</p>
+                            </div>
+                        </div>
+                    </noscript>
+                    <div class="page">
+                        <div class="header-container">
+                            <div class="header">
+                                <a href="http://necsweb.com/" title="Magento Commerce" class="logo"><strong>Magento Commerce</strong><img src="http://necsweb.com/skin/frontend/base/necs/images/logo.gif" alt="Magento Commerce" /></a>
+                                <span class="tagline">Maximus - NECS's quotes system control</span>
+                                <div class="top-block">
+                                    <div class="top-logout">
+                                        <div class="btn-logout">
+                                            <h:form id="logout">
+                                                <h:outputLink value="${request.contextPath}/j_spring_security_logout"  style="color: #d5def2;">logout</h:outputLink>
+                                            </h:form>
+                                        </div>
+                                        <div class="items" style="height: inherit;">#{agentLoginController.userLogged}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
                 <!-- Menu here. Also a layout and a way to log a user out -->
                 <ui:include src="/WEB-INF/include/admin/appmenu.xhtml"/>
             </p:layoutUnit>
@@ -42,7 +57,6 @@
             </p:layoutUnit>
 
         </p:layout>
-
     </h:body>
 
 </html>

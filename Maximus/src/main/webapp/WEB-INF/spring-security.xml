@@ -22,8 +22,10 @@
         <intercept-url pattern="/faces/sales/**" access="hasAnyRole('Sales')" />
         <intercept-url pattern="/faces/purchasing/**" access="hasAnyRole('Purchasing')" />
         <form-login login-page='/faces/login/login.xhtml'/>
+        <logout logout-success-url="/faces/login/login.xhtml"/>
         <access-denied-handler error-page="/faces/login/login.xhtml" />
         <session-management invalid-session-url="/faces/login/login.xhtml" />
+<!--        <intercept-url pattern="/faces/**" access="isAnonymous()"/>-->
         <logout delete-cookies="JSESSIONID" />
     </http>
     <!-- Se inyecta un Autenticacion Manager,
