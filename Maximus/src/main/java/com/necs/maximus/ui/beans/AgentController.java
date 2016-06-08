@@ -2,10 +2,15 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.security.services.PasswordService;
+import java.util.ResourceBundle;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.jsf.FacesContextUtils;
 
 @Named(value = "agentController")
 @ViewScoped
@@ -43,6 +48,29 @@ public class AgentController extends AbstractController<Agent> {
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Manage_items", this.getSelected().getManageList());
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
+    }
+    
+    @Override
+    public void save(ActionEvent event) {
+        Agent agent = getSelected();
+        System.out.println("agent.getPasswordVal(): " + agent.getPasswordVal());
+        WebApplicationContext ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+        PasswordService passwordService = ctx.getBean("passwordEncoder", PasswordService.class);
+        agent.setPasswordVal(passwordService.encode(agent.getPasswordVal()));
+        System.out.println("encode agent.getPasswordVal(): " + agent.getPasswordVal());
+       super.save(event);
+    }
+    
+    @Override
+    public void saveNew(ActionEvent event) {
+        System.out.println("saveNew override");
+        Agent agent = getSelected();
+        System.out.println("agent.getPasswordVal(): " + agent.getPasswordVal());
+        WebApplicationContext ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+        PasswordService passwordService = ctx.getBean("passwordEncoder", PasswordService.class);
+        agent.setPasswordVal(passwordService.encode(agent.getPasswordVal()));
+        System.out.println("encode agent.getPasswordVal(): " + agent.getPasswordVal());
+        super.saveNew(event);
     }
 
 }

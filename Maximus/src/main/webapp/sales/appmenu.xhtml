@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{maximusBundle.Home}" outcome="/sales/index" icon="ui-icon-home"/>
+                <p:submenu label="My Services">   
+                    <p:menuitem value="#{maximusBundle.CompanyHeading}..." outcome="/admin/company/index" />
+                    <p:menuitem value="#{maximusBundle.CustomerHeading}..." outcome="/admin/customer/index" />
+                    <p:menuitem value="New Quote..." outcome="/WEB-INF/include/admin/entity/quote/Create" />
+                </p:submenu>
+                <p:submenu label="Reports">
+                </p:submenu>
+                <p:menuitem value="#{maximusBundle.Mobile}" outcome="/sales/index" icon="ui-icon-signal"/>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>
