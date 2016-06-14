@@ -3,7 +3,6 @@ package com.necs.maximus.ui.beans;
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.security.services.PasswordService;
-import java.util.ResourceBundle;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;

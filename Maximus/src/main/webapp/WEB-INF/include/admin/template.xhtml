@@ -47,12 +47,17 @@
                 <ui:insert name="menu"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="60">
-                <ui:insert name="footer"/>
-            </p:layoutUnit>
-
             <p:layoutUnit position="center">
                 <ui:insert name="body"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="60">
+                <ui:insert name="footer"/>
+<!--                    <div>
+                        <img src="#{request.contextPath}/resources/images/logo_necs_horizontal.gif"></img>
+                        <p>Copyright NECS 2016</p>
+                    </div>
+                </ui:insert>-->
             </p:layoutUnit>
 
         </p:layout>

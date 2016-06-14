@@ -2,7 +2,7 @@
     font-size: 14px !important;
 }
 .ui-layout-unit {
-    position: static !important;
+    position: initial !important;
 }
 .ui-layout-north {
     z-index:20 !important;
@@ -24,8 +24,8 @@
 }
 
 .layout-principal {
-    width: 80%; 
-    height: 90%;
+    width: 90%; 
+    height: 95%;
     margin: auto;
 }
 

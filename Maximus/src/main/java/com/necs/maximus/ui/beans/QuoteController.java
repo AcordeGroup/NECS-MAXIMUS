@@ -2,6 +2,9 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Quote;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -19,9 +22,14 @@ public class QuoteController extends AbstractController<Quote> {
     @Inject
     private MobilePageController mobilePageController;
 
+    List<String> status;
+
+    private List<Quote> filteredQuote;
+
     public QuoteController() {
         // Inform the Abstract parent controller of the concrete Quote Entity
         super(Quote.class);
+        status = new ArrayList<>();
     }
 
     /**
@@ -106,6 +114,22 @@ public class QuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Manage_items", this.getSelected().getManageList());
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
+    }
+
+    public List<String> getStatus() {
+        return status;
+    }
+
+    public void setStatus(List<String> status) {
+        this.status = status;
+    }
+
+    public List<Quote> getFilteredQuote() {
+        return filteredQuote;
+    }
+
+    public void setFilteredQuote(List<Quote> filteredQuote) {
+        this.filteredQuote = filteredQuote;
     }
 
 }

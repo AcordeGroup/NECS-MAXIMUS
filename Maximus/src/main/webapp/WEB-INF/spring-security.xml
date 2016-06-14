@@ -12,7 +12,7 @@
     <!-- Se inyecta un filtro para:
     Todas las Urls del portal
     - Se exige un ROL especifico denominado LOGIN_USER_PROFILE
-    NOTA: SE DEBE CREAR EL ROL LOGIN_USER_PROFILE EN LA BD DE DANA
+    NOTA: SE DEBE CREAR EL ROL LOGIN_USER_PROFILE EN LA BD DE NECS
     -->
     <http auto-config="true" xmlns="http://www.springframework.org/schema/security"
           access-decision-manager-ref="accessDecisionManager" use-expressions="true">
@@ -40,19 +40,18 @@
     </authentication-manager>
     <!-- Se inyecta el servicio encargado de servir los detalles del usuario
     para la autorizacion via Credenciales del Usuario
-    -Se delegar la obtencion de las credenciales a una clase de DANA
+    -Se delegar la obtencion de las credenciales a una clase de NECS
     -->
     <bean id="userDetails"
           class="com.necs.maximus.security.services.UserService">
         <property name="agentFacadeEjb" ref="agentFacade"/>
     </bean>
-    <!-- Se inyecta el EJB encargado de recuperar las credenciales del usuario
+    <!-- Se inyecta el Bean encargado de recuperar las credenciales del usuario
     a través de JPA -->
     <bean id="agentFacade" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="java:global/Maximus/AgentFacade"/>
     </bean>
     <!-- Se inyecta el bean encargado de la comprobación del Password
-    - Se delega esta tarea al bean utilityBean
     -->
     <bean id="passwordEncoder"
           class="com.necs.maximus.security.services.PasswordService">

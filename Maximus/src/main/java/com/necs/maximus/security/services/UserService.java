@@ -9,7 +9,6 @@ import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.entity.Agent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
