@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import java.util.ResourceBundle;
 import javax.ejb.EJBException;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -27,6 +28,13 @@ import javax.validation.ConstraintViolationException;
  * @param <T> the concrete Entity type of the Controller bean to be created
  */
 public abstract class AbstractController<T> implements Serializable {
+    
+     /**
+     * Session scoped managed bean that stores information about the logged
+     * user.
+     */
+    @Inject
+    private UserManagedBean userManagedBean;
 
     private static final long serialVersionUID = 1L;
 
@@ -271,5 +279,15 @@ public abstract class AbstractController<T> implements Serializable {
             setLazyItems((Collection<T>) paramItems);
         }
     }
+
+    public UserManagedBean getUserManagedBean() {
+        return userManagedBean;
+    }
+
+    public void setUserManagedBean(UserManagedBean userManagedBean) {
+        this.userManagedBean = userManagedBean;
+    }
+    
+    
 
 }

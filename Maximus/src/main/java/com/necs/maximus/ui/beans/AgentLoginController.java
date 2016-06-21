@@ -9,8 +9,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.ui.beans.util.MobilePageController;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,15 +41,25 @@ public class AgentLoginController extends AbstractController<Agent> {
 
     private AuthenticationManager authenticationManager;
 
+    @EJB
+    private AgentFacade agentFacade;
+
+    private Agent agent;
+
     private String username;
 
     private String password;
+
+    private final FacesContext facesContext = FacesContext.getCurrentInstance();
+    private final Locale locale = facesContext.getViewRoot().getLocale();
+    protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
 
     public AgentLoginController() {
         // Inform the Abstract parent controller of the concrete Agent Entity
         super(Agent.class);
         WebApplicationContext ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
         authenticationManager = ctx.getBean("authenticationManager", AuthenticationManager.class);
+
     }
 
     public String getUsername() {
@@ -62,13 +77,12 @@ public class AgentLoginController extends AbstractController<Agent> {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public String getUserLogged() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName(); //get logged in username
     }
-    
-    
+
     public String logout() {
         System.out.println("logout");
         return "/login/login.xhtml";
@@ -88,8 +102,22 @@ public class AgentLoginController extends AbstractController<Agent> {
                 SecurityContextHolder.getContext().setAuthentication(result);
                 if (result.isAuthenticated()) {
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+                    HashMap param = new HashMap();
+                    param.put("idAgent", username);
+                    agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+                    if (agent != null) {
+                        if(getUserManagedBean() == null){
+                            setUserManagedBean(new UserManagedBean());
+                        }
+                        getUserManagedBean().setAgentId(agent.getIdAgent());
+                        getUserManagedBean().setAgentName(agent.getName());
+                        getUserManagedBean().setEmail(agent.getEmail());
+                        getUserManagedBean().setLast_name(agent.getLastName());
+                        getUserManagedBean().setType(agent.getType());
+                    }
                     if (result.getAuthorities() != null) {
-                        String role = ((GrantedAuthority)result.getAuthorities().toArray()[0]).getAuthority();
+                        String role = ((GrantedAuthority) result.getAuthorities().toArray()[0]).getAuthority();
+
                         switch (AgentType.valueOf(role)) {
                             case Administrator:
                                 ret = "admin";
@@ -100,7 +128,7 @@ public class AgentLoginController extends AbstractController<Agent> {
                             case Purchasing:
                                 ret = "purchasing";
                                 break;
-                            default:                                
+                            default:
                         }
                     }
                 } else {
@@ -111,7 +139,7 @@ public class AgentLoginController extends AbstractController<Agent> {
                 loggedIn = false;
                 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
             }
-        } catch (BadCredentialsException ex ) {
+        } catch (BadCredentialsException ex) {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
         }

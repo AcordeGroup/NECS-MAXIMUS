@@ -14,247 +14,217 @@
             <!-- Menu here. Also a layout and a way to log a user out -->
             <ui:include src="/sales/appmenu.xhtml"/>
         </ui:define>
-        <ui:define name="body">
+        <ui:define name="body" >
             <p:panel header="Sales Dashboard" id="salesDashboard" >
-                <h:form id="QuoteListForm">
+                <h:form>
                     <h:panelGrid columns="2" id="panelButton">
-                        <p:commandButton value="Create new Customer" action="customer" id="buttonCustomer" />
-                        <p:commandButton value="Create new request" action="request" id="buttonRequest" />
+                        <p:commandButton value="Create new Customer"  id="buttonCustomer" ajax="false"/>
+                        <p:commandButton value="Create new request" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
                     <p:fieldset legend="Open request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
-                    <p:dataTable id="datalist"
-                                 value="#{quoteController.lazyItems}"
-                                 lazy="true"
-                                 var="item"
-                                 paginator="true"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 emptyMessage="list Empty"
-                                 paginatorPosition="bottom"
-                                 sortOrder="descending">
-                        <!--
-                                 To disable Lazy Loading, please copy/replace the following lines above,
-                                 and be sure to replace the word HASH with the # symbol:
-                        
-                                 value="HASH{quoteController.items}"
-                                 lazy="false"
-                                 rowKey="HASH{item.idQuote}"
-                        -->
-                        <!--                        <f:facet name="header">
-                                                    <p:outputPanel style="text-align: right;">
-                                                        <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                        <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                    </p:outputPanel>
-                                                </f:facet>-->
+                        <p:dataTable id="datalist"
+                                     value="#{quoteController.quoteOpen}"
+                                     lazy="true"
+                                     var="item"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     emptyMessage="list Empty"
+                                     paginatorPosition="bottom"
+                                     sortOrder="descending"
+                                     >
+                          
+                            <!--                        <f:facet name="header">
+                                                        <p:outputPanel style="text-align: right;">
+                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
+                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
+                                                        </p:outputPanel>
+                                                    </f:facet>-->
 
-                        <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}"  filterStyle="width:80px" style="width : 110px">
-                            <f:facet name="header">
-                                <h:outputText value="Request Date"/>
-                            </f:facet>
-                            <h:outputText value="#{item.creationDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
+                                <f:facet name="header">
+                                    <h:outputText value="Request Date"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.creationDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}" filterStyle="width:80px" style="width : 90px">
-                            <f:facet name="header">
-                                <h:outputText value="Request #"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idQuote}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" filterStyle="width:80px" style="width : 90px">
+                                <f:facet name="header">
+                                    <h:outputText value="Request #"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idQuote}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="Customer #"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCustomer.idCustomer}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idCustomer.idCustomer}" filterBy="#{item.idQuote.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer #"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idCustomer.idCustomer}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
-                            <f:facet name="header">
-                                <h:outputText value="Customer Name"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idCustomer.companyName.companyName}" filterBy="#{item.idQuote.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer Name"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idCustomer.companyName.companyName}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idAgent.name}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idAgent.name}" filterBy="#{item.idQuote.idAgent.name}" filterStyle="width:80px" style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idAgent.name}"/>
+                            </p:column>
 
-                        <p:column sortBy="" filterBy="" filterStyle="width:80px" style="width : 110px">
-                            <f:facet name="header">
-                                <h:outputText value="Amount USD"/>
-                            </f:facet>
-                            <h:outputText value=""/>
-                        </p:column>
+                            <p:column  style="width : 110px">
+                                <f:facet name="header">
+                                    <h:outputText value="Amount USD"/>
+                                </f:facet>
+                                <h:outputText value=""/>
+                            </p:column>
 
-                        <p:column sortBy="" filterBy=""  filterMatchMode="exact" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="Status"/>
-                            </f:facet>
-                            <!--                            <p:selectOneMenu onchange="PF('quoteTable').filter()" >
-                                                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                                                                <f:selectItems value="#{quoteController.status}" />
-                                                            </p:selectOneMenu>-->
+                            <p:column style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="Status"/>
+                                </f:facet>
+                                  <h:outputText value="#{item.status}"/>
 
-                        </p:column>
+                            </p:column>
 
-<!--                        <p:column sortBy="#{item.notes}" filterBy="#{item.notes}"  filterStyle="width:80px" style="width : 140px">
-                            <f:facet name="header">
-                                <h:outputText value="#{maximusBundle.ListQuoteTitle_notes}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.notes}"/>
-                        </p:column>-->
+                            <p:column style="width : 130px; text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Operations"/>
+                                </f:facet>
+                                <p:commandLink id="btnSee" 
+                                               value="#{maximusBundle.see}"
+                                               action="see"
+                                               update=":salesDashboard"
+                                              >  
+                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                </p:commandLink> 
+                                 <h:panelGroup  rendered="#{item.status == 'OPEN'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnEdit" 
+                                               value="#{maximusBundle.Edit}"
+                                               action="edit" ajax="false"
+                                                rendered="#{item.status == 'OPEN'}">  
+                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                </p:commandLink>
+                                <h:panelGroup  rendered="#{item.status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnSent" 
+                                               value="#{maximusBundle.sent}"
+                                               action="sent" ajax="false"
+                                                rendered="#{item.status == 'READY'}">  
+                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                </p:commandLink>
 
-                        <p:column style="width : 130px">
-                            <f:facet name="header">
-                                <h:outputText value="Operations"/>
-                            </f:facet>
-                            <p:commandLink id="btnSee" 
-                                           value="#{maximusBundle.see}"
-                                           action="quoteView"
-                                           update=":salesDashboard">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink> 
-                            &nbsp;|&nbsp;
-                            <p:commandLink id="btnEdit" 
-                                           value="#{maximusBundle.Edit}"
-                                           action="quoteEdit" ajax="false">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink>
-                            &nbsp;|&nbsp;
-                            <p:commandLink id="btnResent" 
-                                           value="#{maximusBundle.Resent}"
-                                           action="quoteResent" ajax="false">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink>
+                            </p:column>
 
-                        </p:column>
-
-                    </p:dataTable>
-                </p:fieldset>
+                        </p:dataTable>
+                    </p:fieldset>
                     <p:spacer/>
                     <p:fieldset legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
-                    <p:dataTable id="datalistwo"
-                                 value="#{quoteController.lazyItems}"
-                                 lazy="true"
-                                 var="item"
-                                 paginator="true"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 emptyMessage="list Empty"
-                                 paginatorPosition="bottom"
-                                 sortOrder="descending">
-                        <!--
-                                 To disable Lazy Loading, please copy/replace the following lines above,
-                                 and be sure to replace the word HASH with the # symbol:
-                        
-                                 value="HASH{quoteController.items}"
-                                 lazy="false"
-                                 rowKey="HASH{item.idQuote}"
-                        -->
-                        <!--                        <f:facet name="header">
-                                                    <p:outputPanel style="text-align: right;">
-                                                        <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                        <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                    </p:outputPanel>
-                                                </f:facet>-->
+                        <p:dataTable id="datalistwo"
+                                     value="#{quoteController.quoteClose}"
+                                     lazy="true"
+                                     var="item"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     emptyMessage="list Empty"
+                                     paginatorPosition="bottom"
+                                     sortOrder="descending">
+                           
+                            <!--                        <f:facet name="header">
+                                                        <p:outputPanel style="text-align: right;">
+                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
+                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
+                                                        </p:outputPanel>
+                                                    </f:facet>-->
 
-                        <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}"  filterStyle="width:80px" style="width : 110px">
-                            <f:facet name="header">
-                                <h:outputText value="Request Date"/>
-                            </f:facet>
-                            <h:outputText value="#{item.creationDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
+                                <f:facet name="header">
+                                    <h:outputText value="Request Date"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.creationDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}" filterStyle="width:80px" style="width : 90px">
-                            <f:facet name="header">
-                                <h:outputText value="Request #"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idQuote}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" filterStyle="width:80px" style="width : 90px">
+                                <f:facet name="header">
+                                    <h:outputText value="Request #"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idQuote}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="Customer #"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCustomer.idCustomer}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idCustomer.idCustomer}" filterBy="#{item.idQuote.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer #"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idCustomer.idCustomer}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
-                            <f:facet name="header">
-                                <h:outputText value="Customer Name"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idCustomer.companyName.companyName}" filterBy="#{item.idQuote.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer Name"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idCustomer.companyName.companyName}"/>
+                            </p:column>
 
-                        <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idAgent.name}"/>
-                        </p:column>
+                            <p:column sortBy="#{item.idQuote.idAgent.name}" filterBy="#{item.idQuote.idAgent.name}" filterStyle="width:80px" style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idQuote.idAgent.name}"/>
+                            </p:column>
 
-                        <p:column sortBy="" filterBy="" filterStyle="width:80px" style="width : 110px">
-                            <f:facet name="header">
-                                <h:outputText value="Amount USD"/>
-                            </f:facet>
-                            <h:outputText value=""/>
-                        </p:column>
+                            <p:column  style="width : 110px">
+                                <f:facet name="header">
+                                    <h:outputText value="Amount USD"/>
+                                </f:facet>
+                                <h:outputText value=""/>
+                            </p:column>
 
-                        <p:column sortBy="" filterBy=""  filterMatchMode="exact" filterStyle="width:80px" style="width : 100px">
-                            <f:facet name="header">
-                                <h:outputText value="Status"/>
-                            </f:facet>
-                            <!--                            <p:selectOneMenu onchange="PF('quoteTable').filter()" >
-                                                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                                                                <f:selectItems value="#{quoteController.status}" />
-                                                            </p:selectOneMenu>-->
+                            <p:column style="width : 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="Status"/>
+                                </f:facet>
+                                <h:outputText value="#{item.status}"/>
+                            </p:column>
+                            
+                            <p:column style="width : 130px">
+                                <f:facet name="header">
+                                    <h:outputText value="Operations"/>
+                                </f:facet>
+                                <p:commandLink id="btnSee" 
+                                               value="#{maximusBundle.see}"
+                                               action="see"
+                                               update=":salesDashboard">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                </p:commandLink> 
+                                &nbsp;|&nbsp;
+                                <p:commandLink id="btnEdit" 
+                                               value="#{maximusBundle.Edit}"
+                                               action="edit" ajax="false">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                </p:commandLink>
+                                &nbsp;|&nbsp;
+                                <p:commandLink id="btnResent" 
+                                               value="#{maximusBundle.Resent}"
+                                               action="resent" ajax="false">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                </p:commandLink>
 
-                        </p:column>
+                            </p:column>
 
-<!--                        <p:column sortBy="#{item.notes}" filterBy="#{item.notes}"  filterStyle="width:80px" style="width : 140px">
-                            <f:facet name="header">
-                                <h:outputText value="#{maximusBundle.ListQuoteTitle_notes}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.notes}"/>
-                        </p:column>-->
-
-                        <p:column style="width : 130px">
-                            <f:facet name="header">
-                                <h:outputText value="Operations"/>
-                            </f:facet>
-                            <p:commandLink id="btnSee" 
-                                           value="#{maximusBundle.see}"
-                                           action="quoteView"
-                                           update=":salesDashboard">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink> 
-                            &nbsp;|&nbsp;
-                            <p:commandLink id="btnEdit" 
-                                           value="#{maximusBundle.Edit}"
-                                           action="quoteEdit" ajax="false">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink>
-                            &nbsp;|&nbsp;
-                            <p:commandLink id="btnResent" 
-                                           value="#{maximusBundle.Resent}"
-                                           action="quoteResent" ajax="false">  
-                                <f:param value="#{item.idQuote}" name="idQuote"/>
-                            </p:commandLink>
-
-                        </p:column>
-
-                    </p:dataTable>
-                </p:fieldset>
+                        </p:dataTable>
+                    </p:fieldset>
 
                     <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+
                 </h:form>
             </p:panel>
         </ui:define>

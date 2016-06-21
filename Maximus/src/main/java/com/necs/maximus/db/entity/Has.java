@@ -51,6 +51,10 @@ public class Has implements Serializable {
     private BigDecimal suggestedSalesPrice;
     @Column(name = "qty_found")
     private BigDecimal qtyFound;
+    @Column(name = "observation")
+    private String observation;
+    @Column(name = "condition")
+    private String condition;
     @JoinColumn(name = "part_number", referencedColumnName = "part_number", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Product product;
@@ -129,6 +133,24 @@ public class Has implements Serializable {
     public void setQuote(Quote quote) {
         this.quote = quote;
     }
+
+    public String getObservation() {
+        return observation;
+    }
+
+    public void setObservation(String observation) {
+        this.observation = observation;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+    
+    
 
     @Override
     public int hashCode() {

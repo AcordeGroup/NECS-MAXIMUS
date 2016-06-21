@@ -6,9 +6,11 @@
 
 package com.necs.maximus.db.facade;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
@@ -198,4 +200,25 @@ public abstract class AbstractFacade<T> {
         return expression;
     }
 
+     /**
+     * Create an instance of {@link Query} for executing a named query (in the Java 
+     * Persistence query language or in native SQL) and set the query's parameters.
+     * 
+     * @param <T>
+     * @param entityType the type of entity
+     * @param namedQuery named query
+     * @param parameters {@link HashMap} of parameters.
+     * @return A single result of type entityType or null if nothing is found.
+     */
+    public <T> T listUniqueNamedQuery(Class<T> entityType, String namedQuery, HashMap<String, String> parameters) {
+        Query query = getEntityManager().createNamedQuery(namedQuery);
+        for (String nameParameter : parameters.keySet()) {
+            query.setParameter(nameParameter, parameters.get(nameParameter));
+        }
+        try {
+            return (T) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

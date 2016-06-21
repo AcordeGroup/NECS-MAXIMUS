@@ -2,9 +2,15 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Quote;
+import com.necs.maximus.db.entity.QuoteStatus;
+import com.necs.maximus.db.facade.LazyEntityDataModel;
+import com.necs.maximus.db.facade.QuoteStatusFacade;
+import com.necs.maximus.enums.StatusType;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -22,14 +28,25 @@ public class QuoteController extends AbstractController<Quote> {
     @Inject
     private MobilePageController mobilePageController;
 
-    List<String> status;
+    @EJB
+    private QuoteStatusFacade quoteStatusFacade;
+
+    List<QuoteStatus> quoteOpen;
+    List<QuoteStatus> quoteClose;
 
     private List<Quote> filteredQuote;
 
     public QuoteController() {
         // Inform the Abstract parent controller of the concrete Quote Entity
         super(Quote.class);
-        status = new ArrayList<>();
+    }
+
+    @PostConstruct
+    public void init() {
+        quoteClose = new ArrayList<>();
+        quoteOpen = new ArrayList<>();
+        inicializedListByStatus(quoteStatusFacade.findQuoteByStatusActual());
+
     }
 
     /**
@@ -116,12 +133,15 @@ public class QuoteController extends AbstractController<Quote> {
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
     }
 
-    public List<String> getStatus() {
-        return status;
-    }
+    public void inicializedListByStatus(List<QuoteStatus> list) {
 
-    public void setStatus(List<String> status) {
-        this.status = status;
+        for (QuoteStatus quoteStatus : list) {
+            if (quoteStatus.getStatus().equals(StatusType.SENT.getName())) {
+                quoteClose.add(quoteStatus);
+            } else {
+                quoteOpen.add(quoteStatus);
+            }
+        }
     }
 
     public List<Quote> getFilteredQuote() {
@@ -131,5 +151,23 @@ public class QuoteController extends AbstractController<Quote> {
     public void setFilteredQuote(List<Quote> filteredQuote) {
         this.filteredQuote = filteredQuote;
     }
+
+    public List<QuoteStatus> getQuoteOpen() {
+        return quoteOpen;
+    }
+
+    public void setQuoteOpen(List<QuoteStatus> quoteOpen) {
+        this.quoteOpen = quoteOpen;
+    }
+
+    public List<QuoteStatus> getQuoteClose() {
+        return quoteClose;
+    }
+
+    public void setQuoteClose(List<QuoteStatus> quoteClose) {
+        this.quoteClose = quoteClose;
+    }
+    
+    
 
 }

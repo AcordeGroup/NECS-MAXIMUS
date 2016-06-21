@@ -57,6 +57,8 @@ public class Company implements Serializable {
     @Size(max = 45)
     @Column(name = "website")
     private String website;
+    @Column(name = "country")
+    private String country;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyName")
     private List<Customer> customerList;
 
@@ -104,6 +106,16 @@ public class Company implements Serializable {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
+    
 
     @XmlTransient
     public List<Customer> getCustomerList() {

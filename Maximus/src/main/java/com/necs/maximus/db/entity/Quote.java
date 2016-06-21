@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
@@ -39,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Quote.findAll", query = "SELECT q FROM Quote q"),
     @NamedQuery(name = "Quote.findByIdQuote", query = "SELECT q FROM Quote q WHERE q.idQuote = :idQuote"),
-    @NamedQuery(name = "Quote.findByNotes", query = "SELECT q FROM Quote q WHERE q.notes = :notes"),
+    @NamedQuery(name = "Quote.findByContact", query = "SELECT q FROM Quote q WHERE q.contact = :contact"),
+    @NamedQuery(name = "Quote.findByEmail", query = "SELECT q FROM Quote q WHERE q.email = :email"),
     @NamedQuery(name = "Quote.findByCreationDate", query = "SELECT q FROM Quote q WHERE q.creationDate = :creationDate")})
 public class Quote implements Serializable {
 
@@ -49,9 +49,17 @@ public class Quote implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_quote")
     private Integer idQuote;
-    @Size(max = 100)
-    @Column(name = "notes")
-    private String notes;
+    @Size(max = 50)
+    @Column(name = "contact")
+    private String contact;
+    @Size(max = 30)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 300)
+    @Column(name = "shipping_to")
+    private String shipping_to;
+    @Column(name = "shipping_cost")
+    private Integer shipping_cost;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -92,14 +100,6 @@ public class Quote implements Serializable {
         this.idQuote = idQuote;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -123,6 +123,40 @@ public class Quote implements Serializable {
     public void setIdCustomer(Customer idCustomer) {
         this.idCustomer = idCustomer;
     }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getShipping_to() {
+        return shipping_to;
+    }
+
+    public void setShipping_to(String shipping_to) {
+        this.shipping_to = shipping_to;
+    }
+
+    public Integer getShipping_cost() {
+        return shipping_cost;
+    }
+
+    public void setShipping_cost(Integer shipping_cost) {
+        this.shipping_cost = shipping_cost;
+    }
+    
+    
 
     @XmlTransient
     public List<Has> getHasList() {
