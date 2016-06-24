@@ -40,4 +40,13 @@ public enum StatusType {
         this.name = name;
     }
 
+    public static StatusType getStatusByName(String nameStatus) {
+        StatusType status = null;
+        for (StatusType type : StatusType.values()) {
+            if (type.getName().equals(nameStatus)) {
+                status = type;
+            }
+        }
+        return status;
+    }
 }

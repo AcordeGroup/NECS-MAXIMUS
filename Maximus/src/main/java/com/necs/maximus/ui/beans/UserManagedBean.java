@@ -8,11 +8,13 @@ package com.necs.maximus.ui.beans;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author luis
  */
+@Named(value = "userManagedBean")
 @ManagedBean
 @SessionScoped
 public class UserManagedBean implements Serializable {

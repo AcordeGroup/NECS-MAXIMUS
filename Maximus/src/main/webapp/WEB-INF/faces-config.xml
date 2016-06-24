@@ -35,11 +35,11 @@
         <from-view-id>/sales/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>edit</from-outcome>
-            <to-view-id>/sales/quoteEdit.xhtml</to-view-id>
+            <to-view-id>/util/quoteEdit.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>see</from-outcome>
-            <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>resent</from-outcome>
@@ -48,6 +48,47 @@
          <navigation-case>
             <from-outcome>request</from-outcome>
             <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/purchasing/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>edit</from-outcome>
+            <to-view-id>/util/quoteEdit.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>see</from-outcome>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>resent</from-outcome>
+            <to-view-id>/purchasing/quoteResent.xhtml</to-view-id>
+        </navigation-case>
+        
+    </navigation-rule>
+    
+     <navigation-rule>
+        <from-view-id>/util/quoteView.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Purchasing</from-outcome>
+            <to-view-id>/purchasing/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Sales</from-outcome>
+            <to-view-id>/sales/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/util/quoteEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Purchasing</from-outcome>
+            <to-view-id>/purchasing/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Sales</from-outcome>
+            <to-view-id>/sales/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

@@ -10,9 +10,24 @@ package com.necs.maximus.enums;
  * @author Carlos Moh
  */
 public enum AgentType {
-    
-    Administrator,
-    Sales,
-    Purchasing;
-    
+
+    Administrator("Administrator"),
+    Sales("Sales"),
+    Purchasing("Purchasing");
+
+    String type;
+
+    private AgentType(String type) {
+        this.type = type;
+
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

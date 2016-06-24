@@ -6,6 +6,7 @@
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -59,7 +60,9 @@ public class Quote implements Serializable {
     @Column(name = "shipping_to")
     private String shipping_to;
     @Column(name = "shipping_cost")
-    private Integer shipping_cost;
+    private BigDecimal shipping_cost;
+    @Column(name = "include_shipping_cost")
+    private Integer include_shipping_cost;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -148,15 +151,21 @@ public class Quote implements Serializable {
         this.shipping_to = shipping_to;
     }
 
-    public Integer getShipping_cost() {
+    public BigDecimal getShipping_cost() {
         return shipping_cost;
     }
 
-    public void setShipping_cost(Integer shipping_cost) {
+    public void setShipping_cost(BigDecimal shipping_cost) {
         this.shipping_cost = shipping_cost;
     }
-    
-    
+
+    public Integer getInclude_shipping_cost() {
+        return include_shipping_cost;
+    }
+
+    public void setInclude_shipping_cost(Integer include_shipping_cost) {
+        this.include_shipping_cost = include_shipping_cost;
+    }
 
     @XmlTransient
     public List<Has> getHasList() {

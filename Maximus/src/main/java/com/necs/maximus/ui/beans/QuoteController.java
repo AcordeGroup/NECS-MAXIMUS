@@ -1,13 +1,17 @@
 package com.necs.maximus.ui.beans;
 
+import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteStatus;
-import com.necs.maximus.db.facade.LazyEntityDataModel;
+import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
+import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.enums.StatusType;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -30,6 +34,8 @@ public class QuoteController extends AbstractController<Quote> {
 
     @EJB
     private QuoteStatusFacade quoteStatusFacade;
+    @EJB
+    private AgentFacade agentFacade;
 
     List<QuoteStatus> quoteOpen;
     List<QuoteStatus> quoteClose;
@@ -45,7 +51,7 @@ public class QuoteController extends AbstractController<Quote> {
     public void init() {
         quoteClose = new ArrayList<>();
         quoteOpen = new ArrayList<>();
-        inicializedListByStatus(quoteStatusFacade.findQuoteByStatusActual());
+        inicializedListByStatus();
 
     }
 
@@ -133,15 +139,93 @@ public class QuoteController extends AbstractController<Quote> {
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
     }
 
-    public void inicializedListByStatus(List<QuoteStatus> list) {
+    public void inicializedListByStatus() {
+        switch (AgentType.valueOf(getUserManagedBean().getType())) {
 
-        for (QuoteStatus quoteStatus : list) {
-            if (quoteStatus.getStatus().equals(StatusType.SENT.getName())) {
-                quoteClose.add(quoteStatus);
-            } else {
-                quoteOpen.add(quoteStatus);
-            }
+            case Administrator:
+
+            case Sales:
+                quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatusActual(getUserManagedBean().getAgentId()));
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
+                break;
+            case Purchasing:
+                HashMap param = new HashMap();
+                param.put("idAgent", getUserManagedBean().getAgentId());
+
+                List<String> status = new ArrayList<>();
+                status.add(StatusType.OPEN.getName());
+                quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
+                Agent agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+                quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByIdAgent(agent));
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
+                break;
+
         }
+
+    }
+
+    public String getStatusPurchasing(String status) {
+        StringBuilder statusPurchasing = new StringBuilder("");
+        switch (StatusType.getStatusByName(status)) {
+            case OPEN:
+                statusPurchasing.append(status);
+                break;
+            case IN_PROGRESS:
+                statusPurchasing.append("Waiting for Pricing");
+                break;
+            case READY:
+                statusPurchasing.append("Done");
+                break;
+            case SENT:
+                statusPurchasing.append("Waiting for Customer");
+
+            default:
+                break;
+        }
+        return statusPurchasing.toString();
+    }
+
+    public String getColorDiv(String status, Date dateCreation) {
+
+        StringBuilder color = new StringBuilder("");
+        Calendar actual = Calendar.getInstance();
+
+        Calendar dateCreaOneDays = Calendar.getInstance();
+        dateCreaOneDays.setTime(dateCreation);
+
+        Long dif = ((actual.getTime().getTime() - dateCreaOneDays.getTime().getTime()) / 3600000);
+
+        switch (StatusType.getStatusByName(status)) {
+            case OPEN:
+                if (dif.intValue() > 24 && dif.intValue() < 48) {
+                    color.append("#FEFD00");
+                } else if (dif.intValue() > 48) {
+                    color.append("#FE0000");
+                } else if (dif.intValue() < 24) {
+                    color.append("#FFF");
+                }
+                break;
+            case IN_PROGRESS:
+                if (dif.intValue() > 24 && dif.intValue() < 48) {
+                    color.append("#FEFD00");
+                } else if (dif.intValue() > 48) {
+                    color.append("#FE0000");
+                } else if (dif.intValue() < 24) {
+                    color.append("#FFF");
+                }
+                break;
+            case READY:
+                color.append("#34A852");
+                break;
+            case SENT:
+                color.append("#34A852");
+                break;
+            default:
+                break;
+        }
+        return color.toString();
+
     }
 
     public List<Quote> getFilteredQuote() {
@@ -167,7 +251,5 @@ public class QuoteController extends AbstractController<Quote> {
     public void setQuoteClose(List<QuoteStatus> quoteClose) {
         this.quoteClose = quoteClose;
     }
-    
-    
 
 }

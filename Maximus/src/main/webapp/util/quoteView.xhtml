@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/WEB-INF/include/admin/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{maximusBundle.AppName}"></h:outputText>
+        </ui:define>
+        <ui:define name="menu">
+            <!-- Menu here. Also a layout and a way to log a user out -->
+            <ui:include src="/sales/appmenu.xhtml"/>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest">
+                    <p:panelGrid columns="2" style="text-align: left">
+
+                        <h:outputText value="#{maximusBundle.CustomerHeading} *" />
+                        <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.companyName}" />
+
+                        <h:outputText value="#{maximusBundle.label_address}" />
+                        <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.companyAddress}"/>
+
+                        <h:outputText value="#{maximusBundle.label_country}" />
+                        <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.country}" />
+
+                        <h:outputText value="#{maximusBundle.label_contact}" />
+                        <h:outputText value="#{viewQuoteController.quote.idCustomer.primaryContact}"/>
+
+                        <h:outputText value="#{maximusBundle.label_email}" />
+                        <h:outputText value="#{viewQuoteController.quote.idCustomer.primaryEmail}" />
+
+                        <h:outputText value="#{maximusBundle.label_shipping_to}"  />
+                        <h:outputText value="#{viewQuoteController.quote.shipping_to}" />
+
+                        <h:outputText value="#{maximusBundle.shipping_cost_label}"   />
+                        <h:outputText value="#{viewQuoteController.quote.shipping_cost}" />
+
+                    </p:panelGrid>
+                    <p:spacer />
+                    <p:separator />
+                    <p:spacer />
+                    <p:dataTable id="datalistProduct"
+                                 value="#{viewQuoteController.quote.hasList}"
+                                 var="item"
+                                 emptyMessage="list Empty"
+                                 rendered="#{viewQuoteController.quote.hasList != null}"
+                                 >
+
+                        <p:column  style="width : 110px">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.product.partNumber}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  style="width : 160px">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.product.description}"/>
+                        </p:column>
+
+                        <p:column style="width : 90px">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.condition_label}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.condition}"/>
+                        </p:column>
+
+                        <p:column  style="width : 80px">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.qty_label}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.qtyRequested}"/>
+                        </p:column>
+
+                        <p:column  style="width : 90px">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.target_price_label}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.customerTargetPrice}"/>
+                        </p:column>
+
+                        <p:column style="width : 90px">
+                            <f:facet name="header">
+                                <h:outputText value="Extended"/>
+                            </f:facet>
+                            <h:outputText converter="javax.faces.Double"  value="#{item.suggestedSalesPrice}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:spacer />
+                    <p:separator />
+                    <p:spacer />
+                    <h:panelGrid width="100%" style="text-align: left;">
+                        <h:outputText value="#{maximusBundle.ViewProductTitle_notes}"  />
+                        <p:dataList
+                            value="#{viewQuoteController.quoteListNote}" 
+                            var="nota" 
+                            type="definition"
+                            rendered="#{viewQuoteController.quoteListNote.size() > 0}"
+                            >
+
+                            <p:panelGrid  style="margin: 15px 15px 15px 15px; width: 90%; border: none !important;"  >
+
+                                <p:row>
+                                    <p:column style="width: 3%;" rowspan="3">
+
+                                    </p:column>
+                                    <p:column style="width: 25%;">
+                                        <div style="position: relative; top: -10px; vertical-align: middle; ">
+                                            <div style="position: absolute;"> <h:outputText  value="#{nota.idQuote.idAgent.name}, #{nota.idQuote.idAgent.lastName}" /> </div>
+                                            <h:panelGroup rendered="#{nota.idQuote.idAgent.type == 'Sales'}">   
+                                                <div  style="background-color: #039BE5; color: white; position: absolute; left: 130px; padding: 0; top: 0; width: 100px; text-align: center; border-radius: 15px;">
+                                                    <h:outputText  value="#{nota.idQuote.idAgent.type}"  />
+
+                                                </div>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{nota.idQuote.idAgent.type == 'Purchasing'}" > 
+                                                <div  style="background-color: #FF2020; color: white; position: absolute; left: 130px; padding: 0; top: 0; width: 100px; text-align: center; border-radius: 15px;">
+
+                                                    <h:outputText  value="#{nota.idQuote.idAgent.type}" />
+                                                </div>
+                                            </h:panelGroup>     
+                                        </div>
+                                    </p:column>
+
+                                    <p:column style=" width: 15%;">
+                                        <h:outputText  value="#{nota.creationDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:row> 
+                                <p:row>
+                                    <p:column  colspan="2">
+                                        <blockquote>
+                                            <h:outputText escape="false"
+                                                          value="#{nota.note}"/>
+                                        </blockquote>
+                                    </p:column>
+
+                                </p:row>
+                                <!--                            <p:row>
+                                                                <p:column colspan="2" >
+                                                                    <p:commandLink value="Add nota" 
+                                                                                   ajax="true"
+                                                                                   style="color:#0088CC;"
+                                                                                   onclick="dlg2.show();"
+                                                                                   >
+                                                                    </p:commandLink>
+                                
+                                                                </p:column>
+                                                            </p:row>-->
+
+                            </p:panelGrid>
+
+
+                        </p:dataList>
+                    </h:panelGrid>
+
+                </p:panel>
+                <p:commandButton value="#{maximusBundle.ok}" action="#{viewQuoteController.getTypeAgent()}" id="buttonOk" ajax="false" />
+            </h:form> 
+        </ui:define>
+    </ui:composition>
+</html>

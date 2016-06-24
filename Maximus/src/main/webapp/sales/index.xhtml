@@ -15,26 +15,28 @@
             <ui:include src="/sales/appmenu.xhtml"/>
         </ui:define>
         <ui:define name="body" >
-            <p:panel header="Sales Dashboard" id="salesDashboard" >
+            <p:panel header="#{maximusBundle.label_sales_dashboard}" id="salesDashboard" >
                 <h:form>
                     <h:panelGrid columns="2" id="panelButton">
-                        <p:commandButton value="Create new Customer"  id="buttonCustomer" ajax="false"/>
-                        <p:commandButton value="Create new request" action="request" id="buttonRequest" ajax="false"/>
+                        <p:commandButton value="#{maximusBundle.create_new_customer}"  id="buttonCustomer" ajax="false"/>
+                        <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
-                    <p:fieldset legend="Open request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
+                    <p:fieldset legend="Open request" toggleable="true" toggleSpeed="500" collapsed="false
+                                " style="text-align: left"> 
                         <p:dataTable id="datalist"
-                                     value="#{quoteController.quoteOpen}"
-                                     lazy="true"
                                      var="item"
+                                     rowKey="#{item.idQuote.idQuote}"
+                                     value="#{quoteController.quoteOpen}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30,40,50"
                                      emptyMessage="list Empty"
                                      paginatorPosition="bottom"
                                      sortOrder="descending"
+                                     sortBy="#{item.idQuote.creationDate}"
                                      >
-                          
+
                             <!--                        <f:facet name="header">
                                                         <p:outputPanel style="text-align: right;">
                                                             <h:outputText value="Search all fields:"  style="text-align: right;"/>
@@ -42,6 +44,9 @@
                                                         </p:outputPanel>
                                                     </f:facet>-->
 
+                            <p:column style="width:10px;text-align:center; vertical-align: middle;">
+                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.status , item.idQuote.creationDate)}; text-align: center; vertical-align: middle;"></div>
+                            </p:column>
                             <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Request Date"/>
@@ -71,14 +76,6 @@
                                 </f:facet>
                                 <h:outputText value="#{item.idQuote.idCustomer.companyName.companyName}"/>
                             </p:column>
-
-                            <p:column sortBy="#{item.idQuote.idAgent.name}" filterBy="#{item.idQuote.idAgent.name}" filterStyle="width:80px" style="width : 100px">
-                                <f:facet name="header">
-                                    <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.idQuote.idAgent.name}"/>
-                            </p:column>
-
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Amount USD"/>
@@ -90,7 +87,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Status"/>
                                 </f:facet>
-                                  <h:outputText value="#{item.status}"/>
+                                <h:outputText value="#{item.status}"/>
 
                             </p:column>
 
@@ -102,21 +99,21 @@
                                                value="#{maximusBundle.see}"
                                                action="see"
                                                update=":salesDashboard"
-                                              >  
+                                               >  
                                     <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
-                                 <h:panelGroup  rendered="#{item.status == 'OPEN'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <h:panelGroup  rendered="#{item.status == 'OPEN'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnEdit" 
                                                value="#{maximusBundle.Edit}"
                                                action="edit" ajax="false"
-                                                rendered="#{item.status == 'OPEN'}">  
+                                               rendered="#{item.status == 'OPEN'}">  
                                     <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
                                 </p:commandLink>
                                 <h:panelGroup  rendered="#{item.status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.sent}"
                                                action="sent" ajax="false"
-                                                rendered="#{item.status == 'READY'}">  
+                                               rendered="#{item.status == 'READY'}">  
                                     <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
                                 </p:commandLink>
 
@@ -128,15 +125,16 @@
                     <p:fieldset legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
                         <p:dataTable id="datalistwo"
                                      value="#{quoteController.quoteClose}"
-                                     lazy="true"
                                      var="item"
+                                     rowKey="#{item.idQuote.idQuote}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30,40,50"
                                      emptyMessage="list Empty"
                                      paginatorPosition="bottom"
-                                     sortOrder="descending">
-                           
+                                     sortOrder="descending"
+                                     sortBy="#{item.idQuote.creationDate}">
+
                             <!--                        <f:facet name="header">
                                                         <p:outputPanel style="text-align: right;">
                                                             <h:outputText value="Search all fields:"  style="text-align: right;"/>
@@ -144,6 +142,9 @@
                                                         </p:outputPanel>
                                                     </f:facet>-->
 
+                            <p:column style="width:10px;text-align:center; vertical-align: middle;">
+                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.status , item.idQuote.creationDate)}; text-align: center; vertical-align: middle;"></div>
+                            </p:column>
                             <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Request Date"/>
@@ -194,7 +195,7 @@
                                 </f:facet>
                                 <h:outputText value="#{item.status}"/>
                             </p:column>
-                            
+
                             <p:column style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Operations"/>
@@ -205,12 +206,6 @@
                                                update=":salesDashboard">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
-                                &nbsp;|&nbsp;
-                                <p:commandLink id="btnEdit" 
-                                               value="#{maximusBundle.Edit}"
-                                               action="edit" ajax="false">  
-                                    <f:param value="#{item.idQuote}" name="idQuote"/>
-                                </p:commandLink>
                                 &nbsp;|&nbsp;
                                 <p:commandLink id="btnResent" 
                                                value="#{maximusBundle.Resent}"

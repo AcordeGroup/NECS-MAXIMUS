@@ -228,3 +228,12 @@ input[type="submit"]:hover, button[type="submit"]:hover, button:hover {
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
 }
+
+.circulo {
+     width: 15px;
+     height: 15px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     border: 1px solid #555;
+}

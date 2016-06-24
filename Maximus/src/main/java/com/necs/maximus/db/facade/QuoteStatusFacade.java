@@ -6,6 +6,7 @@
 
 package com.necs.maximus.db.facade;
 
+import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.QuoteStatus;
 import java.util.Date;
 import java.util.List;
@@ -33,11 +34,51 @@ public class QuoteStatusFacade extends AbstractFacade<QuoteStatus> {
         super(QuoteStatus.class);
     }
     
-    public List<QuoteStatus> findQuoteByStatusActual(){
+    public List<QuoteStatus> findQuoteStatusByStatusActual(String idAgent){
         
          Query query = em.createQuery("select q "
                 + "from QuoteStatus q "
-                + "where q.endDate = null ");
+                + "where q.endDate = null "
+                + "and q.idQuote.idAgent.idAgent = :idAgent ");
+         query.setParameter("idAgent", idAgent);
+        return query.getResultList();
+    
+    }
+    
+    public List<QuoteStatus> findQuoteStatusByStatusAndAgent(String status, String idAgent){
+        
+         Query query = em.createQuery("select q "
+                + "from QuoteStatus q "
+                + "where q.status = :status "
+                + "and q.idQuote.idAgent.idAgent = :idAgent ");
+         
+         query.setParameter("status", status);
+         query.setParameter("idAgent", idAgent);
+      
+        return query.getResultList();
+    
+    }
+    
+    public List<QuoteStatus> findQuoteStatusByIdAgent(Agent agent){
+        
+         Query query = em.createQuery("select q "
+                + "from QuoteStatus q "
+                + "JOIN q.idQuote.manageList qa "
+                + "where qa.agent = :agent ");
+        
+         query.setParameter("agent", agent);
+      
+        return query.getResultList();
+    
+    }
+    
+    public List<QuoteStatus> findQuoteStatusByStatus(List<String> status){
+        
+         Query query = em.createQuery("select q "
+                + "from QuoteStatus q "
+                + "where q.status in :status ");
+         
+         query.setParameter("status", status);
       
         return query.getResultList();
     

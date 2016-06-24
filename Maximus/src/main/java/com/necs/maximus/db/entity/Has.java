@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
@@ -55,6 +54,8 @@ public class Has implements Serializable {
     private String observation;
     @Column(name = "condition")
     private String condition;
+    @Column(name = "shipping_cost")
+    private BigDecimal shipping_cost;
     @JoinColumn(name = "part_number", referencedColumnName = "part_number", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Product product;
@@ -149,8 +150,14 @@ public class Has implements Serializable {
     public void setCondition(String condition) {
         this.condition = condition;
     }
-    
-    
+
+    public BigDecimal getShipping_cost() {
+        return shipping_cost;
+    }
+
+    public void setShipping_cost(BigDecimal shipping_cost) {
+        this.shipping_cost = shipping_cost;
+    }
 
     @Override
     public int hashCode() {
