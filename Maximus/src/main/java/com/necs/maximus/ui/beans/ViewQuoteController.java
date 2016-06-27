@@ -54,7 +54,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
     }
 
     public String getTypeAgent() {
-        return getUserManagedBean().getType();
+        return getUserManagedBean().getType();  
     }
 
     public Quote getQuote() {

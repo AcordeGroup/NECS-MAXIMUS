@@ -49,10 +49,6 @@
             <from-outcome>request</from-outcome>
             <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>customer</from-outcome>
-            <to-view-id>/admin/customer/Create.xhtml</to-view-id>
-        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -73,6 +69,26 @@
     </navigation-rule>
     
      <navigation-rule>
+        <from-view-id>/admin/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>edit</from-outcome>
+            <to-view-id>/util/quoteEdit.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>see</from-outcome>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>resent</from-outcome>
+            <to-view-id>/sales/quoteResent.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>request</from-outcome>
+            <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+     <navigation-rule>
         <from-view-id>/util/quoteView.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>Purchasing</from-outcome>
@@ -81,6 +97,10 @@
         <navigation-case>
             <from-outcome>Sales</from-outcome>
             <to-view-id>/sales/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Administrator</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -93,6 +113,10 @@
         <navigation-case>
             <from-outcome>Sales</from-outcome>
             <to-view-id>/sales/index.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Administrator</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

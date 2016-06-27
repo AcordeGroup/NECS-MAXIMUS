@@ -127,9 +127,10 @@
                                 <h:panelGroup rendered="#{item.status == 'IN PROGRESS'}">&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnReOpen" 
                                                value="#{maximusBundle.reopen}"
-                                               action="reopen" ajax="false"
+                                               actionListener="#{quoteController.reopenQuote(item)}" ajax="false"
                                                rendered="#{item.status == 'IN PROGRESS'}">  
                                     <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReopenMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink>
 
                             </p:column>

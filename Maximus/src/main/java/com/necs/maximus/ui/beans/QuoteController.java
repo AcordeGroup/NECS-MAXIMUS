@@ -231,6 +231,13 @@ public class QuoteController extends AbstractController<Quote> {
         return color.toString();
 
     }
+    
+    public void reopenQuote(QuoteStatus quote){
+        if(quote!=null){
+            quote.setStatus(StatusType.OPEN.getName());
+            quoteStatusFacade.edit(quote);
+        }
+    }
 
     public List<Quote> getFilteredQuote() {
         return filteredQuote;
