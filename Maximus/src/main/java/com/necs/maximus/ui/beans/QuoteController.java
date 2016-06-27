@@ -140,12 +140,20 @@ public class QuoteController extends AbstractController<Quote> {
     }
 
     public void inicializedListByStatus() {
+        List<String> status ; 
         switch (AgentType.valueOf(getUserManagedBean().getType())) {
-
+            
             case Administrator:
-                quoteOpen.addAll(quoteStatusFacade.findAllQuoteStatusActual());
-                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
-                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
+                status = new ArrayList<>();
+                status.add(StatusType.OPEN.getName());
+                status.add(StatusType.IN_PROGRESS.getName());
+                quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
+                status.clear();
+                status.add(StatusType.SENT.getName());
+                status.add(StatusType.READY.getName());
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
+//                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
+//                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
                 break;
 
             case Sales:
@@ -156,7 +164,7 @@ public class QuoteController extends AbstractController<Quote> {
                 HashMap param = new HashMap();
                 param.put("idAgent", getUserManagedBean().getAgentId());
 
-                List<String> status = new ArrayList<>();
+                status = new ArrayList<>();
                 status.add(StatusType.OPEN.getName());
                 quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
                 Agent agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);

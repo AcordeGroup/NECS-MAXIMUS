@@ -219,7 +219,14 @@
                                 <p:commandLink id="btnSee" 
                                                value="#{maximusBundle.see}"
                                                action="see"
-                                               update=":purchasingDashboard">  
+                                               update=":adminDashboard">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                </p:commandLink> 
+                                 <h:panelGroup>&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnSent" 
+                                               value="#{maximusBundle.sent}"
+                                               action="sent"
+                                               update=":adminDashboard">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
                             </p:column>

@@ -94,7 +94,12 @@
                             </f:facet>
                             <h:outputText converter="javax.faces.Double"  value="#{item.suggestedSalesPrice}" />
                         </p:column>
-
+                        <p:column style="width : 90px" rendered="#{viewQuoteController.quote.include_shipping_cost == 1}">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
+                            </f:facet>
+                            <h:outputText converter="javax.faces.Double"  value="#{item.shipping_cost}" />
+                        </p:column>
                     </p:dataTable>
                     <p:spacer />
                     <p:separator />

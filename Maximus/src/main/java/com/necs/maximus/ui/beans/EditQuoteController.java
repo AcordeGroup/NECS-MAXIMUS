@@ -132,7 +132,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                  quoteFacade.edit(quote);
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
-                return "index";
+                return getUserManagedBean().getType();
             }
         } catch (Exception e) {
 

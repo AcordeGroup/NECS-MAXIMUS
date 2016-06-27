@@ -76,7 +76,8 @@ public class QuoteStatusFacade extends AbstractFacade<QuoteStatus> {
         
          Query query = em.createQuery("select q "
                 + "from QuoteStatus q "
-                + "where q.status in :status ");
+                + "where q.endDate = null "
+                + "and q.status in :status ");
          
          query.setParameter("status", status);
       
