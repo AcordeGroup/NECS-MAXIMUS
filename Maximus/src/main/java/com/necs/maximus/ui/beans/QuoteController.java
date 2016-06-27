@@ -143,6 +143,10 @@ public class QuoteController extends AbstractController<Quote> {
         switch (AgentType.valueOf(getUserManagedBean().getType())) {
 
             case Administrator:
+                quoteOpen.addAll(quoteStatusFacade.findAllQuoteStatusActual());
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
+                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
+                break;
 
             case Sales:
                 quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatusActual(getUserManagedBean().getAgentId()));

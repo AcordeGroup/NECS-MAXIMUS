@@ -86,7 +86,7 @@
 
 
             </p:dataTable>
-
+            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{quoteStatusController.navigateToDashboard()}" />
             <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{quoteStatusController.prepareCreate}" update=":QuoteStatusCreateForm" oncomplete="PF('QuoteStatusCreateDialog').show()"/>
             <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":QuoteStatusViewForm" oncomplete="PF('QuoteStatusViewDialog').show()" disabled="#{empty quoteStatusController.selected}"/>
             <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":QuoteStatusEditForm" oncomplete="PF('QuoteStatusEditDialog').show()" disabled="#{empty quoteStatusController.selected}"/>

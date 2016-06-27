@@ -12,30 +12,30 @@
 
             <h:form id="AgentCreateForm">
 
-                <h:panelGroup id="display" rendered="#{agentController.selected != null}">
+                <h:panelGroup id="display" rendered="#{agentController.selected != null}" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column">
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_idAgent}" for="idAgent" />
                         <h:panelGroup>
-                            <p:inputText id="idAgent" value="#{agentController.selected.idAgent}" title="#{maximusBundle.CreateAgentTitle_idAgent}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_idAgent}" size="20" maxlength="20"/>
+                            <p:inputText id="idAgent" value="#{agentController.selected.idAgent}" title="#{maximusBundle.CreateAgentTitle_idAgent}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_idAgent}" size="30" maxlength="30"/>
                             <p:tooltip for="idAgent" value="#{agentController.getComponentMessages('idAgent', maximusBundle.CreateAgentHelpText_idAgent)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_name}" for="name" />
                         <h:panelGroup>
-                            <p:inputText id="name" value="#{agentController.selected.name}" title="#{maximusBundle.CreateAgentTitle_name}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_name}" size="20" maxlength="20"/>
+                            <p:inputText id="name" value="#{agentController.selected.name}" title="#{maximusBundle.CreateAgentTitle_name}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_name}" size="30" maxlength="30"/>
                             <p:tooltip for="name" value="#{agentController.getComponentMessages('name', maximusBundle.CreateAgentHelpText_name)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_lastName}" for="lastName" />
                         <h:panelGroup>
-                            <p:inputText id="lastName" value="#{agentController.selected.lastName}" title="#{maximusBundle.CreateAgentTitle_lastName}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_lastName}" size="20" maxlength="20"/>
+                            <p:inputText id="lastName" value="#{agentController.selected.lastName}" title="#{maximusBundle.CreateAgentTitle_lastName}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_lastName}" size="30" maxlength="30"/>
                             <p:tooltip for="lastName" value="#{agentController.getComponentMessages('lastName', maximusBundle.CreateAgentHelpText_lastName)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="20" maxlength="20"/>
+                            <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="30" maxlength="30"/>
                             <p:tooltip for="type" value="#{agentController.getComponentMessages('type', maximusBundle.CreateAgentHelpText_type)}"/>
                         </h:panelGroup>
 
@@ -47,7 +47,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_passwordVal}" for="passwordVal" />
                         <h:panelGroup>
-                            <p:inputText id="passwordVal" value="#{agentController.selected.passwordVal}" title="#{maximusBundle.CreateAgentTitle_passwordVal}" size="16" maxlength="16"/>
+                            <p:inputText id="passwordVal" value="#{agentController.selected.passwordVal}" title="#{maximusBundle.CreateAgentTitle_passwordVal}" size="30" maxlength="30"/>
                             <p:tooltip for="passwordVal" value="#{agentController.getComponentMessages('passwordVal', maximusBundle.CreateAgentHelpText_passwordVal)}"/>
                         </h:panelGroup>
                     </p:panelGrid>

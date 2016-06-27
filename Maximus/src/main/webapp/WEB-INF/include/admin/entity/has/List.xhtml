@@ -107,7 +107,7 @@
                 -->
 
             </p:dataTable>
-
+            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{hasController.navigateToDashboard()}" />
             <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{hasController.prepareCreate}" update=":HasCreateForm" oncomplete="PF('HasCreateDialog').show()"/>
             <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":HasViewForm" oncomplete="PF('HasViewDialog').show()" disabled="#{empty hasController.selected}"/>
             <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":HasEditForm" oncomplete="PF('HasEditDialog').show()" disabled="#{empty hasController.selected}"/>

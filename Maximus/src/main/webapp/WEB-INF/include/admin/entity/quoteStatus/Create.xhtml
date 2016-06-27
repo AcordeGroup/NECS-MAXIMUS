@@ -12,12 +12,12 @@
 
             <h:form id="QuoteStatusCreateForm">
 
-                <h:panelGroup id="display" rendered="#{quoteStatusController.selected != null}">
+                <h:panelGroup id="display" rendered="#{quoteStatusController.selected != null}" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column">
 
                         <p:outputLabel value="#{maximusBundle.CreateQuoteStatusLabel_status}" for="status" />
                         <h:panelGroup>
-                            <p:inputText id="status" value="#{quoteStatusController.selected.status}" title="#{maximusBundle.CreateQuoteStatusTitle_status}" required="true" requiredMessage="#{maximusBundle.CreateQuoteStatusRequiredMessage_status}" size="20" maxlength="20"/>
+                            <p:inputText id="status" value="#{quoteStatusController.selected.status}" title="#{maximusBundle.CreateQuoteStatusTitle_status}" required="true" requiredMessage="#{maximusBundle.CreateQuoteStatusRequiredMessage_status}" size="25" maxlength="25"/>
                             <p:tooltip for="status" value="#{quoteStatusController.getComponentMessages('status', maximusBundle.CreateQuoteStatusHelpText_status)}"/>
                         </h:panelGroup>
 
@@ -35,7 +35,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateQuoteStatusLabel_idQuote}" for="idQuote" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="idQuote" value="#{quoteStatusController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.CreateQuoteStatusRequiredMessage_idQuote}" converter="quoteConverter">
+                            <p:selectOneMenu id="idQuote" value="#{quoteStatusController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.CreateQuoteStatusRequiredMessage_idQuote}" converter="quoteConverter" style="width: 210px"> 
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{quoteController.items}"
                                                var="idQuoteItem"

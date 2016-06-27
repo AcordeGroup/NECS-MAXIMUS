@@ -2,6 +2,7 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.facade.AbstractFacade;
 import com.necs.maximus.db.facade.LazyEntityDataModel;
+import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ import javax.inject.Inject;
 import java.util.ResourceBundle;
 import javax.ejb.EJBException;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -29,8 +28,8 @@ import javax.validation.ConstraintViolationException;
  * @param <T> the concrete Entity type of the Controller bean to be created
  */
 public abstract class AbstractController<T> implements Serializable {
-    
-     /**
+
+    /**
      * Session scoped managed bean that stores information about the logged
      * user.
      */
@@ -47,6 +46,7 @@ public abstract class AbstractController<T> implements Serializable {
     private LazyEntityDataModel<T> lazyItems;
 
     private enum PersistAction {
+
         CREATE,
         DELETE,
         UPDATE
@@ -288,7 +288,22 @@ public abstract class AbstractController<T> implements Serializable {
     public void setUserManagedBean(UserManagedBean userManagedBean) {
         this.userManagedBean = userManagedBean;
     }
-    
-    
 
+    public String navigateToDashboard() {
+        String index = null;
+        switch (AgentType.valueOf(getUserManagedBean().getType())) {
+
+            case Administrator:
+                index = "indexAdmin";
+                break;
+
+            case Sales:
+                index = "indexSales";
+                break;
+            case Purchasing:
+                index = "indexPurchasing";
+                break;
+        }
+        return index;
+    }
 }

@@ -2,6 +2,7 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Customer;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -16,6 +17,8 @@ public class CustomerController extends AbstractController<Customer> {
     private CompanyController companyNameController;
     @Inject
     private MobilePageController mobilePageController;
+
+    private boolean createSales = false;
 
     public CustomerController() {
         // Inform the Abstract parent controller of the concrete Customer Entity
@@ -53,4 +56,17 @@ public class CustomerController extends AbstractController<Customer> {
             companyNameController.setSelected(this.getSelected().getCompanyName());
         }
     }
+    
+    public void createSalesTrue(){
+        createSales = true;
+    }
+
+    public boolean isCreateSales() {
+        return createSales;
+    }
+
+    public void setCreateSales(boolean createSales) {
+        this.createSales = createSales;
+    }
+
 }

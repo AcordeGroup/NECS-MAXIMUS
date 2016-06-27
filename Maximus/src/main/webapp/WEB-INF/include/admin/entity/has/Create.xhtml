@@ -12,48 +12,48 @@
 
             <h:form id="HasCreateForm">
 
-                <h:panelGroup id="display" rendered="#{hasController.selected != null}">
+                <h:panelGroup id="display" rendered="#{hasController.selected != null}" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column">
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_hasPK_idQuote}" for="hasPK_idQuote" />
                         <h:panelGroup>
-                            <p:inputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.CreateHasTitle_hasPK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_idQuote}"/>
+                            <p:inputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.CreateHasTitle_hasPK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_idQuote}" size="50" maxlength="50"/>
                             <p:tooltip for="hasPK_idQuote" value="#{hasController.getComponentMessages('hasPK_idQuote', maximusBundle.CreateHasHelpText_hasPK_idQuote)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_hasPK_partNumber}" for="hasPK_partNumber" />
                         <h:panelGroup>
-                            <p:inputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_partNumber}" size="20" maxlength="20"/>
+                            <p:inputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_partNumber}" size="50" maxlength="50"/>
                             <p:tooltip for="hasPK_partNumber" value="#{hasController.getComponentMessages('hasPK_partNumber', maximusBundle.CreateHasHelpText_hasPK_partNumber)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_customerTargetPrice}" for="customerTargetPrice" />
                         <h:panelGroup>
-                            <p:inputText id="customerTargetPrice" value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.CreateHasTitle_customerTargetPrice}"/>
+                            <p:inputText id="customerTargetPrice" value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.CreateHasTitle_customerTargetPrice}" size="50" maxlength="50"/>
                             <p:tooltip for="customerTargetPrice" value="#{hasController.getComponentMessages('customerTargetPrice', maximusBundle.CreateHasHelpText_customerTargetPrice)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_qtyRequested}" for="qtyRequested" />
                         <h:panelGroup>
-                            <p:inputText id="qtyRequested" value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.CreateHasTitle_qtyRequested}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_qtyRequested}"/>
+                            <p:inputText id="qtyRequested" value="#{hasController.selected.qtyRequested}" title="#{maximusBundle.CreateHasTitle_qtyRequested}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_qtyRequested}" size="50" maxlength="50"/>
                             <p:tooltip for="qtyRequested" value="#{hasController.getComponentMessages('qtyRequested', maximusBundle.CreateHasHelpText_qtyRequested)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_suggestedSalesPrice}" for="suggestedSalesPrice" />
                         <h:panelGroup>
-                            <p:inputText id="suggestedSalesPrice" value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.CreateHasTitle_suggestedSalesPrice}"/>
+                            <p:inputText id="suggestedSalesPrice" value="#{hasController.selected.suggestedSalesPrice}" title="#{maximusBundle.CreateHasTitle_suggestedSalesPrice}" size="50" maxlength="50"/>
                             <p:tooltip for="suggestedSalesPrice" value="#{hasController.getComponentMessages('suggestedSalesPrice', maximusBundle.CreateHasHelpText_suggestedSalesPrice)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_qtyFound}" for="qtyFound" />
                         <h:panelGroup>
-                            <p:inputText id="qtyFound" value="#{hasController.selected.qtyFound}" title="#{maximusBundle.CreateHasTitle_qtyFound}"/>
+                            <p:inputText id="qtyFound" value="#{hasController.selected.qtyFound}" title="#{maximusBundle.CreateHasTitle_qtyFound}" size="50" maxlength="50"/>
                             <p:tooltip for="qtyFound" value="#{hasController.getComponentMessages('qtyFound', maximusBundle.CreateHasHelpText_qtyFound)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_product}" for="product" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="product" value="#{hasController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_product}" converter="productConverter">
+                            <p:selectOneMenu id="product" value="#{hasController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_product}" converter="productConverter" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"
@@ -67,7 +67,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_quote}" for="quote" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="quote" value="#{hasController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_quote}" converter="quoteConverter">
+                            <p:selectOneMenu id="quote" value="#{hasController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_quote}" converter="quoteConverter" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{quoteController.items}"
                                                var="quoteItem"

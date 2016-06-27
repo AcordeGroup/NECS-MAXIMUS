@@ -87,6 +87,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
+        partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
         if (quoteId != null) {
@@ -94,7 +95,7 @@ public class EditQuoteController extends AbstractController<Quote> {
             if (null != quote) {
                 quoteListNote = quoteNoteFacade.findQuoteNoteByIdQuote(quote);
                 includeShipping = ShippingCostType.getEnumByIdType(quote.getInclude_shipping_cost()).getType();
-                partListHas = quote.getHasList();
+                partListHas.addAll(quote.getHasList());
             }
         }
     }
@@ -102,8 +103,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     public String editRequest() {
         try {
             if (validateField()) {
-                quoteFacade.edit(quote);
-                
+               
                 if(note !=null && !note.equals("")){
                       // create nota entity
                     QuoteNote nota = new QuoteNote();
@@ -128,6 +128,8 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     hasFacade.create(hasNew);
                 }
+                  
+                 quoteFacade.edit(quote);
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
                 return "index";

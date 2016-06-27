@@ -22,7 +22,7 @@
                         <h:outputText value="#{maximusBundle.CustomerHeading} *" />
                         <h:selectOneMenu id="customer" value="#{editQuoteController.quote.idCustomer}" converter="customerConverter" style="width:178px;">
                             <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{createQuoteController.customerList}"
+                            <f:selectItems value="#{editQuoteController.customerList}"
                                            var="item"
                                            itemValue="#{item}"
                                            itemLabel="#{item.companyName.companyName}"
@@ -46,10 +46,10 @@
 
 
                                 <h:outputText value="#{maximusBundle.label_contact}" />
-                                <p:inputText value="#{editQuoteController.quote.idCustomer.primaryContact}" style="margin-left: 15px;"/>
+                                <p:inputText value="#{editQuoteController.quote.contact}" style="margin-left: 15px;"/>
 
                                 <h:outputText value="#{maximusBundle.label_email}" />
-                                <p:inputText value="#{editQuoteController.quote.idCustomer.primaryEmail}" style="margin-left: 15px;" />
+                                <p:inputText value="#{editQuoteController.quote.email}" style="margin-left: 15px;" />
 
                             </h:panelGrid>
                             <h:panelGrid columns="2" style="text-align: left; vertical-align: top;" rendered="#{editQuoteController.quote.idCustomer != null}">
@@ -211,6 +211,7 @@
                                            style="color:#0088CC;"
                                            actionListener="#{editQuoteController.showTextArea()}"
                                            update=":form:panelTextArea"
+                                           process="@this"
                                            >
                             </p:commandLink>
                             <h:panelGrid width="100%" style="text-align: left; display: none;" id="panelTextArea">
@@ -221,7 +222,7 @@
                     </p:outputPanel>
                 </p:panel>
 
-                <p:commandButton value="#{maximusBundle.Cancel}" action="#{editQuoteController.getTypeAgent()}" id="buttonCancel" ajax="false" process="@this" />
+                <p:commandButton value="#{maximusBundle.Cancel}" action="#{editQuoteController.getTypeAgent()}" id="buttonCancel" ajax="true" process="@this" />
                 <p:commandButton value="#{maximusBundle.Save}" action="#{editQuoteController.editRequest()}" id="buttonEdit" ajax="false"/>
             </h:form>
             <h:form id="formDialiog">

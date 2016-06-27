@@ -86,7 +86,7 @@
 
 
             </p:dataTable>
-
+            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{productCostController.navigateToDashboard()}" />
             <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productCostController.prepareCreate}" update=":ProductCostCreateForm" oncomplete="PF('ProductCostCreateDialog').show()"/>
             <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ProductCostViewForm" oncomplete="PF('ProductCostViewDialog').show()" disabled="#{empty productCostController.selected}"/>
             <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ProductCostEditForm" oncomplete="PF('ProductCostEditDialog').show()" disabled="#{empty productCostController.selected}"/>

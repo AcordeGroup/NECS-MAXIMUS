@@ -16,9 +16,10 @@
         </ui:define>
         <ui:define name="body" >
             <p:panel header="#{maximusBundle.label_sales_dashboard}" id="salesDashboard" >
-                <h:form>
+                <h:form >
                     <h:panelGrid columns="2" id="panelButton">
-                        <p:commandButton value="#{maximusBundle.create_new_customer}"  id="buttonCustomer" ajax="false"/>
+                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
+                         
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
@@ -219,8 +220,8 @@
                     </p:fieldset>
 
                     <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
-
                 </h:form>
+                 <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
             </p:panel>
         </ui:define>
 

@@ -84,4 +84,13 @@ public class QuoteStatusFacade extends AbstractFacade<QuoteStatus> {
     
     }
     
+    public List<QuoteStatus> findAllQuoteStatusActual(){
+        
+         Query query = em.createQuery("select q "
+                + "from QuoteStatus q "
+                + "where q.endDate = null ");
+        return query.getResultList();
+    
+    }
+    
 }

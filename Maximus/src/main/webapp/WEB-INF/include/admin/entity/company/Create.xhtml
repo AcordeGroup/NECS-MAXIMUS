@@ -12,7 +12,7 @@
 
             <h:form id="CompanyCreateForm">
 
-                <h:panelGroup id="display" rendered="#{companyController.selected != null}">
+                <h:panelGroup id="display" rendered="#{companyController.selected != null}" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column">
 
                         <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_companyName}" for="companyName" />
@@ -23,19 +23,19 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_companyAddress}" for="companyAddress" />
                         <h:panelGroup>
-                            <p:inputText id="companyAddress" value="#{companyController.selected.companyAddress}" title="#{maximusBundle.CreateCompanyTitle_companyAddress}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_companyAddress}" size="100" maxlength="100"/>
+                            <p:inputTextarea id="companyAddress" value="#{coinputTextmpanyController.selected.companyAddress}" title="#{maximusBundle.CreateCompanyTitle_companyAddress}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_companyAddress}" style="width: 310px;" maxlength="100"/>
                             <p:tooltip for="companyAddress" value="#{companyController.getComponentMessages('companyAddress', maximusBundle.CreateCompanyHelpText_companyAddress)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_phoneNumber}" for="phoneNumber" />
                         <h:panelGroup>
-                            <p:inputText id="phoneNumber" value="#{companyController.selected.phoneNumber}" title="#{maximusBundle.CreateCompanyTitle_phoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_phoneNumber}" size="20" maxlength="20"/>
+                            <p:inputText id="phoneNumber" value="#{companyController.selected.phoneNumber}" title="#{maximusBundle.CreateCompanyTitle_phoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_phoneNumber}" size="40" maxlength="40"/>
                             <p:tooltip for="phoneNumber" value="#{companyController.getComponentMessages('phoneNumber', maximusBundle.CreateCompanyHelpText_phoneNumber)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_website}" for="website" />
                         <h:panelGroup>
-                            <p:inputText id="website" value="#{companyController.selected.website}" title="#{maximusBundle.CreateCompanyTitle_website}" size="45" maxlength="45"/>
+                            <p:inputText id="website" value="#{companyController.selected.website}" title="#{maximusBundle.CreateCompanyTitle_website}" size="40" maxlength="40"/>
                             <p:tooltip for="website" value="#{companyController.getComponentMessages('website', maximusBundle.CreateCompanyHelpText_website)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
