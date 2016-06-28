@@ -67,7 +67,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private String includeShipping;
     private Integer totalPriceCot;
     private String condition;
-    private String nroPart;
+    private Product nroPart;
     private String typePart;
     private String manufacturePart;
     private String descriptionPart;
@@ -143,12 +143,12 @@ public class CreateQuoteController extends AbstractController<Quote> {
                     hasFacade.create(h);
                 }
 
-                FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("save_success_quote"), ""));
+                FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("save_success_quote")));
                 return "index";
             }
         } catch (Exception e) {
 
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("error_save"), ""));
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
             return "";
         }
         return "";
@@ -156,16 +156,16 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     public boolean validateField() {
         if (customerSelected == null || customerSelected.equals(bundle.getString("SelectOneMessage"))) {
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_customer"), ""));
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_customer")));
             return false;
         }
         if (shippingTo == null || shippingTo.equals("")) {
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_address_not_null"), ""));
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("shipping_address_not_null")));
             return false;
         }
 
         if (partListHas == null || partListHas.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("add_part_quote"), ""));
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote")));
             return false;
         }
 
@@ -186,7 +186,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         HashMap<String, String> parametros = new HashMap<>();
 
         if (nroPart != null && !nroPart.equals("")) {
-            parametros.put("partNumber", nroPart);
+            parametros.put("partNumber", nroPart.getPartNumber());
         }
 
         if (typePart != null && !typePart.equals("")) {
@@ -219,8 +219,23 @@ public class CreateQuoteController extends AbstractController<Quote> {
         partList.clear();
         typePart = "";
         descriptionPart = "";
-        nroPart = "";
+        nroPart = null;
         manufacturePart = "";
+    }
+
+    public List<Product> complete(String query) {
+        List<Product> productList = new ArrayList<>();
+        productList = (List<Product>) productFacade.findProductByNumberProduct(query);
+        if (productList == null || productList.isEmpty()) {
+            productList = (List<Product>) productFacade.findAll();
+        }
+        return productList;
+    }
+
+    public void addExtended(Has item) {
+        if (item.getQtyRequested() != null && item.getProduct().getPrice() != null) {
+            item.setExtended(item.getProduct().getPrice().multiply(new BigDecimal(item.getQtyRequested())));
+        }
     }
 
     public List<Customer> getCustomerList() {
@@ -287,11 +302,11 @@ public class CreateQuoteController extends AbstractController<Quote> {
         this.condition = condition;
     }
 
-    public String getNroPart() {
+    public Product getNroPart() {
         return nroPart;
     }
 
-    public void setNroPart(String nroPart) {
+    public void setNroPart(Product nroPart) {
         this.nroPart = nroPart;
     }
 

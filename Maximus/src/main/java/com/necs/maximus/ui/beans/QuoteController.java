@@ -149,9 +149,9 @@ public class QuoteController extends AbstractController<Quote> {
                 status.add(StatusType.IN_PROGRESS.getName());
                 quoteOpen.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
                 status.clear();
-                status.add(StatusType.SENT.getName());
                 status.add(StatusType.READY.getName());
                 quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatus(status));
+                quoteClose.addAll(quoteStatusFacade.findAllQuoteStatusByStatus(StatusType.SENT.getName()));
 //                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
 //                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
                 break;

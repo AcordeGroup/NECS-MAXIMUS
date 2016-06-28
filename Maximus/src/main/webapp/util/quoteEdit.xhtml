@@ -87,46 +87,50 @@
                                 </h:outputText>
                             </p:column>
 
-                            <p:column  style="width : 160px">
+                            <p:column  style="width : 170px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.product.description}"/>
                             </p:column>
 
-                            <p:column style="width : 90px">
+                            <p:column style="width : 95px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
                                 <p:selectOneButton value="#{item.condition}" required="true" requiredMessage="#{maximusBundle.message_condition_select}">
-                                    <f:selectItem itemLabel="#{maximusBundle.used}" itemValue="#{maximusBundle.used}"  />
+                                    <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}"  />
                                     <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" />
                                 </p:selectOneButton>
                             </p:column>
 
-                            <p:column  style="width : 80px">
+                            <p:column  style="width : 60px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.qty_label}"/>
                                 </f:facet>
-                                <p:spinner id="basic" value="#{item.qtyRequested}" size="5"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}"/>
+                                <p:spinner id="basic" value="#{item.qtyRequested}" size="5"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}">
+                                    <p:ajax update=":form:datalistProduct" listener="#{editQuoteController.addExtended(item)}" />
+                                </p:spinner>
                             </p:column>
 
-                            <p:column  style="width : 90px">
+                            <p:column  style="width : 75px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.target_price_label}"/>
                                 </f:facet>
-                                <p:inputMask converter="javax.faces.Double" converterMessage="Error" mask="9?9999999999999999" value="#{item.product.price}" required="true" requiredMessage="#{maximusBundle.message_price_product}" size="10"/>
+                                <p:inputMask converter="javax.faces.Double" converterMessage="Error" mask="9?9999999999999999" value="#{item.product.price}" required="true" requiredMessage="#{maximusBundle.message_price_product}" size="10">
+                                    <p:ajax update=":form:datalistProduct" listener="#{editQuoteController.addExtended(item)}" />
+                                </p:inputMask>
 
                             </p:column>
 
-                            <p:column style="width : 90px">
+                            <p:column style="width : 75px">
                                 <f:facet name="header">
                                     <h:outputText value="Extended"/>
                                 </f:facet>
-                                <p:inputMask converter="javax.faces.Double" converterMessage="Error" mask="9?9999999999999999" value="#{item.suggestedSalesPrice}" required="true" requiredMessage="#{maximusBundle.message_price_product}" size="10"/>
+                                <p:inputMask converter="javax.faces.Double" converterMessage="Error" mask="9?9999999999999999" value="#{item.extended}" required="true" requiredMessage="#{maximusBundle.message_price_product}" size="10"/>
                             </p:column>
 
-                            <p:column style="width : 80px" rendered="#{editQuoteController.includeShipping == maximusBundle.Yes_price_item}">
+                            <p:column style="width : 75px" rendered="#{editQuoteController.includeShipping == maximusBundle.Yes_price_item}">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                                 </f:facet>
@@ -144,11 +148,11 @@
                                     </p:column>
                                 </p:row>
                             </p:columnGroup>
-                              <p:column style="width : 80px">
+                            <p:column style="width : 80px">
                                 <f:facet name="header">
                                     <h:outputText value="action"/>
                                 </f:facet>
-                                  <p:commandLink id="buttonRemovePart" value="#{maximusBundle.remove_button}" actionListener="#{editQuoteController.removePart(item)}" ajax="true" update=":form:datalistProduct" process="@this" />
+                                <p:commandLink id="buttonRemovePart" value="#{maximusBundle.remove_button}" actionListener="#{editQuoteController.removePart(item)}" ajax="true" update=":form:datalistProduct" process="@this" />
 
                             </p:column>
                         </p:dataTable>

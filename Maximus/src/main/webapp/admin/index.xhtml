@@ -222,11 +222,20 @@
                                                update=":adminDashboard">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
-                                 <h:panelGroup>&nbsp;|&nbsp;</h:panelGroup> 
+                                <h:panelGroup rendered="#{item.status == 'READY'}">&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.sent}"
                                                action="sent"
-                                               update=":adminDashboard">  
+                                               update=":adminDashboard"
+                                               rendered="#{item.status == 'READY'}">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                </p:commandLink> 
+                                 <h:panelGroup rendered="#{item.status == 'SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnReSent" 
+                                               value="#{maximusBundle.Resent}"
+                                               action="resent"
+                                               update=":adminDashboard"
+                                               rendered="#{item.status == 'SENT'}">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
                             </p:column>

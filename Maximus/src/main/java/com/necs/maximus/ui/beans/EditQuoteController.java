@@ -19,6 +19,7 @@ import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
 import com.necs.maximus.enums.ShippingCostType;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,23 +104,23 @@ public class EditQuoteController extends AbstractController<Quote> {
     public String editRequest() {
         try {
             if (validateField()) {
-               
-                if(note !=null && !note.equals("")){
-                      // create nota entity
+
+                if (note != null && !note.equals("")) {
+                    // create nota entity
                     QuoteNote nota = new QuoteNote();
                     nota.setCreationDate(new Date());
                     nota.setIdQuote(quote);
                     nota.setNote(note);
                     quoteNoteFacade.create(nota);
                 }
-                
+
                 //remove list has existent
                 for (Has h : quote.getHasList()) {
                     hasFacade.remove(h);
                 }
-                
+
                 //add new list has in the quote
-                  for (Has hasNew : partListHas) {
+                for (Has hasNew : partListHas) {
                     hasNew.setHasPK(new HasPK(quote.getIdQuote(), hasNew.getProduct().getPartNumber()));
                     hasNew.setQuote(quote);
                     hasNew.setCustomerTargetPrice(hasNew.getProduct().getPrice());
@@ -128,8 +129,8 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     hasFacade.create(hasNew);
                 }
-                  
-                 quoteFacade.edit(quote);
+
+                quoteFacade.edit(quote);
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
                 return getUserManagedBean().getType();
@@ -213,8 +214,8 @@ public class EditQuoteController extends AbstractController<Quote> {
         nroPart = "";
         manufacturePart = "";
     }
-    
-      public void removePart(Has parte) {
+
+    public void removePart(Has parte) {
         for (Has h : partListHas) {
             if (h.equals(parte)) {
                 partListHas.remove(parte);
@@ -224,11 +225,17 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     }
 
+    public void addExtended(Has item) {
+        if (item.getQtyRequested() != null && item.getProduct().getPrice() != null) {
+            item.setExtended(item.getProduct().getPrice().multiply(new BigDecimal(item.getQtyRequested())));
+        }
+    }
+
     public void showTextArea() {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
-    
-     public String getTypeAgent() {
+
+    public String getTypeAgent() {
         return getUserManagedBean().getType();
     }
 

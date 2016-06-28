@@ -45,7 +45,7 @@ public class Has implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "qty_requested")
-    private BigDecimal qtyRequested;
+    private Integer qtyRequested;
     @Column(name = "suggested_sales_price")
     private BigDecimal suggestedSalesPrice;
     @Column(name = "qty_found")
@@ -54,6 +54,8 @@ public class Has implements Serializable {
     private String observation;
     @Column(name = "condition")
     private String condition;
+    @Column(name = "extended")
+    private BigDecimal extended;
     @Column(name = "shipping_cost")
     private BigDecimal shipping_cost;
     @JoinColumn(name = "part_number", referencedColumnName = "part_number", insertable = false, updatable = false)
@@ -70,7 +72,7 @@ public class Has implements Serializable {
         this.hasPK = hasPK;
     }
 
-    public Has(HasPK hasPK, BigDecimal qtyRequested) {
+    public Has(HasPK hasPK, Integer qtyRequested) {
         this.hasPK = hasPK;
         this.qtyRequested = qtyRequested;
     }
@@ -95,11 +97,11 @@ public class Has implements Serializable {
         this.customerTargetPrice = customerTargetPrice;
     }
 
-    public BigDecimal getQtyRequested() {
+    public Integer getQtyRequested() {
         return qtyRequested;
     }
 
-    public void setQtyRequested(BigDecimal qtyRequested) {
+    public void setQtyRequested(Integer qtyRequested) {
         this.qtyRequested = qtyRequested;
     }
 
@@ -157,6 +159,14 @@ public class Has implements Serializable {
 
     public void setShipping_cost(BigDecimal shipping_cost) {
         this.shipping_cost = shipping_cost;
+    }
+
+    public BigDecimal getExtended() {
+        return extended;
+    }
+
+    public void setExtended(BigDecimal extended) {
+        this.extended = extended;
     }
 
     @Override
