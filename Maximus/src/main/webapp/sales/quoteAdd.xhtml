@@ -118,9 +118,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.target_price_label}"/>
                                 </f:facet>
-                                <p:inputMask converter="javax.faces.Double" converterMessage="Error" mask="9?9999999999999999" value="#{item.product.price}"  size="10">
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}"  value="#{item.product.price}"  size="10">
                                     <p:ajax update=":form:datalistProduct" listener="#{createQuoteController.addExtended(item)}" />
-                                </p:inputMask>
+                                </p:inputText>
 
                             </p:column>
 
@@ -128,7 +128,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Extended"/>
                                 </f:facet>
-                                <p:inputMask converter="javax.faces.Double"  mask="9?9999999999999999" value="#{item.extended}"  size="10"/>
+                                 <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.extended}"  size="10"/>
                             </p:column>
                             <p:column style="width : 80px">
                                 <f:facet name="header">
