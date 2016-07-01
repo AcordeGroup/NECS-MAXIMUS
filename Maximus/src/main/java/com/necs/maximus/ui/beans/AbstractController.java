@@ -306,4 +306,8 @@ public abstract class AbstractController<T> implements Serializable {
         }
         return index;
     }
+
+    public String typeAgent() {
+        return getUserManagedBean().getType();
+    }
 }

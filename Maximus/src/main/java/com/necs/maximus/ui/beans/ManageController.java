@@ -23,16 +23,16 @@ public class ManageController extends AbstractController<Manage> {
         super(Manage.class);
     }
 
-    @Override
-    protected void setEmbeddableKeys() {
-        this.getSelected().getManagePK().setIdQuote(this.getSelected().getQuote().getIdQuote());
-        this.getSelected().getManagePK().setIdAgent(this.getSelected().getAgent().getIdAgent());
-    }
-
-    @Override
-    protected void initializeEmbeddableKey() {
-        this.getSelected().setManagePK(new com.necs.maximus.db.entity.ManagePK());
-    }
+//    @Override
+//    protected void setEmbeddableKeys() {
+//        this.getSelected().getManagePK().setIdQuote(this.getSelected().getQuote().getIdQuote());
+//        this.getSelected().getManagePK().setIdAgent(this.getSelected().getAgent().getIdAgent());
+//    }
+//
+//    @Override
+//    protected void initializeEmbeddableKey() {
+//        this.getSelected().setManagePK(new com.necs.maximus.db.entity.ManagePK());
+//    }
 
     /**
      * Resets the "selected" attribute of any parent Entity controllers.
@@ -50,7 +50,7 @@ public class ManageController extends AbstractController<Manage> {
      */
     public void prepareAgent(ActionEvent event) {
         if (this.getSelected() != null && agentController.getSelected() == null) {
-            agentController.setSelected(this.getSelected().getAgent());
+            agentController.setSelected(this.getSelected().getIdAgent());
         }
     }
 
@@ -62,7 +62,7 @@ public class ManageController extends AbstractController<Manage> {
      */
     public void prepareQuote(ActionEvent event) {
         if (this.getSelected() != null && quoteController.getSelected() == null) {
-            quoteController.setSelected(this.getSelected().getQuote());
+            quoteController.setSelected(this.getSelected().getIdQuote());
         }
     }
 }

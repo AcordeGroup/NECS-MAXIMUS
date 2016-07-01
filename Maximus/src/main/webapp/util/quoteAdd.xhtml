@@ -148,7 +148,7 @@
                     </p:outputPanel>
                 </p:panel>
 
-                <p:commandButton value="#{maximusBundle.Cancel}" action="index" id="buttonCancel" ajax="true" process="@this"/>
+                <p:commandButton value="#{maximusBundle.Cancel}" action="#{createQuoteController.typeAgent()}" id="buttonCancel" ajax="true" process="@this"/>
                 <p:commandButton value="#{maximusBundle.Save}" action="#{createQuoteController.createNewRequest()}" id="buttonSave" ajax="false"/>
             </h:form>
             <h:form id="formDialiog">

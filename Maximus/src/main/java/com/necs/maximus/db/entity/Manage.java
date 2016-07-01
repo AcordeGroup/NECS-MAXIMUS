@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,49 +32,43 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Manage.findAll", query = "SELECT m FROM Manage m"),
-    @NamedQuery(name = "Manage.findByIdQuote", query = "SELECT m FROM Manage m WHERE m.managePK.idQuote = :idQuote"),
-    @NamedQuery(name = "Manage.findByIdAgent", query = "SELECT m FROM Manage m WHERE m.managePK.idAgent = :idAgent"),
-    @NamedQuery(name = "Manage.findByNotes", query = "SELECT m FROM Manage m WHERE m.managePK.notes = :notes"),
+    @NamedQuery(name = "Manage.findByIdManage", query = "SELECT m FROM Manage m WHERE m.idManage = :idManage"),
+    @NamedQuery(name = "Manage.findByIdQuote", query = "SELECT m FROM Manage m WHERE m.idQuote = :idQuote"),
+    @NamedQuery(name = "Manage.findByIdAgent", query = "SELECT m FROM Manage m WHERE m.idAgent = :idAgent"),
     @NamedQuery(name = "Manage.findByAssignmentDate", query = "SELECT m FROM Manage m WHERE m.assignmentDate = :assignmentDate")})
 public class Manage implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ManagePK managePK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_manage")
+    private Integer idManage;
     @Basic(optional = false)
     @NotNull
     @Column(name = "assignment_date")
     @Temporal(TemporalType.DATE)
     private Date assignmentDate;
-    @JoinColumn(name = "id_agent", referencedColumnName = "id_agent", insertable = false, updatable = false)
+    @Column(name = "deallocation_date")
+    @Temporal(TemporalType.DATE)
+    private Date deallocationDate;
+    @JoinColumn(name = "id_agent", referencedColumnName = "id_agent")
     @ManyToOne(optional = false)
-    private Agent agent;
-    @JoinColumn(name = "id_quote", referencedColumnName = "id_quote", insertable = false, updatable = false)
+    private Agent idAgent;
+    @JoinColumn(name = "id_quote", referencedColumnName = "id_quote")
     @ManyToOne(optional = false)
-    private Quote quote;
+    private Quote idQuote;
 
     public Manage() {
     }
 
-    public Manage(ManagePK managePK) {
-        this.managePK = managePK;
+    public Manage(Integer idManage) {
+        this.idManage = idManage;
     }
 
-    public Manage(ManagePK managePK, Date assignmentDate) {
-        this.managePK = managePK;
+    public Manage(Integer idManage, Date assignmentDate) {
+        this.idManage = idManage;
         this.assignmentDate = assignmentDate;
-    }
-
-    public Manage(int idQuote, String idAgent, String notes) {
-        this.managePK = new ManagePK(idQuote, idAgent, notes);
-    }
-
-    public ManagePK getManagePK() {
-        return managePK;
-    }
-
-    public void setManagePK(ManagePK managePK) {
-        this.managePK = managePK;
     }
 
     public Date getAssignmentDate() {
@@ -84,26 +79,42 @@ public class Manage implements Serializable {
         this.assignmentDate = assignmentDate;
     }
 
-    public Agent getAgent() {
-        return agent;
+    public Agent getIdAgent() {
+        return idAgent;
     }
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
+    public void setIdAgent(Agent idAgent) {
+        this.idAgent = idAgent;
     }
 
-    public Quote getQuote() {
-        return quote;
+    public Quote getIdQuote() {
+        return idQuote;
     }
 
-    public void setQuote(Quote quote) {
-        this.quote = quote;
+    public void setIdQuote(Quote idQuote) {
+        this.idQuote = idQuote;
+    }
+
+    public Date getDeallocationDate() {
+        return deallocationDate;
+    }
+
+    public void setDeallocationDate(Date deallocationDate) {
+        this.deallocationDate = deallocationDate;
+    }
+
+    public Integer getIdManage() {
+        return idManage;
+    }
+
+    public void setIdManage(Integer idManage) {
+        this.idManage = idManage;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (managePK != null ? managePK.hashCode() : 0);
+        hash += (idManage != null ? idManage.hashCode() : 0);
         return hash;
     }
 
@@ -114,7 +125,7 @@ public class Manage implements Serializable {
             return false;
         }
         Manage other = (Manage) object;
-        if ((this.managePK == null && other.managePK != null) || (this.managePK != null && !this.managePK.equals(other.managePK))) {
+        if ((this.idManage == null && other.idManage != null) || (this.idManage != null && !this.idManage.equals(other.idManage))) {
             return false;
         }
         return true;
@@ -122,7 +133,7 @@ public class Manage implements Serializable {
 
     @Override
     public String toString() {
-        return "com.necs.maximus.db.entity.Manage[ managePK=" + managePK + " ]";
+        return "com.necs.maximus.db.entity.Manage[ idManage=" + idManage + " ]";
     }
 
 }

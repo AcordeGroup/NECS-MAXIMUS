@@ -72,7 +72,7 @@ public class Agent implements Serializable {
     private String passwordVal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAgent")
     private List<Quote> quoteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "agent")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAgent")
     private List<Manage> manageList;
 
     public Agent() {

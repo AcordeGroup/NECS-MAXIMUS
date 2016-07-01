@@ -22,7 +22,7 @@
         <welcome-file>faces/admin/index.xhtml</welcome-file>
     </welcome-file-list>
     
-     <!-- Se inyecta el listener de contexto de spring y los archivos de contexto:
+    <!-- Se inyecta el listener de contexto de spring y los archivos de contexto:
         /WEB-INF/spring-security.xml - configura el esquema de seguridad
     -->    
     <listener>
@@ -34,6 +34,12 @@
             /WEB-INF/spring-security.xml
         </param-value>
     </context-param>
+    <context-param>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+ 
     <!-- Spring Security - Se instancia un filtro en el servidor de Aplicaciones
     mapeando todas las URLS del sitio - Al usar la clase 'DelegatingFilterProxy'
     se indica que se delega el esquema de filtrado a los filtros definidos en

@@ -27,7 +27,7 @@
                                 " style="text-align: left"> 
                         <p:dataTable id="datalist"
                                      var="item"
-                                     rowKey="#{item.idQuote.idQuote}"
+                                     rowKey="#{item.idQuote}"
                                      value="#{quoteController.quoteOpen}"
                                      paginator="true"
                                      rows="10"
@@ -35,7 +35,7 @@
                                      emptyMessage="list Empty"
                                      paginatorPosition="bottom"
                                      sortOrder="descending"
-                                     sortBy="#{item.idQuote.idQuote}"
+                                     sortBy="#{item.idQuote}"
                                      >
 
                             <!--                        <f:facet name="header">
@@ -46,36 +46,36 @@
                                                     </f:facet>-->
 
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
-                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.status , item.idQuote.creationDate)}; text-align: center; vertical-align: middle;"></div>
+                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
                             </p:column>
-                            <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
+                            <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}"  filterStyle="width:80px" style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Request Date"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.creationDate}">
+                                <h:outputText value="#{item.creationDate}">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </h:outputText>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" filterStyle="width:80px" style="width : 90px">
+                            <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}" filterStyle="width:80px" style="width : 90px">
                                 <f:facet name="header">
                                     <h:outputText value="Request #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idQuote}"/>
+                                <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idCustomer.idCustomer}" filterBy="#{item.idQuote.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idCustomer.companyName.companyName}" filterBy="#{item.idQuote.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
                             </p:column>
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
@@ -88,7 +88,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Status"/>
                                 </f:facet>
-                                <h:outputText value="#{item.status}"/>
+                                <h:outputText value="#{item.quoteStatusList.get(0).status}"/>
 
                             </p:column>
 
@@ -99,23 +99,23 @@
                                 <p:commandLink id="btnSee" 
                                                value="#{maximusBundle.see}"
                                                action="see"
-                                               update=":salesDashboard"
+                                               ajax="false"
                                                >  
-                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
-                                <h:panelGroup  rendered="#{item.status == 'OPEN'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'OPEN'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnEdit"
                                                value="#{maximusBundle.Edit}"
                                                action="edit" ajax="false"
-                                               rendered="#{item.status == 'OPEN'}">  
-                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                               rendered="#{item.quoteStatusList.get(0).status == 'OPEN'}">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink>
-                                <h:panelGroup  rendered="#{item.status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.sent}"
                                                action="sent" ajax="false"
-                                               rendered="#{item.status == 'READY'}">  
-                                    <f:param value="#{item.idQuote.idQuote}" name="idQuote"/>
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}">  
+                                    <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink>
 
                             </p:column>
@@ -127,14 +127,14 @@
                         <p:dataTable id="datalistwo"
                                      value="#{quoteController.quoteClose}"
                                      var="item"
-                                     rowKey="#{item.idQuote.idQuote}"
+                                     rowKey="#{item.idQuote}"
                                      paginator="true"
                                      rows="10"
                                      rowsPerPageTemplate="10,20,30,40,50"
                                      emptyMessage="list Empty"
                                      paginatorPosition="bottom"
                                      sortOrder="descending"
-                                     sortBy="#{item.idQuote.idQuote}">
+                                     sortBy="#{item.idQuote}">
 
                             <!--                        <f:facet name="header">
                                                         <p:outputPanel style="text-align: right;">
@@ -144,43 +144,43 @@
                                                     </f:facet>-->
 
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
-                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.status , item.idQuote.creationDate)}; text-align: center; vertical-align: middle;"></div>
+                                <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
                             </p:column>
-                            <p:column sortBy="#{item.idQuote.creationDate}" filterBy="#{item.idQuote.creationDate}"  filterStyle="width:80px" style="width : 110px">
+                            <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}"  filterStyle="width:80px" style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Request Date"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.creationDate}">
+                                <h:outputText value="#{item.creationDate}">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </h:outputText>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" filterStyle="width:80px" style="width : 90px">
+                            <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}" filterStyle="width:80px" style="width : 90px">
                                 <f:facet name="header">
                                     <h:outputText value="Request #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idQuote}"/>
+                                <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idCustomer.idCustomer}" filterBy="#{item.idQuote.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idCustomer.companyName.companyName}" filterBy="#{item.idQuote.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idQuote.idAgent.name}" filterBy="#{item.idQuote.idAgent.name}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idQuote.idAgent.name}"/>
+                                <h:outputText value="#{item.idAgent.name}"/>
                             </p:column>
 
                             <p:column  style="width : 110px">
@@ -194,7 +194,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Status"/>
                                 </f:facet>
-                                <h:outputText value="#{item.status}"/>
+                                <h:outputText value="#{item.quoteStatusList.get(0).status}"/>
                             </p:column>
 
                             <p:column style="width : 130px">
@@ -204,7 +204,7 @@
                                 <p:commandLink id="btnSee" 
                                                value="#{maximusBundle.see}"
                                                action="see"
-                                               update=":salesDashboard">  
+                                               ajax="false">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink> 
                                 &nbsp;|&nbsp;

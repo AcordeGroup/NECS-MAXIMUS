@@ -9,16 +9,23 @@ import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
+import com.necs.maximus.db.entity.Manage;
 import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
+import com.necs.maximus.db.entity.QuoteStatus;
+import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
+import com.necs.maximus.db.facade.ManageFacade;
 import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
+import com.necs.maximus.enums.AgentType;
+import com.necs.maximus.enums.OperationType;
 import com.necs.maximus.enums.ShippingCostType;
+import com.necs.maximus.enums.StatusType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +61,10 @@ public class EditQuoteController extends AbstractController<Quote> {
     private ProductFacade productFacade;
     @EJB
     private HasFacade hasFacade;
+    @EJB
+    private AgentFacade agentFacade;
+    @EJB
+    private ManageFacade manageFacade;
 
     private Agent agent;
 
@@ -88,29 +99,56 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
+        HashMap param = new HashMap();
+        param.put("idAgent", getUserManagedBean().getAgentId());
         partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
+        agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
         if (quoteId != null) {
             quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
             if (null != quote) {
                 quoteListNote = quoteNoteFacade.findQuoteNoteByIdQuote(quote);
-                includeShipping = ShippingCostType.getEnumByIdType(quote.getInclude_shipping_cost()).getType();
+                includeShipping = ShippingCostType.getEnumByIdType(quote.getIncludeShippingCost()).getType();
                 partListHas.addAll(quote.getHasList());
+                if (!getUserManagedBean().getType().equals(AgentType.Sales.getType())) {
+                    changeStatusQuote(quote);
+                }
             }
+            quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
         }
     }
 
-    public String editRequest() {
+    public String editRequest(String operation) {
         try {
             if (validateField()) {
+                if (agent == null) {
+                    HashMap param = new HashMap();
+                    param.put("idAgent", getUserManagedBean().getAgentId());
+                    agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+                }
 
+                if (operation.equals(OperationType.DONE.getOperationName())) {
+                    QuoteStatus qs = quote.getQuoteStatusList().get(0);
+                    qs.setEndDate(new Date());
+                    quoteStatusFacade.edit(qs);
+
+                    QuoteStatus statusNew = new QuoteStatus();
+                    statusNew.setIdQuote(quote);
+                    statusNew.setInitDate(new Date());
+
+                    statusNew.setStatus(StatusType.READY.getName());
+                    quoteStatusFacade.create(statusNew);
+
+                }
                 if (note != null && !note.equals("")) {
                     // create nota entity
                     QuoteNote nota = new QuoteNote();
                     nota.setCreationDate(new Date());
                     nota.setIdQuote(quote);
                     nota.setNote(note);
+                    nota.setIdAgent(agent);
                     quoteNoteFacade.create(nota);
                 }
 
@@ -231,13 +269,49 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
     }
 
+    public void changeStatusQuote(Quote quote) {
+        try {
+
+            if (agent == null) {
+                HashMap param = new HashMap();
+                param.put("idAgent", getUserManagedBean().getAgentId());
+                agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+            }
+
+            for (QuoteStatus qs : quote.getQuoteStatusList()) {
+                if ((qs.getEndDate() == null || qs.getEndDate().equals("")) && qs.getStatus().equals(StatusType.OPEN.getName())) {
+                    qs.setEndDate(new Date());
+                    quoteStatusFacade.edit(qs);
+
+                    QuoteStatus statusNew = new QuoteStatus();
+                    statusNew.setIdQuote(quote);
+                    statusNew.setInitDate(new Date());
+                    statusNew.setStatus(StatusType.IN_PROGRESS.getName());
+                    quoteStatusFacade.create(statusNew);
+
+                    Manage manege = new Manage();
+                    manege.setIdAgent(agent);
+                    manege.setAssignmentDate(new Date());
+                    manege.setDeallocationDate(null);
+                    manege.setIdQuote(quote);
+
+                    manageFacade.create(manege);
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
+
+        }
+
+    }
+
     public void showTextArea() {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
 
-    public String getTypeAgent() {
-        return getUserManagedBean().getType();
-    }
+   
 
     public List<Customer> getCustomerList() {
         return customerList;

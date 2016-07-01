@@ -58,6 +58,9 @@ public class QuoteNote implements Serializable {
     @JoinColumn(name = "id_quote", referencedColumnName = "id_quote")
     @ManyToOne(optional = false)
     private Quote idQuote;
+    @JoinColumn(name = "id_agent", referencedColumnName = "id_agent")
+    @ManyToOne(optional = false)
+    private Agent idAgent;
 
     public QuoteNote() {
     }
@@ -102,6 +105,14 @@ public class QuoteNote implements Serializable {
 
     public void setIdQuote(Quote idQuote) {
         this.idQuote = idQuote;
+    }
+
+    public Agent getIdAgent() {
+        return idAgent;
+    }
+
+    public void setIdAgent(Agent idAgent) {
+        this.idAgent = idAgent;
     }
 
     @Override

@@ -43,6 +43,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Quote.findByEmail", query = "SELECT q FROM Quote q WHERE q.email = :email"),
     @NamedQuery(name = "Quote.findByCreationDate", query = "SELECT q FROM Quote q WHERE q.creationDate = :creationDate")})
 public class Quote implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "include_shipping_cost")
+    private int includeShippingCost;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,8 +65,6 @@ public class Quote implements Serializable {
     private String shipping_to;
     @Column(name = "shipping_cost")
     private BigDecimal shipping_cost;
-    @Column(name = "include_shipping_cost")
-    private Integer include_shipping_cost;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -80,7 +82,7 @@ public class Quote implements Serializable {
     private List<QuoteNote> quoteNoteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idQuote")
     private List<QuoteStatus> quoteStatusList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quote")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idQuote")
     private List<Manage> manageList;
 
     public Quote() {
@@ -159,13 +161,6 @@ public class Quote implements Serializable {
         this.shipping_cost = shipping_cost;
     }
 
-    public Integer getInclude_shipping_cost() {
-        return include_shipping_cost;
-    }
-
-    public void setInclude_shipping_cost(Integer include_shipping_cost) {
-        this.include_shipping_cost = include_shipping_cost;
-    }
 
     @XmlTransient
     public List<Has> getHasList() {
@@ -226,6 +221,14 @@ public class Quote implements Serializable {
     @Override
     public String toString() {
         return "com.necs.maximus.db.entity.Quote[ idQuote=" + idQuote + " ]";
+    }
+
+    public int getIncludeShippingCost() {
+        return includeShippingCost;
+    }
+
+    public void setIncludeShippingCost(int includeShippingCost) {
+        this.includeShippingCost = includeShippingCost;
     }
 
 }

@@ -47,7 +47,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>request</from-outcome>
-            <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
+            <to-view-id>/util/quoteAdd.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -84,7 +84,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>request</from-outcome>
-            <to-view-id>/sales/quoteAdd.xhtml</to-view-id>
+            <to-view-id>/util/quoteAdd.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -110,6 +110,18 @@
             <from-outcome>Purchasing</from-outcome>
             <to-view-id>/purchasing/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>Sales</from-outcome>
+            <to-view-id>/sales/index.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Administrator</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+     <navigation-rule>
+        <from-view-id>/util/quoteAdd.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>Sales</from-outcome>
             <to-view-id>/sales/index.xhtml</to-view-id>
