@@ -16,14 +16,14 @@
         </ui:define>
         <ui:define name="body" >
             <p:panel header="#{maximusBundle.label_sales_dashboard}" id="salesDashboard" >
-                <h:form >
+                <h:form id="formSales" >
                     <h:panelGrid columns="2" id="panelButton">
                         <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
                          
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
-                    <p:fieldset legend="Open request" toggleable="true" toggleSpeed="500" collapsed="false
+                    <p:fieldset id="fieldSetOpen" legend="Open request" toggleable="true" toggleSpeed="500" collapsed="false
                                 " style="text-align: left"> 
                         <p:dataTable id="datalist"
                                      var="item"
@@ -37,13 +37,6 @@
                                      sortOrder="descending"
                                      sortBy="#{item.idQuote}"
                                      >
-
-                            <!--                        <f:facet name="header">
-                                                        <p:outputPanel style="text-align: right;">
-                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                        </p:outputPanel>
-                                                    </f:facet>-->
 
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
                                 <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
@@ -113,9 +106,10 @@
                                 <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.sent}"
-                                               action="sent" ajax="false"
-                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}">  
-                                    <f:param value="#{item.idQuote}" name="idQuote"/>
+                                               actionListener="#{quoteController.sendQuote(item)}" ajax="false"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
+                                               update=":formSales:fieldSetOpen">  
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink>
 
                             </p:column>
@@ -123,7 +117,7 @@
                         </p:dataTable>
                     </p:fieldset>
                     <p:spacer/>
-                    <p:fieldset legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
+                    <p:fieldset id="fieldSetClose" legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
                         <p:dataTable id="datalistwo"
                                      value="#{quoteController.quoteClose}"
                                      var="item"
@@ -135,13 +129,6 @@
                                      paginatorPosition="bottom"
                                      sortOrder="descending"
                                      sortBy="#{item.idQuote}">
-
-                            <!--                        <f:facet name="header">
-                                                        <p:outputPanel style="text-align: right;">
-                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                        </p:outputPanel>
-                                                    </f:facet>-->
 
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
                                 <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
@@ -206,13 +193,17 @@
                                                action="see"
                                                ajax="false">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
+                                    <f:param value="#{item.quoteStatusList.get(0).status}" name="statusQuote"/>
                                 </p:commandLink> 
-                                &nbsp;|&nbsp;
-                                <p:commandLink id="btnResent" 
+                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnReSent" 
                                                value="#{maximusBundle.Resent}"
-                                               action="resent" ajax="false">  
-                                    <f:param value="#{item.idQuote}" name="idQuote"/>
-                                </p:commandLink>
+                                               actionListener="#{quoteController.sendQuote(item)}"
+                                               ajax="false"
+                                               update=":formSales:fieldSetClose"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">  
+                                   <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
+                                </p:commandLink> 
 
                             </p:column>
 

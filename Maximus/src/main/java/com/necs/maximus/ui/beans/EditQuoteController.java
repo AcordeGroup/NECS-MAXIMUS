@@ -71,7 +71,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private String note;
     private String includeShipping;
     private Integer totalPriceCot;
-    private String nroPart;
+    private Product nroPart;
     private String typePart;
     private String manufacturePart;
     private String descriptionPart;
@@ -166,8 +166,9 @@ public class EditQuoteController extends AbstractController<Quote> {
                     //h.setQtyFound(BigDecimal.ZERO);
 
                     hasFacade.create(hasNew);
+                    quote.getHasList().add(hasNew);
                 }
-
+                quote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
                 quoteFacade.edit(quote);
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
@@ -213,7 +214,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         HashMap<String, String> parametros = new HashMap<>();
 
         if (nroPart != null && !nroPart.equals("")) {
-            parametros.put("partNumber", nroPart);
+            parametros.put("partNumber", nroPart.getPartNumber());
         }
 
         if (typePart != null && !typePart.equals("")) {
@@ -249,7 +250,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         partList.clear();
         typePart = "";
         descriptionPart = "";
-        nroPart = "";
+        nroPart = null;
         manufacturePart = "";
     }
 
@@ -307,11 +308,18 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     }
 
+    public List<Product> complete(String query) {
+        List<Product> productList = new ArrayList<>();
+        productList = (List<Product>) productFacade.findProductByNumberProduct(query);
+        if (productList == null || productList.isEmpty()) {
+            productList = (List<Product>) productFacade.findAll();
+        }
+        return productList;
+    }
+
     public void showTextArea() {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
-
-   
 
     public List<Customer> getCustomerList() {
         return customerList;
@@ -353,11 +361,11 @@ public class EditQuoteController extends AbstractController<Quote> {
         this.totalPriceCot = totalPriceCot;
     }
 
-    public String getNroPart() {
+    public Product getNroPart() {
         return nroPart;
     }
 
-    public void setNroPart(String nroPart) {
+    public void setNroPart(Product nroPart) {
         this.nroPart = nroPart;
     }
 

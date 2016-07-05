@@ -18,7 +18,7 @@
             <p:panel header="#{maximusBundle.label_purchasing_dashboard}" id="purchasingDashboard" >
                 <h:form id="formPurchasing">
                     <h:panelGrid columns="2" id="panelButton">
-                        <p:commandButton value="#{maximusBundle.new_vendor_button}" action="hola" />
+                         <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{agentController.prepareCreate}" id="buttonAgent"  update=":AgentCreateForm" onclick="#{agentController.createAgentTrue()}" oncomplete="PF('AgentCreateDialog').show()" />
                         <p:commandButton value="#{maximusBundle.enter_new_part_button}" actionListener="#{productController.prepareCreate}" id="buttonNewPart"  update=":ProductCreateForm" onclick="#{productController.createPartTrue()}" oncomplete="PF('ProductCreateDialog').show()"/>
                     </h:panelGrid>
                     <p:spacer/>
@@ -35,14 +35,6 @@
                                      sortOrder="descending"
                                      sortBy="#{item.idQuote}"
                                      >
-
-                            <!--                        <f:facet name="header">
-                                                        <p:outputPanel style="text-align: right;">
-                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                        </p:outputPanel>
-                                                    </f:facet>-->
-
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
                                 <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
                             </p:column>
@@ -138,7 +130,7 @@
                         </p:dataTable>
                     </p:fieldset>
                     <p:spacer/>
-                    <p:fieldset legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
+                    <p:fieldset id="fieldSetClose" legend="Closed request" toggleable="true" toggleSpeed="500" collapsed="true" style="text-align: left"> 
                         <p:dataTable id="datalistwo"
                                      value="#{quoteController.quoteClose}"
                                      rowKey="#{item.idQuote}"
@@ -150,13 +142,6 @@
                                      paginatorPosition="bottom"
                                      sortOrder="descending"
                                      sortBy="#{item.idQuote}">
-
-                            <!--                        <f:facet name="header">
-                                                        <p:outputPanel style="text-align: right;">
-                                                            <h:outputText value="Search all fields:"  style="text-align: right;"/>
-                                                            <p:inputText id="globalFilter" onkeyup="PF('quoteTable').filter()"  placeholder="Enter keyword"/>
-                                                        </p:outputPanel>
-                                                    </f:facet>-->
 
                             <p:column style="width:10px;text-align:center; vertical-align: middle;">
                                 <div class="circulo" style="background: #{quoteController.getColorDiv(item.quoteStatusList.get(0).status , item.creationDate)}; text-align: center; vertical-align: middle;"></div>
@@ -221,7 +206,16 @@
                                                action="see"
                                                update=":purchasingDashboard">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
-                                </p:commandLink> 
+                                    <f:param value="#{item.quoteStatusList.get(0).status}" name="statusQuote"/>
+                                </p:commandLink>
+                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY'}">&nbsp;|&nbsp;</h:panelGroup> 
+                                 <p:commandLink id="btnSent" 
+                                               value="#{maximusBundle.sent}"
+                                               actionListener="#{quoteController.sendQuote(item)}" ajax="false"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
+                                               update=":formPurchasing:fieldSetClose">  
+                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>
@@ -231,6 +225,7 @@
 
                 </h:form>
                 <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
+                <ui:include src="/WEB-INF/include/admin/entity//agent/Create.xhtml"/>
             </p:panel>
 
         </ui:define>

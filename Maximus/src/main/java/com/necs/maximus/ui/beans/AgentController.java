@@ -18,6 +18,8 @@ public class AgentController extends AbstractController<Agent> {
     @Inject
     private MobilePageController mobilePageController;
 
+    private boolean createAgent = false;
+
     public AgentController() {
         // Inform the Abstract parent controller of the concrete Agent Entity
         super(Agent.class);
@@ -48,7 +50,7 @@ public class AgentController extends AbstractController<Agent> {
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
     }
-    
+
     @Override
     public void save(ActionEvent event) {
         Agent agent = getSelected();
@@ -57,9 +59,9 @@ public class AgentController extends AbstractController<Agent> {
         PasswordService passwordService = ctx.getBean("passwordEncoder", PasswordService.class);
         agent.setPasswordVal(passwordService.encode(agent.getPasswordVal()));
         System.out.println("encode agent.getPasswordVal(): " + agent.getPasswordVal());
-       super.save(event);
+        super.save(event);
     }
-    
+
     @Override
     public void saveNew(ActionEvent event) {
         System.out.println("saveNew override");
@@ -70,6 +72,18 @@ public class AgentController extends AbstractController<Agent> {
         agent.setPasswordVal(passwordService.encode(agent.getPasswordVal()));
         System.out.println("encode agent.getPasswordVal(): " + agent.getPasswordVal());
         super.saveNew(event);
+    }
+
+    public void createAgentTrue() {
+        createAgent = true;
+    }
+
+    public boolean isCreateAgent() {
+        return createAgent;
+    }
+
+    public void setCreateAgent(boolean createAgent) {
+        this.createAgent = createAgent;
     }
 
 }

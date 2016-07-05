@@ -35,6 +35,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -75,12 +76,15 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private Double targetPrice;
     private Double shippingCost;
     private Double suggestedSalesPrice;
+    private boolean observationField;
+    private String observation;
 
     private List<Customer> customerList;
     private List<Has> partListHas;
     private List<Product> partList;
     private List<Product> selectedPart;
 
+    private static final String PRODUCT_GENERIC = "GENERIC";
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
     private final Locale locale = facesContext.getViewRoot().getLocale();
     protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
@@ -122,6 +126,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                     nota.setCreationDate(new Date());
                     nota.setIdQuote(newQuote);
                     nota.setNote(note);
+                    nota.setIdAgent(agent);
                     quoteNoteFacade.create(nota);
                 }
 
@@ -138,13 +143,14 @@ public class CreateQuoteController extends AbstractController<Quote> {
                     h.setQuote(newQuote);
                     h.setCustomerTargetPrice(h.getProduct().getPrice());
                     h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
+                    h.setObservation(observation);
                     //h.setQtyFound(BigDecimal.ZERO);
 
                     hasFacade.create(h);
                 }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("save_success_quote")));
-                return "index";
+                return getUserManagedBean().getType();
             }
         } catch (Exception e) {
 
@@ -206,11 +212,29 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     public void addPart() {
         partListHas = new ArrayList<>();
-        if (selectedPart != null && !selectedPart.isEmpty()) {
+        boolean mostrarObservationField = false;
+        if (selectedPart == null || selectedPart.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
+        } else {
+
             for (Product pro : selectedPart) {
                 Has object = new Has();
                 object.setProduct(pro);
                 partListHas.add(object);
+
+                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                    mostrarObservationField = true;
+                }
+
+            }
+
+            if (mostrarObservationField) {
+                setObservationField(mostrarObservationField);
+                FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("observation_field_required")));
+                RequestContext.getCurrentInstance().execute("dialogPart.show();");
+            } else {
+                RequestContext.getCurrentInstance().execute("dialogPart.hide();");
+                RequestContext.getCurrentInstance().update("form:datalistProduct");
             }
         }
     }
@@ -381,5 +405,22 @@ public class CreateQuoteController extends AbstractController<Quote> {
     public void setSuggestedSalesPrice(Double suggestedSalesPrice) {
         this.suggestedSalesPrice = suggestedSalesPrice;
     }
+
+    public boolean isObservationField() {
+        return observationField;
+    }
+
+    public void setObservationField(boolean observationField) {
+        this.observationField = observationField;
+    }
+
+    public String getObservation() {
+        return observation;
+    }
+
+    public void setObservation(String observation) {
+        this.observation = observation;
+    }
+    
 
 }

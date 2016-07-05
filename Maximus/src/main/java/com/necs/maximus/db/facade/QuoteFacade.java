@@ -85,8 +85,11 @@ public class QuoteFacade extends AbstractFacade<Quote> {
         query.setParameter("status", status);
         query.setParameter("idAgent", idAgent);
 
-        return processList(query.getResultList());
-
+        if (status.equals(StatusType.SENT.getName())) {
+            return query.getResultList();
+        } else {
+            return processList(query.getResultList());
+        }
     }
 
     public List<Quote> findQuoteByIdAgent(Agent agent) {

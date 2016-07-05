@@ -38,9 +38,10 @@
                             <h:outputText value="#{maximusBundle.label_shipping_to}"  />
                             <h:outputText value="#{viewQuoteController.quote.shipping_to}" />
 
-                            <h:outputText value="#{maximusBundle.shipping_cost_label}"   />
-                            <h:outputText value="#{viewQuoteController.quote.shipping_cost}" />
+                            <h:outputText value="#{maximusBundle.label_include_shipping}"   />
+                            <h:outputText value="#{viewQuoteController.includeShipping(viewQuoteController.quote.includeShippingCost)}" />
 
+                            
                         </p:panelGrid>
                         <h:panelGrid style="text-align:right; vertical-align: top; width: 100%; height: 100%" columns="2"> 
                             <h:outputText value="#{maximusBundle.id_quote}" style="text-align:right; vertical-align: top;"/>
@@ -73,39 +74,63 @@
                             <h:outputText value="#{item.product.description}"/>
                         </p:column>
 
-                        <p:column style="width : 90px">
+                        <p:column style="width : 75px">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.condition_label}"/>
                             </f:facet>
                             <h:outputText value="#{item.condition}"/>
                         </p:column>
 
-                        <p:column  style="width : 80px">
+                        <p:column  style="width : 60px">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.qty_label}"/>
                             </f:facet>
                             <h:outputText value="#{item.qtyRequested}"/>
                         </p:column>
+                        
+                        <p:column  style="width : 60px" rendered="#{viewQuoteController.mostrarQtyFound}">
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.qty_found_label}"/>
+                            </f:facet>
+                             <h:outputText value="#{item.qtyFound}"/>
+                        </p:column>
 
-                        <p:column  style="width : 90px">
+                        <p:column  style="width : 70px">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.target_price_label}"/>
                             </f:facet>
                             <h:outputText value="#{item.customerTargetPrice}"/>
                         </p:column>
+                        
+                        <p:column  style="width : 70px" rendered="#{viewQuoteController.mostrarSuggestedSalesPrice}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
+                            </f:facet>
+                             <h:outputText value="#{item.suggestedSalesPrice}"/>
+                        </p:column>
 
-                        <p:column style="width : 90px">
+                        <p:column style="width : 80px">
                             <f:facet name="header">
                                 <h:outputText value="Extended"/>
                             </f:facet>
                             <h:outputText converter="javax.faces.Double"  value="#{item.extended}" />
                         </p:column>
-                        <p:column style="width : 90px" rendered="#{viewQuoteController.quote.includeShippingCost == 1}">
+                        <p:column style="width : 90px" rendered="#{viewQuoteController.quote.includeShippingCost == 1 and (viewQuoteController.mostrarShippingCostPerItem)}">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                             </f:facet>
                             <h:outputText converter="javax.faces.Double"  value="#{item.shipping_cost}" />
                         </p:column>
+                        <p:columnGroup type="footer" rendered="#{viewQuoteController.quote.includeShippingCost == 2 and (viewQuoteController.quote.shipping_cost!=null)}">
+                            <p:row>
+                                <p:column colspan="#{viewQuoteController.nroColumnVariable + 5}" footerText="#{maximusBundle.shipping_cost_label} $" style="text-align:right"/>
+                                <p:column footerText="#{viewQuoteController.quote.shipping_cost}" >
+                                    <f:facet name="footer">
+                                        <h:outputText   value="#{viewQuoteController.quote.shipping_cost}"  />
+                                    </f:facet>
+                                </p:column>
+                            </p:row>
+                        </p:columnGroup>
                     </p:dataTable>
                     <p:spacer />
                     <p:separator />

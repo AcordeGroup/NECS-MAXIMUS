@@ -35,7 +35,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="30" maxlength="30"/>
+                            <p:inputText disabled="#{agentController.createAgent}" id="type" value="#{agentController.selected.type = 'Sales'}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="30" maxlength="30"/>
                             <p:tooltip for="type" value="#{agentController.getComponentMessages('type', maximusBundle.CreateAgentHelpText_type)}"/>
                         </h:panelGroup>
 
@@ -51,7 +51,7 @@
                             <p:tooltip for="passwordVal" value="#{agentController.getComponentMessages('passwordVal', maximusBundle.CreateAgentHelpText_passwordVal)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{agentController.saveNew}" value="#{maximusBundle.Save}" update="display,:AgentListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AgentCreateDialog'));">
+                    <p:commandButton actionListener="#{agentController.saveNew}" value="#{maximusBundle.Save}" update="display,#{agentController.createAgent ? '' :  ':AgentListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('AgentCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
