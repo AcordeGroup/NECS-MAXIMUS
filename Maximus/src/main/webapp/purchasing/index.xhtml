@@ -210,7 +210,7 @@
                                 </p:commandLink>
                                 <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY'}">&nbsp;|&nbsp;</h:panelGroup> 
                                  <p:commandLink id="btnSent" 
-                                               value="#{maximusBundle.sent}"
+                                               value="#{maximusBundle.send}"
                                                actionListener="#{quoteController.sendQuote(item)}" ajax="false"
                                                rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
                                                update=":formPurchasing:fieldSetClose">  
@@ -224,6 +224,17 @@
                     <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
 
                 </h:form>
+                <p:dialog header="Success"  widgetVar="dialogSuccess"  id="dialogSuccess" resizable="false"  modal="true" position="center" width="300px" height="50%">
+                    <h:form >
+                        <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">
+                            <h:outputText value="#{maximusBundle.message_send_mail_success}" style="font-weight: bold;" />
+                            <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
+                                <p:commandButton value="#{maximusBundle.accept}" ajax="true" update=":formAdmin" oncomplete="PF('dialogSuccess').hide();"/>
+                               
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
                 <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//agent/Create.xhtml"/>
             </p:panel>

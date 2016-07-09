@@ -13,12 +13,13 @@ public class ProductController extends AbstractController<Product> {
 
     @Inject
     private MobilePageController mobilePageController;
-    
-    private boolean createPart; 
+
+    private boolean createPart;
+    private boolean createPartSustitute;
 
     public ProductController() {
         // Inform the Abstract parent controller of the concrete Product Entity
-        super(Product.class);
+            super(Product.class);
     }
 
     /**
@@ -60,9 +61,13 @@ public class ProductController extends AbstractController<Product> {
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/productCost/index";
     }
-    
-     public void createPartTrue(){
+
+    public void createPartTrue() {
         createPart = true;
+    }
+    
+    public void createPartSustituteTrue() {
+        createPartSustitute = true;
     }
 
     public MobilePageController getMobilePageController() {
@@ -80,7 +85,13 @@ public class ProductController extends AbstractController<Product> {
     public void setCreatePart(boolean createPart) {
         this.createPart = createPart;
     }
-     
-     
+
+    public boolean isCreatePartSustitute() {
+        return createPartSustitute;
+    }
+
+    public void setCreatePartSustitute(boolean createPartSustitute) {
+        this.createPartSustitute = createPartSustitute;
+    }
 
 }

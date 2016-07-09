@@ -12,7 +12,11 @@ package com.necs.maximus.enums;
 public enum OperationType {
 
     DONE("done"),
-    SAVE("save");
+    SAVE("save"),
+    SUSTITUIR("sustituir"),
+    CREAR("crear"),
+    SEND("send"),
+    EXPORT("export");
 
     private String operationName;
 
@@ -26,6 +30,16 @@ public enum OperationType {
 
     public void setOperationName(String operationName) {
         this.operationName = operationName;
+    }
+
+    public static OperationType getOperationByName(String nameOperation) {
+        OperationType name = null;
+        for (OperationType type : OperationType.values()) {
+            if (type.getOperationName().equals(nameOperation)) {
+                name = type;
+            }
+        }
+        return name;
     }
 
 }

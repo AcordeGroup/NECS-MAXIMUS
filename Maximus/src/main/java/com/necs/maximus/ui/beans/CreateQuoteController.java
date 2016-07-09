@@ -222,7 +222,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 object.setProduct(pro);
                 partListHas.add(object);
 
-                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC) && observation == null) {
                     mostrarObservationField = true;
                 }
 
@@ -230,11 +230,13 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
             if (mostrarObservationField) {
                 setObservationField(mostrarObservationField);
-                FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("observation_field_required")));
-                RequestContext.getCurrentInstance().execute("dialogPart.show();");
+                RequestContext.getCurrentInstance().update("formDialog:panelSearch");
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("observation_field_required")));
+
             } else {
-                RequestContext.getCurrentInstance().execute("dialogPart.hide();");
                 RequestContext.getCurrentInstance().update("form:datalistProduct");
+                RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
+
             }
         }
     }
@@ -421,6 +423,5 @@ public class CreateQuoteController extends AbstractController<Quote> {
     public void setObservation(String observation) {
         this.observation = observation;
     }
-    
 
 }

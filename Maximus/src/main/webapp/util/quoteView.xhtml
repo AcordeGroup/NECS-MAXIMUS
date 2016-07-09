@@ -18,7 +18,7 @@
             <h:form>
                 <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest">
                     <h:panelGrid style="width: 100%; vertical-align: top;" columns="2"> 
-                        <p:panelGrid columns="2" style="text-align: left; ">
+                        <p:panelGrid columns="2" style="text-align: left;">
 
                             <h:outputText value="#{maximusBundle.CustomerHeading}" />
                             <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.companyName}" />
@@ -41,14 +41,27 @@
                             <h:outputText value="#{maximusBundle.label_include_shipping}"   />
                             <h:outputText value="#{viewQuoteController.includeShipping(viewQuoteController.quote.includeShippingCost)}" />
 
-                            
+
                         </p:panelGrid>
-                        <h:panelGrid style="text-align:right; vertical-align: top; width: 100%; height: 100%" columns="2"> 
-                            <h:outputText value="#{maximusBundle.id_quote}" style="text-align:right; vertical-align: top;"/>
-                            <h:outputText value="#{viewQuoteController.quote.idQuote}" style="text-align:right; vertical-align: top;"/>
+                        <h:panelGrid style="text-align: center; vertical-align: top;   background-color: #C2C7C1; margin-right: 5px; position: relative; left: 80px;" class="ovalo"> 
+                            <div style="text-align: right; vertical-align: middle;">
+                                <h:outputText value="#{maximusBundle.id_quote } #{viewQuoteController.quote.idQuote}" />
+                            </div>
                         </h:panelGrid>
+                        <h:outputText value="" style="text-align:right; vertical-align: top;"/>
+                        <h:panelGroup style="text-align:right; vertical-align: bottom; width: 100%; height: 100%">
+                            <div style="text-align: right; vertical-align: middle; margin-bottom: 5px;">
+                                <p:commandButton value="#{maximusBundle.export_pdf}"
+                                                 actionListener="#{quoteController.exportPdf(viewQuoteController.quote,'export')}"
+                                                 ajax="false"
+                                                 >
+                                    <f:param value="#{viewQuoteController.quote.idQuote}" name="quoteId"/>
+                                    <p:fileDownload value="#{quoteController.filePdf}"  />
+                                </p:commandButton> 
+                            </div>    
+                        </h:panelGroup>
                     </h:panelGrid>
-                    <p:spacer />
+
                     <p:separator />
                     <p:spacer />
                     <p:dataTable id="datalistProduct"
@@ -67,12 +80,14 @@
                             </h:outputText>
                         </p:column>
 
-                        <p:column  style="width : 160px">
+                        <p:column  style="width : 170px" >
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
                             </f:facet>
-                            <h:outputText value="#{item.product.description}"/>
+                            <h:outputText value="#{item.product.description}" rendered="#{item.product.partNumber != '555555'}"/>
+                            <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                         </p:column>
+
 
                         <p:column style="width : 75px">
                             <f:facet name="header">
@@ -87,12 +102,12 @@
                             </f:facet>
                             <h:outputText value="#{item.qtyRequested}"/>
                         </p:column>
-                        
+
                         <p:column  style="width : 60px" rendered="#{viewQuoteController.mostrarQtyFound}">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.qty_found_label}"/>
                             </f:facet>
-                             <h:outputText value="#{item.qtyFound}"/>
+                            <h:outputText value="#{item.qtyFound}"/>
                         </p:column>
 
                         <p:column  style="width : 70px">
@@ -101,12 +116,12 @@
                             </f:facet>
                             <h:outputText value="#{item.customerTargetPrice}"/>
                         </p:column>
-                        
+
                         <p:column  style="width : 70px" rendered="#{viewQuoteController.mostrarSuggestedSalesPrice}" >
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
                             </f:facet>
-                             <h:outputText value="#{item.suggestedSalesPrice}"/>
+                            <h:outputText value="#{item.suggestedSalesPrice}"/>
                         </p:column>
 
                         <p:column style="width : 80px">

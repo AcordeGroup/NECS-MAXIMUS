@@ -10,15 +10,19 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
-import com.necs.maximus.db.facade.QuoteStatusFacade;
 import com.necs.maximus.enums.ShippingCostType;
 import com.necs.maximus.enums.StatusType;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -29,10 +33,10 @@ import javax.inject.Named;
 @ViewScoped
 public class ViewQuoteController extends AbstractController<Quote> {
 
+    @Inject
+    private QuoteController quotecontroll;
     @EJB
     private QuoteFacade quoteFacade;
-    @EJB
-    private QuoteStatusFacade quoteStatusFacade;
     @EJB
     private QuoteNoteFacade quoteNoteFacade;
 
@@ -43,6 +47,10 @@ public class ViewQuoteController extends AbstractController<Quote> {
     private boolean mostrarShippingCostPerItem;
     private boolean mostrarSuggestedSalesPrice;
     private int nroColumnVariable;
+
+    private final FacesContext facesContext = FacesContext.getCurrentInstance();
+    private final Locale locale = facesContext.getViewRoot().getLocale();
+    protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
 
     public ViewQuoteController() {
         super(Quote.class);
@@ -70,6 +78,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
     }
 
     public void evaluateQtyFound(List<Has> hasList) {
+        Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "start ViewQuoteController.evaluateQtyFound");
         if (null != hasList && !hasList.isEmpty()) {
             for (Has h : hasList) {
                 if (h.getQtyFound() != null && h.getQtyFound().intValue() != 0) {
@@ -92,7 +101,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
                 nroColumnVariable = nroColumnVariable + 1;
             }
         }
-
+        Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "end ViewQuoteController.evaluateQtyFound");
     }
 
     public String getTypeAgent() {

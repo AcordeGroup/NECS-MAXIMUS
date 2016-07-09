@@ -38,6 +38,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 
@@ -49,6 +50,8 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class EditQuoteController extends AbstractController<Quote> {
 
+    @Inject
+    private ProductController proController;
     @EJB
     private QuoteNoteFacade quoteNoteFacade;
     @EJB
@@ -67,11 +70,14 @@ public class EditQuoteController extends AbstractController<Quote> {
     private ManageFacade manageFacade;
 
     private Agent agent;
+    private Product nroPart;
+    private Product productGeneric;
+    private Product productCreado;
+    private Quote quote;
 
     private String note;
     private String includeShipping;
     private Integer totalPriceCot;
-    private Product nroPart;
     private String typePart;
     private String manufacturePart;
     private String descriptionPart;
@@ -86,8 +92,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private List<Product> selectedPart;
     private List<QuoteNote> quoteListNote;
 
-    private Quote quote;
-
+    private static final String PRODUCT_GENERIC = "GENERIC";
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
     private final Locale locale = facesContext.getViewRoot().getLocale();
     protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
@@ -156,6 +161,8 @@ public class EditQuoteController extends AbstractController<Quote> {
                 for (Has h : quote.getHasList()) {
                     hasFacade.remove(h);
                 }
+                //remove list has existent in entity
+                quote.getHasList().clear();
 
                 //add new list has in the quote
                 for (Has hasNew : partListHas) {
@@ -205,6 +212,14 @@ public class EditQuoteController extends AbstractController<Quote> {
         if (partListHas == null || partListHas.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("add_part_quote"), ""));
             return false;
+        } else {
+            for (Has h : partListHas) {
+                if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                    FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
+                    return false;
+                }
+            }
+
         }
 
         return true;
@@ -213,7 +228,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     public void searchPart() {
         HashMap<String, String> parametros = new HashMap<>();
 
-        if (nroPart != null && !nroPart.equals("")) {
+        if (nroPart != null) {
             parametros.put("partNumber", nroPart.getPartNumber());
         }
 
@@ -233,17 +248,75 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public void addPart() {
+        boolean genericSelected = false;
+
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
 
-        if (selectedPart != null && !selectedPart.isEmpty()) {
+        if (selectedPart == null || selectedPart.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
+        } else {
             for (Product pro : selectedPart) {
-                Has object = new Has();
-                object.setProduct(pro);
-                partListHas.add(object);
+                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                    genericSelected = true;
+                    break;
+                }
+            }
+
+            if (genericSelected) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("generic_product_select")));
+
+            } else {
+                if (productGeneric != null) {
+                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
+                } else {
+                    for (Product pro : selectedPart) {
+                        Has object = new Has();
+                        object.setProduct(pro);
+                        partListHas.add(object);
+                    }
+
+                    RequestContext.getCurrentInstance().update("form:datalistProduct");
+                    RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
+
+                }
             }
         }
+    }
+
+    public void sustituirProductGeneric(String operation) {
+
+        if (partListHas != null && !partListHas.isEmpty()) {
+            for (Has h : partListHas) {
+                if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                    partListHas.remove(h);
+                    break;
+                }
+            }
+        }
+        if (operation.equals(OperationType.SUSTITUIR.getOperationName())) {
+            if (selectedPart != null && !selectedPart.isEmpty()) {
+                for (Product pro : selectedPart) {
+                    Has object = new Has();
+                    object.setProduct(pro);
+                    partListHas.add(object);
+                }
+            }
+
+        }
+        if (operation.equals(OperationType.CREAR.getOperationName())) {
+            if (productCreado != null) {
+                Has object = new Has();
+                object.setProduct(productCreado);
+                partListHas.add(object);
+            }
+            RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
+            RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
+            RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
+
+        }
+
     }
 
     public void reset() {
@@ -261,7 +334,6 @@ public class EditQuoteController extends AbstractController<Quote> {
                 break;
             }
         }
-
     }
 
     public void addExtended(Has item) {
@@ -309,12 +381,32 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public List<Product> complete(String query) {
-        List<Product> productList = new ArrayList<>();
+        List<Product> productList;
         productList = (List<Product>) productFacade.findProductByNumberProduct(query);
         if (productList == null || productList.isEmpty()) {
             productList = (List<Product>) productFacade.findAll();
         }
         return productList;
+    }
+
+    public void fillPartGeneric(Product product) {
+        if (product != null) {
+            setProductGeneric(product);
+        }
+    }
+
+    public void crearProductSustitute() {
+        try {
+
+            if (proController.getSelected() != null) {
+                productFacade.create(proController.getSelected());
+                setProductCreado(proController.getSelected());
+                RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
+            }
+
+        } catch (Exception e) {
+        }
+
     }
 
     public void showTextArea() {
@@ -455,6 +547,30 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public void setQuoteListNote(List<QuoteNote> quoteListNote) {
         this.quoteListNote = quoteListNote;
+    }
+
+    public Product getProductGeneric() {
+        return productGeneric;
+    }
+
+    public void setProductGeneric(Product productGeneric) {
+        this.productGeneric = productGeneric;
+    }
+
+    public ProductController getProController() {
+        return proController;
+    }
+
+    public void setProController(ProductController proController) {
+        this.proController = proController;
+    }
+
+    public Product getProductCreado() {
+        return productCreado;
+    }
+
+    public void setProductCreado(Product productCreado) {
+        this.productCreado = productCreado;
     }
 
 }
