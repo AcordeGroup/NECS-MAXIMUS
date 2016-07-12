@@ -16,9 +16,25 @@
         </ui:define>
         <ui:define name="body">
             <h:form>
-                <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest">
+                <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest" style="width: 100%">
+                    <table style="width: 100%; vertical-align: top; text-align: right;"> 
+                        <tr>
+                            <td style="width: 90%">
+
+                            </td>  
+                            <td style="text-align: center; 
+                                vertical-align: top;   
+                                background-color: #C2C7C1; 
+                                color: white; 
+                                border-radius: 15px;
+                                width : 100px;
+                                ">
+                                <h:outputText value="#{maximusBundle.id_quote } #{viewQuoteController.quote.idQuote}"  />
+                            </td> 
+                        </tr>
+                    </table> 
                     <h:panelGrid style="width: 100%; vertical-align: top;" columns="2"> 
-                        <p:panelGrid columns="2" style="text-align: left;">
+                        <p:panelGrid columns="2" style="text-align: left; max-width: 50%;">
 
                             <h:outputText value="#{maximusBundle.CustomerHeading}" />
                             <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.companyName}" />
@@ -43,12 +59,8 @@
 
 
                         </p:panelGrid>
-                        <h:panelGrid style="text-align: center; vertical-align: top;   background-color: #C2C7C1; margin-right: 5px; position: relative; left: 80px;" class="ovalo"> 
-                            <div style="text-align: right; vertical-align: middle;">
-                                <h:outputText value="#{maximusBundle.id_quote } #{viewQuoteController.quote.idQuote}" />
-                            </div>
-                        </h:panelGrid>
-                        <h:outputText value="" style="text-align:right; vertical-align: top;"/>
+                        <h:outputText value="" />
+                        <h:outputText value="" />
                         <h:panelGroup style="text-align:right; vertical-align: bottom; width: 100%; height: 100%">
                             <div style="text-align: right; vertical-align: middle; margin-bottom: 5px;">
                                 <p:commandButton value="#{maximusBundle.export_pdf}"

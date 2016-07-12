@@ -9,6 +9,8 @@ import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
+import com.necs.maximus.db.entity.IsSubstitute;
+import com.necs.maximus.db.entity.IsSubstitutePK;
 import com.necs.maximus.db.entity.Manage;
 import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
@@ -17,6 +19,7 @@ import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
+import com.necs.maximus.db.facade.IsSubstituteFacade;
 import com.necs.maximus.db.facade.ManageFacade;
 import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
@@ -68,10 +71,13 @@ public class EditQuoteController extends AbstractController<Quote> {
     private AgentFacade agentFacade;
     @EJB
     private ManageFacade manageFacade;
+    @EJB
+    private IsSubstituteFacade isSubstituteFacade;
 
     private Agent agent;
     private Product nroPart;
     private Product productGeneric;
+    private Product productReplace;
     private Product productCreado;
     private Quote quote;
 
@@ -85,6 +91,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     private Double targetPrice;
     private Double shippingCost;
     private Double suggestedSalesPrice;
+    private String selectionSustitute;
+    private boolean makeSubstitute;
 
     private List<Customer> customerList;
     private List<Has> partListHas;
@@ -270,6 +278,8 @@ public class EditQuoteController extends AbstractController<Quote> {
             } else {
                 if (productGeneric != null) {
                     RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
+                } else if (productReplace != null) {
+                    RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
                 } else {
                     for (Product pro : selectedPart) {
                         Has object = new Has();
@@ -279,19 +289,38 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     RequestContext.getCurrentInstance().update("form:datalistProduct");
                     RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
+                    inicializedObject();
 
                 }
+
             }
+
         }
     }
 
-    public void sustituirProductGeneric(String operation) {
+    public void sustituirProduct(String operation) {
 
         if (partListHas != null && !partListHas.isEmpty()) {
+            if (makeSubstitute) {
+                for (Product select : selectedPart) {
+                    IsSubstitutePK primary = new IsSubstitutePK(productReplace.getPartNumber(), select.getPartNumber());
+                    IsSubstitute sustitute = new IsSubstitute(primary);
+                    sustitute.setProduct(select);
+                    isSubstituteFacade.create(sustitute);
+                }
+            }
             for (Has h : partListHas) {
-                if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
-                    partListHas.remove(h);
-                    break;
+                if (productGeneric != null) {
+                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                        partListHas.remove(h);
+                        break;
+                    }
+                }
+                if (productReplace != null) {
+                    if (h.getProduct().getPartNumber().equals(productReplace.getPartNumber())) {
+                        partListHas.remove(h);
+                        break;
+                    }
                 }
             }
         }
@@ -311,16 +340,18 @@ public class EditQuoteController extends AbstractController<Quote> {
                 object.setProduct(productCreado);
                 partListHas.add(object);
             }
-            RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
-            RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
-            RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
+//            RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
+//            RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
+//            RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
 
         }
+
+        inicializedObject();
 
     }
 
     public void reset() {
-        partList.clear();
+        partList = null;
         typePart = "";
         descriptionPart = "";
         nroPart = null;
@@ -395,6 +426,12 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
     }
 
+    public void fillPartReplace(Product product) {
+        if (product != null) {
+            setProductReplace(product);
+        }
+    }
+
     public void crearProductSustitute() {
         try {
 
@@ -407,6 +444,46 @@ public class EditQuoteController extends AbstractController<Quote> {
         } catch (Exception e) {
         }
 
+    }
+
+    public void fillListSustitute() {
+        List<Product> sustirutePartList = new ArrayList<>();
+        if (productReplace != null) {
+            switch (selectionSustitute) {
+                case "All":
+                    partList = null;
+                    break;
+                case "Sustitute":
+
+                    for (IsSubstitute sustitute : productReplace.getIsSubstituteList()) {
+                        sustirutePartList.add(sustitute.getProduct());
+                    }
+                    if (!sustirutePartList.isEmpty()) {
+                        if (partList != null) {
+                            partList.clear();
+                        } else {
+                            partList = new ArrayList<>();
+                        }
+                        partList.addAll(sustirutePartList);
+
+                        RequestContext.getCurrentInstance().update("formDialogReplace:panelButtonReplace");
+                    } else {
+                        RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_not_found_sustitute")));
+                    }
+                    break;
+            }
+
+        }
+    }
+
+    public void inicializedObject() {
+        nroPart = null;
+        partList = null;
+        selectedPart = null;
+        productGeneric = null;
+        productReplace = null;
+        productCreado = null;
+        selectionSustitute = null;
     }
 
     public void showTextArea() {
@@ -571,6 +648,30 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public void setProductCreado(Product productCreado) {
         this.productCreado = productCreado;
+    }
+
+    public String getSelectionSustitute() {
+        return selectionSustitute;
+    }
+
+    public void setSelectionSustitute(String selectionSustitute) {
+        this.selectionSustitute = selectionSustitute;
+    }
+
+    public Product getProductReplace() {
+        return productReplace;
+    }
+
+    public void setProductReplace(Product productReplace) {
+        this.productReplace = productReplace;
+    }
+
+    public boolean isMakeSubstitute() {
+        return makeSubstitute;
+    }
+
+    public void setMakeSubstitute(boolean makeSubstitute) {
+        this.makeSubstitute = makeSubstitute;
     }
 
 }

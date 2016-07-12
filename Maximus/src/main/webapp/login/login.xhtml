@@ -16,14 +16,14 @@
                 <h:form id="login" class="input-forms">            
                     <p:growl id="growl" showDetail="true" autoUpdate="true" life="5000" />
 
-                    <h:panelGrid columns="3" cellpadding="5">
+                    <h:panelGrid columns="2" cellpadding="5">
                         <h:outputLabel for="username" value="Username:" />
                         <p:inputText id="username" value="#{agentLoginController.username}" required="true" label="username" />
-                        <h:message for="username" />
+<!--                        <h:message for="username" />-->
 
                         <h:outputLabel for="password" value="Password:" />
                         <p:password id="password" value="#{agentLoginController.password}" required="true" label="password" />
-                        <h:message for="password" />
+<!--                        <h:message for="password" />-->
                         <f:facet name="footer">
                             <div  class="buttons-login">
                                 <p:commandButton value="Login" update="growl" action="#{agentLoginController.login}" ajax="false"/>
