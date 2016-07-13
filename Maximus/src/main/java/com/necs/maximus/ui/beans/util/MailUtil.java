@@ -180,8 +180,10 @@ public class MailUtil {
 
         } catch (AddressException ex) {
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "", ex);
+            throw ex;
         } catch (MessagingException ex) {
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "", ex);
+            throw ex;
         }
 
     }

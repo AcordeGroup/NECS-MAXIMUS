@@ -218,14 +218,9 @@ public class CreateQuoteController extends AbstractController<Quote> {
         } else {
 
             for (Product pro : selectedPart) {
-                Has object = new Has();
-                object.setProduct(pro);
-                partListHas.add(object);
-
-                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC) && observation == null) {
+                if (pro.getType().toUpperCase().equals(PRODUCT_GENERIC) && (observation == null || observation.isEmpty())) {
                     mostrarObservationField = true;
                 }
-
             }
 
             if (mostrarObservationField) {
@@ -234,19 +229,25 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("observation_field_required")));
 
             } else {
+                for (Product prod : selectedPart) {
+                    Has object = new Has();
+                    object.setProduct(prod);
+                    partListHas.add(object);
+                }
                 RequestContext.getCurrentInstance().update("form:datalistProduct");
                 RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
-
+                reset();
             }
         }
     }
 
     public void reset() {
-        partList.clear();
+        partList = null;
         typePart = "";
         descriptionPart = "";
         nroPart = null;
         manufacturePart = "";
+        selectedPart = null;
     }
 
     public List<Product> complete(String query) {

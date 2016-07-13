@@ -176,13 +176,14 @@
                                 <f:facet name="header">
                                     <h:outputText value="action"/>
                                 </f:facet>
-                                <h:panelGrid   cellpadding="5">
+                                <div>
                                     <p:commandLink id="buttonRemovePart" 
                                                    value="#{maximusBundle.remove_button}" 
                                                    actionListener="#{editQuoteController.removePart(item)}" 
                                                    ajax="true" update=":form:datalistProduct" 
                                                    process="@this" />
-
+                                </div>
+                                <div>
                                     <p:commandLink id="btnReplace" 
                                                    value="#{maximusBundle.replaceButton}"
                                                    oncomplete="PF('dialogReplace').show()" 
@@ -191,8 +192,8 @@
                                                    update=":formDialogReplace:panelPrincipalReplace" 
                                                    rendered="#{item.observation == null}"
                                                    process="@this"/>   
-
-
+                                </div>
+                                <div>
                                     <p:commandLink id="btnChange" 
                                                    value="#{maximusBundle.processButton}"
                                                    oncomplete="PF('dialogProccessGeneric').show()" 
@@ -200,7 +201,7 @@
                                                    actionListener="#{editQuoteController.fillPartGeneric(item.product)}"
                                                    rendered="#{item.observation != null}"
                                                    process="@this"/> 
-                                </h:panelGrid>
+                                </div>
                             </p:column>
                         </p:dataTable>
                         <p:spacer />

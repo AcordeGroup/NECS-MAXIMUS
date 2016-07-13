@@ -19,7 +19,7 @@
                 <h:form id="formSales" >
                     <h:panelGrid columns="2" id="panelButton">
                         <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
-                         
+
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
@@ -202,7 +202,7 @@
                                                ajax="false"
                                                update=":formSales:fieldSetClose"
                                                rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">  
-                                   <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink> 
 
                             </p:column>
@@ -218,12 +218,12 @@
                             <h:outputText value="#{maximusBundle.message_send_mail_success}" style="font-weight: bold;" />
                             <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                                 <p:commandButton value="#{maximusBundle.accept}" ajax="true" update=":formSales" oncomplete="PF('dialogSuccess').hide();"/>
-                               
+
                             </h:panelGrid>
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
-                 <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
+                <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
             </p:panel>
         </ui:define>
 

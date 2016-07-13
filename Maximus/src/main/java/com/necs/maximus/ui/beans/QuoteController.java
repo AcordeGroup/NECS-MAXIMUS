@@ -232,12 +232,14 @@ public class QuoteController extends AbstractController<Quote> {
         try {
             if (quote != null) {
                 QuoteStatus qs = quote.getQuoteStatusList().get(0);
-                qs.setEndDate(new Date());
-                quoteStatusFacade.edit(qs);
-
+                if (qs.getStatus().equals(StatusType.READY.getName())) {
+                    qs.setEndDate(new Date());
+                    quoteStatusFacade.edit(qs);
+                }
                 QuoteStatus statusNew = new QuoteStatus();
                 statusNew.setIdQuote(quote);
                 statusNew.setInitDate(new Date());
+                statusNew.setEndDate(new Date());
                 statusNew.setStatus(StatusType.SENT.getName());
                 quoteStatusFacade.create(statusNew);
                 init();
@@ -247,6 +249,9 @@ public class QuoteController extends AbstractController<Quote> {
             exportPdf(quote, OperationType.SEND.getOperationName());
 
             RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
+        } catch (MessagingException e) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
@@ -268,7 +273,7 @@ public class QuoteController extends AbstractController<Quote> {
         return false;
     }
 
-    public void sendMail(MailBean mailBean) {
+    public void sendMail(MailBean mailBean) throws MessagingException {
         Logger.getLogger(QuoteController.class.getName()).log(Level.INFO, "QuoteController.sendMail");
         try {
             Properties properties = new Properties();
@@ -285,10 +290,11 @@ public class QuoteController extends AbstractController<Quote> {
             mail.sendHTMLEmail(mailBean);
         } catch (MessagingException ex) {
             Logger.getLogger(QuoteController.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
 
-    public void exportPdf(Quote quote, String operation) {
+    public void exportPdf(Quote quote, String operation) throws MessagingException {
         Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "start ViewQuoteController.exportPdf");
 
         //Integer quoteId = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("quoteId"));
@@ -298,10 +304,15 @@ public class QuoteController extends AbstractController<Quote> {
         try {
             // Se crea el documento
             Document document = new Document();
-            ByteArrayOutputStream out;
+            OutputStream out;
             String filename = "quote_".concat(quote.getIdQuote().toString()).concat(".pdf");
             // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
-            out = new ByteArrayOutputStream();
+            if (operation.equals(OperationType.SEND.getOperationName())) {
+                out = new ByteArrayOutputStream();
+            } else {
+                out = new FileOutputStream(filename);
+            }
+
             // Se asocia el documento al OutputStream y se indica que el espaciado entre
             // lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
             PdfWriter.getInstance(document, out).setInitialLeading(20);
@@ -457,6 +468,11 @@ public class QuoteController extends AbstractController<Quote> {
             //File file = new File(filename);
             switch (OperationType.getOperationByName(operation)) {
                 case SEND:
+                    byte[] fileA = null;
+                    if (out instanceof ByteArrayOutputStream) {
+                        fileA = ((ByteArrayOutputStream) out).toByteArray();
+                    }
+
                     List<String> to = new ArrayList<>();
                     to.add("ing.castaneda.luis@gmail.com");
 
@@ -465,8 +481,8 @@ public class QuoteController extends AbstractController<Quote> {
                     mail.setTo(to);
                     mail.setNameFlie(filename);
                     mail.setSubject("Subject");
-                    mail.setBody("<table width=\'400\' cellspacing=\'0\' cellpadding=\'0\' border=\'0\' align=\'center\' style=\'width:400px;margin:0 auto\'><tr><td valign=\'top\'><h2 style=\'font-family:sans-serif;font-weight:normal;margin:0 0 24px 0;text-align:center\'>Bienvenido a NECS</h2><p style=\'font-family:sans-serif;font-size:14px;font-weight:normal;margin:0 0 24px 0;text-align:center\'>Dear customer, Please see the attached quote request.<b>"+quote.getIdQuote()+"</b></p> </td></tr><tr><td width=\'100%\' height=\'100%\' cellspacing=\'0\' cellpadding=\'0\' border=\'0\'><p style=\'font-family:sans-serif;font-weight:normal;margin:0;text-align:center;color:#8a9ba8;font-size:11px;line-height:13px;width:400px;\'>This is an automated email .<br/> If you received this email in error , ignore it.</p></td></tr></table>");
-                    mail.setFile(out.toByteArray());
+                    mail.setBody("<table width=\'400\' cellspacing=\'0\' cellpadding=\'0\' border=\'0\' align=\'center\' style=\'width:400px;margin:0 auto\'><tr><td valign=\'top\'><h2 style=\'font-family:sans-serif;font-weight:normal;margin:0 0 24px 0;text-align:center\'>Bienvenido a NECS</h2><p style=\'font-family:sans-serif;font-size:14px;font-weight:normal;margin:0 0 24px 0;text-align:center\'>Dear customer, Please see the attached quote request.<b>" + quote.getIdQuote() + "</b></p> </td></tr><tr><td width=\'100%\' height=\'100%\' cellspacing=\'0\' cellpadding=\'0\' border=\'0\'><p style=\'font-family:sans-serif;font-weight:normal;margin:0;text-align:center;color:#8a9ba8;font-size:11px;line-height:13px;width:400px;\'>This is an automated email .<br/> If you received this email in error , ignore it.</p></td></tr></table>");
+                    mail.setFile(fileA);
 
                     sendMail(mail);
                     break;
@@ -487,6 +503,10 @@ public class QuoteController extends AbstractController<Quote> {
         } catch (DocumentException | IOException ex) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage("error_export"));
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("error_send")));
+            Logger.getLogger(QuoteController.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
 

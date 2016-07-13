@@ -185,7 +185,7 @@
                                 <p:outputPanel autoUpdate="true"  style="text-align: left; margin-left: 50px; vertical-align: middle;" rendered="#{createQuoteController.observationField}" > 
                                     <h:panelGrid columns="2" style="text-align: left; vertical-align: top;">
                                         <h:outputText value="#{maximusBundle.label_observations}" style="margin-right: 10px;" />
-                                        <p:inputTextarea value="#{createQuoteController.observation}" required="true" requiredMessage="#{maximusBundle.observation_field_required}" style="width: 500px;"/>
+                                        <p:inputTextarea value="#{createQuoteController.observation}"  style="width: 500px;"/>
                                     </h:panelGrid> 
                                 </p:outputPanel>
                             </h:panelGrid>
@@ -195,7 +195,7 @@
                         <p:outputPanel style="text-align: left; width: 100%">
                             <p:commandButton value="#{maximusBundle.search}" actionListener="#{createQuoteController.searchPart()}" update=":formDialog:panelPrincipal" oncomplete="PF('dialogPart').initPosition()" />
 
-                            <p:commandButton value="Reset" ajax="true" action="#{createQuoteController.reset()}" update=":formDialog:panelPrincipal" />
+                            <p:commandButton value="Reset" ajax="true" action="#{createQuoteController.reset()}" update=":formDialog:panelPrincipal" oncomplete="PF('dialogPart').initPosition()"/>
 
                         </p:outputPanel> 
 
