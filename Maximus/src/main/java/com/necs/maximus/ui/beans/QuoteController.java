@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -120,6 +121,7 @@ public class QuoteController extends AbstractController<Quote> {
                 status.add(StatusType.READY.getName());
                 quoteClose.addAll(quoteFacade.findQuoteByListStatus(status));
                 quoteClose.addAll(quoteFacade.findAllQuoteByStatus(StatusType.SENT.getName()));
+                quoteClose.addAll(quoteFacade.findAllQuoteByStatus(StatusType.CLOSE.getName()));
 //                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
 //                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
                 break;
@@ -127,6 +129,7 @@ public class QuoteController extends AbstractController<Quote> {
             case Sales:
                 quoteOpen.addAll(quoteFacade.findQuoteByIdAgent(getUserManagedBean().getAgentId()));
                 quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.SENT.getName(), agent));
+                quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.CLOSE.getName(), agent));
                 break;
             case Purchasing:
                 status = new ArrayList<>();
@@ -135,6 +138,7 @@ public class QuoteController extends AbstractController<Quote> {
                 quoteOpen.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.IN_PROGRESS.getName(), agent));
                 quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.SENT.getName(), agent));
                 quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.READY.getName(), agent));
+                quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.CLOSE.getName(), agent));
                 break;
 
         }
@@ -148,13 +152,13 @@ public class QuoteController extends AbstractController<Quote> {
                 statusPurchasing.append(status);
                 break;
             case IN_PROGRESS:
-                statusPurchasing.append("Waiting for Pricing");
+                statusPurchasing.append(bundle.getString("waiting_for_pricing"));
                 break;
             case READY:
-                statusPurchasing.append("Done");
+                statusPurchasing.append(bundle.getString("Done"));
                 break;
             case SENT:
-                statusPurchasing.append("Waiting for Customer");
+                statusPurchasing.append(bundle.getString("waiting_for_customer"));
 
             default:
                 break;
@@ -255,6 +259,23 @@ public class QuoteController extends AbstractController<Quote> {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
+        }
+    }
+
+    public void closeQuote(Quote quote) {
+
+        if (quote != null) {
+            QuoteStatus qs = quote.getQuoteStatusList().get(0);
+            qs.setEndDate(new Date());
+            quoteStatusFacade.edit(qs);
+
+            QuoteStatus statusNew = new QuoteStatus();
+            statusNew.setIdQuote(quote);
+            statusNew.setInitDate(new Date());
+            statusNew.setEndDate(new Date());
+            statusNew.setStatus(StatusType.CLOSE.getName());
+            quoteStatusFacade.create(statusNew);
+            init();
         }
     }
 
@@ -552,6 +573,16 @@ public class QuoteController extends AbstractController<Quote> {
         }
 
         return cell;
+    }
+
+    public BigDecimal amountTotalQuote(Quote quote) {
+        BigDecimal total = new BigDecimal(0);
+        if (quote != null) {
+            for (Has h : quote.getHasList()) {
+                total = total.add(h.getExtended() == null ? new BigDecimal(0) : h.getExtended());
+            }
+        }
+        return total;
     }
 
     public List<Quote> getFilteredQuote() {

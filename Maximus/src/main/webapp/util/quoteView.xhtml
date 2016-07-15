@@ -34,7 +34,7 @@
                         </tr>
                     </table> 
                     <h:panelGrid style="width: 100%; vertical-align: top;" columns="2"> 
-                        <p:panelGrid columns="2" style="text-align: left; max-width: 50%;">
+                        <p:panelGrid columns="2" style="text-align: left;">
 
                             <h:outputText value="#{maximusBundle.CustomerHeading}" />
                             <h:outputText value="#{viewQuoteController.quote.idCustomer.companyName.companyName}" />
@@ -126,34 +126,44 @@
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.target_price_label}"/>
                             </f:facet>
-                            <h:outputText value="#{item.customerTargetPrice}"/>
+                            <h:outputText value="#{item.customerTargetPrice}">
+                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency" />
+                            </h:outputText>
                         </p:column>
 
                         <p:column  style="width : 70px" rendered="#{viewQuoteController.mostrarSuggestedSalesPrice}" >
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
                             </f:facet>
-                            <h:outputText value="#{item.suggestedSalesPrice}"/>
+                            <h:outputText value="#{item.suggestedSalesPrice}">
+                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column style="width : 80px">
                             <f:facet name="header">
                                 <h:outputText value="Extended"/>
                             </f:facet>
-                            <h:outputText converter="javax.faces.Double"  value="#{item.extended}" />
+                            <h:outputText converter="javax.faces.Double"  value="#{item.extended}">
+                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                            </h:outputText>
                         </p:column>
                         <p:column style="width : 90px" rendered="#{viewQuoteController.quote.includeShippingCost == 1 and (viewQuoteController.mostrarShippingCostPerItem)}">
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                             </f:facet>
-                            <h:outputText converter="javax.faces.Double"  value="#{item.shipping_cost}" />
+                            <h:outputText converter="javax.faces.Double"  value="#{item.shipping_cost}">
+                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                            </h:outputText>
                         </p:column>
                         <p:columnGroup type="footer" rendered="#{viewQuoteController.quote.includeShippingCost == 2 and (viewQuoteController.quote.shipping_cost!=null)}">
                             <p:row>
                                 <p:column colspan="#{viewQuoteController.nroColumnVariable + 5}" footerText="#{maximusBundle.shipping_cost_label} $" style="text-align:right"/>
                                 <p:column footerText="#{viewQuoteController.quote.shipping_cost}" >
                                     <f:facet name="footer">
-                                        <h:outputText   value="#{viewQuoteController.quote.shipping_cost}"  />
+                                        <h:outputText   value="#{viewQuoteController.quote.shipping_cost}" >
+                                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                        </h:outputText>
                                     </f:facet>
                                 </p:column>
                             </p:row>
@@ -163,7 +173,9 @@
                     <p:separator />
                     <p:spacer />
                     <h:panelGrid width="100%" style="text-align: left;">
-                        <h:outputText value="#{maximusBundle.ViewProductTitle_notes}" rendered="#{viewQuoteController.quoteListNote != null and viewQuoteController.quoteListNote.size() > 0}"  />
+                        <h:panelGrid style="background-color: #C2C7C1; width: 100%;">
+                            <h:outputText value="#{maximusBundle.ViewProductTitle_notes}" rendered="#{viewQuoteController.quoteListNote != null and viewQuoteController.quoteListNote.size() > 0}" style="font-size: 16px ; font-weight: bold;" />
+                        </h:panelGrid>
                         <p:dataList
                             value="#{viewQuoteController.quoteListNote}" 
                             var="nota" 
@@ -174,12 +186,12 @@
                             <p:panelGrid  style="margin: 15px 15px 15px 15px; width: 90%; border: none !important;"  >
 
                                 <p:row>
-                                    <p:column style="width: 3%;" rowspan="3">
-
+                                    <p:column style="width: 2%; text-align: center; vertical-align: middle;" rowspan="2">
+                                        <img src="/Maximus/faces/resources/images/user_image.png" alt="User" />
                                     </p:column>
-                                    <p:column style="width: 25%;">
+                                    <p:column style="width: 26%;">
                                         <div style="position: relative; top: -10px; vertical-align: middle; ">
-                                            <div style="position: absolute;"> <h:outputText  value="#{nota.idAgent.name}, #{nota.idAgent.lastName}" /> </div>
+                                            <div style="position: absolute;"> <h:outputText  value="#{nota.idAgent.name}, #{nota.idAgent.lastName}" style="font-weight: bold;" /> </div>
                                             <h:panelGroup rendered="#{nota.idAgent.type == 'Sales'}">   
                                                 <div  style="background-color: #039BE5;" class="ovalo">
                                                     <h:outputText  value="#{nota.idAgent.type}"  />
@@ -191,7 +203,13 @@
 
                                                     <h:outputText  value="#{nota.idAgent.type}" />
                                                 </div>
-                                            </h:panelGroup>     
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{nota.idAgent.type == 'Administrator'}" > 
+                                                <div  style="background-color: #34A852; color: white; position: absolute; left: 130px; padding: 0; top: 0; width: 100px; text-align: center; border-radius: 15px;">
+
+                                                    <h:outputText  value="#{nota.idAgent.type}" />
+                                                </div>
+                                            </h:panelGroup>
                                         </div>
                                     </p:column>
 
@@ -211,18 +229,7 @@
                                     </p:column>
 
                                 </p:row>
-                                <!--                            <p:row>
-                                                                <p:column colspan="2" >
-                                                                    <p:commandLink value="Add nota" 
-                                                                                   ajax="true"
-                                                                                   style="color:#0088CC;"
-                                                                                   onclick="dlg2.show();"
-                                                                                   >
-                                                                    </p:commandLink>
-                                
-                                                                </p:column>
-                                                            </p:row>-->
-
+                               
                             </p:panelGrid>
 
 

@@ -253,3 +253,9 @@ input[type="submit"]:hover, button[type="submit"]:hover, button:hover {
     border-radius: 15px;
     
 }
+
+.buttonCondition{
+    
+    width: 80px !important;
+    height: 25px !important;
+}

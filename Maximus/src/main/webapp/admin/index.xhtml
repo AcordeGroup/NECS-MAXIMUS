@@ -49,7 +49,7 @@
                                 </h:outputText>
                             </p:column>
 
-                            <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}"  filterStyle="width:80px" style="width : 110px">
+                            <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}"  filterStyle="width:80px" style="width : 105px">
                                 <f:facet name="header">
                                     <h:outputText value="SalesRep"/>
                                 </f:facet>
@@ -63,7 +63,7 @@
                                 <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 95px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
@@ -79,9 +79,11 @@
 
                             <p:column  style="width : 100px">
                                 <f:facet name="header">
-                                    <h:outputText value="Amount USD"/>
+                                    <h:outputText value="Amount USD$"/>
                                 </f:facet>
-                                <h:outputText value=""/>
+                                <h:outputText value="#{quoteController.amountTotalQuote(item)}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column style="width : 100px">
@@ -100,14 +102,15 @@
 
                             </p:column>
 
-                            <p:column style="width : 110px; text-align: center;">
+                            <p:column style="width : 120px; text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="Operations"/>
                                 </f:facet>
 
-                                <p:commandLink id="btnSee" 
-                                               value="#{maximusBundle.see}"
-                                               action="see" ajax="false">  
+                                <p:commandLink id="btnView" 
+                                               value="#{maximusBundle.view}"
+                                               action="see" ajax="true"
+                                               >  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink>
                                 <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'OPEN'}">&nbsp;|&nbsp;</h:panelGroup> 
@@ -194,9 +197,12 @@
 
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
-                                    <h:outputText value="Amount USD"/>
+                                    <h:outputText value="Amount USD$"/>
                                 </f:facet>
-                                <h:outputText value=""/>
+                                <h:outputText value="#{quoteController.amountTotalQuote(item)}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
+
                             </p:column>
 
                             <p:column style="width : 100px">
@@ -210,8 +216,8 @@
                                 <f:facet name="header">
                                     <h:outputText value="Operations"/>
                                 </f:facet>
-                                <p:commandLink id="btnSee" 
-                                               value="#{maximusBundle.see}"
+                                <p:commandLink id="btnView" 
+                                               value="#{maximusBundle.view}"
                                                action="see"
                                                update=":adminDashboard">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
@@ -229,7 +235,7 @@
                                 <p:commandLink id="btnReSent" 
                                                value="#{maximusBundle.Resend}"
                                                actionListener="#{quoteController.sendQuote(item)}"
-                                               ajax="false"
+                                               ajax="true"
                                                update=":formAdmin:fieldSetClose"
                                                rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>

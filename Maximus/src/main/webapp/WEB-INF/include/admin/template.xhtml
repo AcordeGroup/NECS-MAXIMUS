@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <title><ui:insert name="title">Maximus - NECS's quotes system control</ui:insert></title>
@@ -48,16 +49,21 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <image src="/Maximus/faces/resources/images/loading.gif" />
+                </p:dialog>
                 <ui:insert name="body"/>
             </p:layoutUnit>
 
             <p:layoutUnit position="south" size="60">
                 <ui:insert name="footer"/>
-<!--                    <div>
-                        <img src="#{request.contextPath}/resources/images/logo_necs_horizontal.gif"></img>
-                        <p>Copyright NECS 2016</p>
-                    </div>
-                </ui:insert>-->
+                <!--                    <div>
+                                        <img src="#{request.contextPath}/resources/images/logo_necs_horizontal.gif"></img>
+                                        <p>Copyright NECS 2016</p>
+                                    </div>
+                                </ui:insert>-->
             </p:layoutUnit>
 
         </p:layout>

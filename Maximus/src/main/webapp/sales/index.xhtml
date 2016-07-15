@@ -72,12 +72,14 @@
                             </p:column>
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
-                                    <h:outputText value="Amount USD"/>
+                                    <h:outputText value="Amount USD$"/>
                                 </f:facet>
-                                <h:outputText value=""/>
+                                <h:outputText value="#{quoteController.amountTotalQuote(item)}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
                             </p:column>
 
-                            <p:column style="width : 100px">
+                            <p:column style="width : 110px">
                                 <f:facet name="header">
                                     <h:outputText value="Status"/>
                                 </f:facet>
@@ -89,8 +91,8 @@
                                 <f:facet name="header">
                                     <h:outputText value="Operations"/>
                                 </f:facet>
-                                <p:commandLink id="btnSee" 
-                                               value="#{maximusBundle.see}"
+                                <p:commandLink id="btnView" 
+                                               value="#{maximusBundle.view}"
                                                action="see"
                                                ajax="false"
                                                >  
@@ -111,7 +113,14 @@
                                                update=":formSales:fieldSetOpen">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink>
-
+                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY' || item.quoteStatusList.get(0).status == 'SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnClose" 
+                                               value="#{maximusBundle.Close}"
+                                               actionListener="#{quoteController.closeQuote(item)}" ajax="false"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY' || item.quoteStatusList.get(0).status == 'SENT'}"
+                                               update=":formSales:fieldSetOpen">  
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>
@@ -172,9 +181,11 @@
 
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
-                                    <h:outputText value="Amount USD"/>
+                                    <h:outputText value="Amount USD$"/>
                                 </f:facet>
-                                <h:outputText value=""/>
+                                <h:outputText value="#{quoteController.amountTotalQuote(item)}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column style="width : 100px">
@@ -188,8 +199,8 @@
                                 <f:facet name="header">
                                     <h:outputText value="Operations"/>
                                 </f:facet>
-                                <p:commandLink id="btnSee" 
-                                               value="#{maximusBundle.see}"
+                                <p:commandLink id="btnView" 
+                                               value="#{maximusBundle.view}"
                                                action="see"
                                                ajax="false">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>

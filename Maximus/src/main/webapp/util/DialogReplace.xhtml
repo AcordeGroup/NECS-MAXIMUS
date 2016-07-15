@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+
+        <p:dialog header="Basic Dialog"  widgetVar="dialogPartReplace"  id="dialogPartReplace" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
+            <h:form id="formDialogReplace">
+                <p:panel  id="panelPrincipalReplace">
+                    <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
+
+                    <p:panel header="Search Part" id="panelSearch">
+
+                        <h:panelGrid columns="2" style="text-align: left"> 
+
+                            <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
+                            <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
+                                            completeMethod="#{editQuoteController.complete}"
+                                            var="part" 
+                                            converter="productConverter"
+                                            itemLabel="#{part.partNumber}"
+                                            itemValue="#{part}"
+                                            maxResults="10"/>
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
+                            <p:inputText value="#{editQuoteController.manufacturePart}"  />
+
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
+                            <p:inputText value="#{editQuoteController.descriptionPart}" />
+
+
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
+                            <p:inputText value="#{editQuoteController.typePart}"  />
+
+
+                        </h:panelGrid>
+
+                    </p:panel>
+
+                    <p:outputPanel style="text-align: left; width: 100%">
+                        <p:commandButton value="#{maximusBundle.search}" actionListener="#{editQuoteController.searchPart()}" update=":formDialogReplace:panelPrincipalReplace" oncomplete="PF('dialogPartReplace').initPosition()" />
+
+                        <p:commandButton value="#{maximusBundle.reset_button}" ajax="true" action="#{editQuoteController.reset()}" update=":formDialogReplace:panelPrincipalReplace" />
+
+                    </p:outputPanel> 
+
+                    <p:spacer />
+
+                    <p:outputPanel  rendered="#{editQuoteController.partList != null}" id="panelTable" autoUpdate="true">
+                        <p:separator/>
+                        <p:dataTable id="datalistPart"
+                                     value="#{editQuoteController.partList}"
+                                     var="item"
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     emptyMessage="#{maximusBundle.no_search_result}"
+                                     paginatorPosition="bottom"
+                                     selection="#{editQuoteController.selectedPartSubtitute}"
+                                     rowKey="#{item.partNumber}"
+                                     scrollable="true"
+                                     scrollHeight="300"
+                                     >
+
+                            <p:column selectionMode="single" style="width:10px;text-align:center"/>
+                            <p:column  style="width :90px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.partNumber}"/>
+
+                            </p:column>
+
+                            <p:column  style="width : 90px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.manufacture}"/>
+                            </p:column>
+
+                            <p:column style="width : 140px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.description}"/>
+                            </p:column>
+
+                            <p:column  style="width : 85px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_type}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.type}"/>
+                            </p:column>
+
+                            <p:column  style="width : 140px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_notes}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.notes}"/>
+                            </p:column>
+
+                            <p:column style="width : 85px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_retailPrice}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.retailPrice}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column style="width : 120px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_wholesalePrice}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.wholesalePrice}">  
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column style="width : 80px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.CreateProductTitle_price}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.price}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:separator/>
+
+
+                    </p:outputPanel>
+                </p:panel>
+                <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
+
+                    <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPartReplace').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                    <p:commandButton value="#{maximusBundle.replace}" id="buttonAdd" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />
+                    <p:commandButton value="#{maximusBundle.notes}" id="buttonNotes" ajax="true" action="ss"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />
+                    
+                </p:outputPanel> 
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

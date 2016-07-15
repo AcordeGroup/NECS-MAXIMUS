@@ -70,7 +70,7 @@ public class QuoteFacade extends AbstractFacade<Quote> {
         } else {
             queryAlter.append("JOIN fetch q.manageList ml where ml.idAgent = :idAgent and ml.deallocationDate = null ");
         }
-        if (status.equals(StatusType.SENT.getName())) {
+        if (status.equals(StatusType.CLOSE.getName())) {
             queryAlter.append("and ql.endDate is not null ");
         } else {
             queryAlter.append("and ql.endDate is null ");
@@ -85,7 +85,7 @@ public class QuoteFacade extends AbstractFacade<Quote> {
         query.setParameter("status", status);
         query.setParameter("idAgent", idAgent);
 
-        if (status.equals(StatusType.SENT.getName())) {
+        if (status.equals(StatusType.CLOSE.getName())) {
             return query.getResultList();
         } else {
             return processList(query.getResultList());

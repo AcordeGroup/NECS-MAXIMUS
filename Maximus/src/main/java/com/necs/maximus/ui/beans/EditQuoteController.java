@@ -76,8 +76,9 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     private Agent agent;
     private Product nroPart;
-    private Product productGeneric;
-    private Product productReplace;
+    private Product selectedPartSubtitute;
+    private Has productGeneric;
+    private Has productReplace;
     private Product productCreado;
     private Quote quote;
 
@@ -276,78 +277,98 @@ public class EditQuoteController extends AbstractController<Quote> {
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("generic_product_select")));
 
             } else {
-                if (productGeneric != null) {
-                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
-                } else if (productReplace != null) {
-                    RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
-                } else {
-                    for (Product pro : selectedPart) {
-                        Has object = new Has();
-                        object.setProduct(pro);
-                        partListHas.add(object);
-                    }
 
-                    RequestContext.getCurrentInstance().update("form:datalistProduct");
-                    RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
-                    inicializedObject();
-
+                for (Product pro : selectedPart) {
+                    Has object = new Has();
+                    object.setProduct(pro);
+                    partListHas.add(object);
                 }
+
+                RequestContext.getCurrentInstance().update("form:datalistProduct");
+                RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
+                inicializedObject();
 
             }
 
         }
     }
 
-    public void sustituirProduct(String operation) {
+    public void replacePart() {
+        if (partListHas == null) {
+            partListHas = new ArrayList<>();
+        }
 
+        if (selectedPartSubtitute == null) {
+            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("replace_part_quote_error")));
+        } else {
+            if (productGeneric != null) {
+                RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
+            } else if (productReplace != null) {
+                RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
+            }
+        }
+    }
+
+    public void sustituirProduct(String operation) {
+        Has object = new Has();
         if (partListHas != null && !partListHas.isEmpty()) {
             if (makeSubstitute) {
                 for (Product select : selectedPart) {
-                    IsSubstitutePK primary = new IsSubstitutePK(productReplace.getPartNumber(), select.getPartNumber());
+                    IsSubstitutePK primary = new IsSubstitutePK(productReplace.getProduct().getPartNumber(), select.getPartNumber());
                     IsSubstitute sustitute = new IsSubstitute(primary);
                     sustitute.setProduct(select);
                     isSubstituteFacade.create(sustitute);
                 }
             }
-            for (Has h : partListHas) {
-                if (productGeneric != null) {
+
+            if (productGeneric != null) {
+                object.setCondition(productGeneric.getCondition());
+                object.setCustomerTargetPrice(productGeneric.getCustomerTargetPrice());
+                object.setSuggestedSalesPrice(productGeneric.getSuggestedSalesPrice());
+                object.setQtyFound(productGeneric.getQtyFound());
+                object.setShipping_cost(productGeneric.getShipping_cost());
+                object.setExtended(productGeneric.getExtended());
+                object.setQtyRequested(productGeneric.getQtyRequested());
+                for (Has h : partListHas) {
                     if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
                         partListHas.remove(h);
                         break;
                     }
                 }
-                if (productReplace != null) {
-                    if (h.getProduct().getPartNumber().equals(productReplace.getPartNumber())) {
+            } else if (productReplace != null) {
+                object.setCondition(productReplace.getCondition());
+                object.setCustomerTargetPrice(productReplace.getCustomerTargetPrice());
+                object.setSuggestedSalesPrice(productReplace.getSuggestedSalesPrice());
+                object.setQtyFound(productReplace.getQtyFound());
+                object.setShipping_cost(productReplace.getShipping_cost());
+                object.setExtended(productReplace.getExtended());
+                object.setQtyRequested(productReplace.getQtyRequested());
+                for (Has h : partListHas) {
+                    if (h.getProduct().getPartNumber().equals(productReplace.getProduct().getPartNumber())) {
                         partListHas.remove(h);
                         break;
                     }
                 }
             }
-        }
-        if (operation.equals(OperationType.SUSTITUIR.getOperationName())) {
-            if (selectedPart != null && !selectedPart.isEmpty()) {
-                for (Product pro : selectedPart) {
-                    Has object = new Has();
-                    object.setProduct(pro);
+
+            if (operation.equals(OperationType.SUSTITUIR.getOperationName())) {
+                if (selectedPartSubtitute != null) {
+                    object.setProduct(selectedPartSubtitute);
                     partListHas.add(object);
                 }
             }
+            if (operation.equals(OperationType.CREAR.getOperationName())) {
+                if (productCreado != null) {
+                    object.setProduct(productCreado);
+                    partListHas.add(object);
+                }
+                RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
+                RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
+                RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
 
-        }
-        if (operation.equals(OperationType.CREAR.getOperationName())) {
-            if (productCreado != null) {
-                Has object = new Has();
-                object.setProduct(productCreado);
-                partListHas.add(object);
             }
-//            RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
-//            RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
-//            RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
-
         }
-
         inicializedObject();
-
     }
 
     public void reset() {
@@ -420,25 +441,29 @@ public class EditQuoteController extends AbstractController<Quote> {
         return productList;
     }
 
-    public void fillPartGeneric(Product product) {
+    public void fillPartGeneric(Has product) {
         if (product != null) {
             setProductGeneric(product);
         }
     }
 
-    public void fillPartReplace(Product product) {
+    public void fillPartReplace(Has product) {
         if (product != null) {
             setProductReplace(product);
         }
     }
 
-    public void crearProductSustitute() {
+    public void crearProductSustitute(boolean isGeneric) {
         try {
 
             if (proController.getSelected() != null) {
                 productFacade.create(proController.getSelected());
                 setProductCreado(proController.getSelected());
-                RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
+                if (isGeneric) {
+                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
+                } else {
+                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreateSubstitute').show();");
+                }
             }
 
         } catch (Exception e) {
@@ -453,9 +478,9 @@ public class EditQuoteController extends AbstractController<Quote> {
                 case "All":
                     partList = null;
                     break;
-                case "Sustitute":
+                case "Substitute":
 
-                    for (IsSubstitute sustitute : productReplace.getIsSubstituteList()) {
+                    for (IsSubstitute sustitute : productReplace.getProduct().getIsSubstituteList()) {
                         sustirutePartList.add(sustitute.getProduct());
                     }
                     if (!sustirutePartList.isEmpty()) {
@@ -466,7 +491,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                         }
                         partList.addAll(sustirutePartList);
 
-                        RequestContext.getCurrentInstance().update("formDialogReplace:panelButtonReplace");
+                        RequestContext.getCurrentInstance().update("formDialogSubstitute:panelButtonReplace");
                     } else {
                         RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_not_found_sustitute")));
                     }
@@ -484,6 +509,11 @@ public class EditQuoteController extends AbstractController<Quote> {
         productReplace = null;
         productCreado = null;
         selectionSustitute = null;
+    }
+
+    public void fillDescriptionGeneric() {
+        proController.prepareCreate(null);
+        proController.getSelected().setDescription(productGeneric.getObservation());
     }
 
     public void showTextArea() {
@@ -626,11 +656,11 @@ public class EditQuoteController extends AbstractController<Quote> {
         this.quoteListNote = quoteListNote;
     }
 
-    public Product getProductGeneric() {
+    public Has getProductGeneric() {
         return productGeneric;
     }
 
-    public void setProductGeneric(Product productGeneric) {
+    public void setProductGeneric(Has productGeneric) {
         this.productGeneric = productGeneric;
     }
 
@@ -658,11 +688,11 @@ public class EditQuoteController extends AbstractController<Quote> {
         this.selectionSustitute = selectionSustitute;
     }
 
-    public Product getProductReplace() {
+    public Has getProductReplace() {
         return productReplace;
     }
 
-    public void setProductReplace(Product productReplace) {
+    public void setProductReplace(Has productReplace) {
         this.productReplace = productReplace;
     }
 
@@ -672,6 +702,14 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public void setMakeSubstitute(boolean makeSubstitute) {
         this.makeSubstitute = makeSubstitute;
+    }
+
+    public Product getSelectedPartSubtitute() {
+        return selectedPartSubtitute;
+    }
+
+    public void setSelectedPartSubtitute(Product selectedPartSubtitute) {
+        this.selectedPartSubtitute = selectedPartSubtitute;
     }
 
 }

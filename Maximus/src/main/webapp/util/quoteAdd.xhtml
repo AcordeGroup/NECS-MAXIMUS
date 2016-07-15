@@ -99,7 +99,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.condition_label}"/>
                                     </f:facet>
-                                    <p:selectOneButton value="#{item.condition}" required="true" requiredMessage="#{maximusBundle.message_condition_select}">
+                                    <p:selectOneButton value="#{item.condition}" required="true" requiredMessage="#{maximusBundle.message_condition_select}" style="width: 120px; height: 25px">
                                         <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}"  />
                                         <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" />
                                     </p:selectOneButton>
@@ -267,7 +267,7 @@
                                         <h:outputText value="#{maximusBundle.CreateProductTitle_wholesalePrice}"/>
                                     </f:facet>
                                     <h:outputText value="#{item.wholesalePrice}">  
-                                        <f:convertNumber pattern="¤#,##0.00" currencySymbol="R$" />
+                                         <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                                     </h:outputText>
                                 </p:column>
 
@@ -276,7 +276,7 @@
                                         <h:outputText value="#{maximusBundle.CreateProductTitle_price}"/>
                                     </f:facet>
                                     <h:outputText value="#{item.price}">
-                                        <f:convertNumber pattern="¤#,##0.00" currencySymbol="R$" />
+                                         <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                                     </h:outputText>
                                 </p:column>
 
