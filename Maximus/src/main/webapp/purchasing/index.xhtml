@@ -220,6 +220,15 @@
                                                update=":formPurchasing:fieldSetClose">  
                                      <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink>-->
+                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnReSent" 
+                                               value="#{maximusBundle.Resend}"
+                                               actionListener="#{quoteController.sendQuote(item)}"
+                                               ajax="true"
+                                               update=":formPurchasing:fieldSetClose"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">  
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
+                                </p:commandLink> 
                             </p:column>
 
                         </p:dataTable>

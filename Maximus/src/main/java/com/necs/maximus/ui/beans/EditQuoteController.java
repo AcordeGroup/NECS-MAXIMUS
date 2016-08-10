@@ -10,12 +10,12 @@ import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.IsSubstitute;
-import com.necs.maximus.db.entity.IsSubstitutePK;
 import com.necs.maximus.db.entity.Manage;
 import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
+import com.necs.maximus.db.entity.Vendor;
 import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
@@ -25,6 +25,7 @@ import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
+import com.necs.maximus.db.facade.VendorFacade;
 import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.enums.OperationType;
 import com.necs.maximus.enums.ShippingCostType;
@@ -55,6 +56,8 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     @Inject
     private ProductController proController;
+    @Inject
+    private QuoteController quoteController;
     @EJB
     private QuoteNoteFacade quoteNoteFacade;
     @EJB
@@ -63,6 +66,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     private QuoteFacade quoteFacade;
     @EJB
     private CustomerFacade customerFacade;
+    @EJB
+    private VendorFacade vendorFacade;
     @EJB
     private ProductFacade productFacade;
     @EJB
@@ -81,6 +86,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private Has productReplace;
     private Product productCreado;
     private Quote quote;
+    private Vendor vendorSelected;
 
     private String note;
     private String includeShipping;
@@ -100,6 +106,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private List<Product> partList;
     private List<Product> selectedPart;
     private List<QuoteNote> quoteListNote;
+    private List<Vendor> vendorList;
 
     private static final String PRODUCT_GENERIC = "GENERIC";
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -117,6 +124,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         param.put("idAgent", getUserManagedBean().getAgentId());
         partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
+        vendorList = (List<Vendor>) vendorFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
 
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
@@ -143,19 +151,6 @@ public class EditQuoteController extends AbstractController<Quote> {
                     agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
                 }
 
-                if (operation.equals(OperationType.DONE.getOperationName())) {
-                    QuoteStatus qs = quote.getQuoteStatusList().get(0);
-                    qs.setEndDate(new Date());
-                    quoteStatusFacade.edit(qs);
-
-                    QuoteStatus statusNew = new QuoteStatus();
-                    statusNew.setIdQuote(quote);
-                    statusNew.setInitDate(new Date());
-
-                    statusNew.setStatus(StatusType.READY.getName());
-                    quoteStatusFacade.create(statusNew);
-
-                }
                 if (note != null && !note.equals("")) {
                     // create nota entity
                     QuoteNote nota = new QuoteNote();
@@ -177,8 +172,11 @@ public class EditQuoteController extends AbstractController<Quote> {
                 for (Has hasNew : partListHas) {
                     hasNew.setHasPK(new HasPK(quote.getIdQuote(), hasNew.getProduct().getPartNumber()));
                     hasNew.setQuote(quote);
-                    hasNew.setCustomerTargetPrice(hasNew.getProduct().getPrice());
-                    hasNew.setSuggestedSalesPrice(hasNew.getSuggestedSalesPrice());
+                    //hasNew.setCustomerTargetPrice(hasNew.getProduct().getPrice());
+                    //hasNew.setSuggestedSalesPrice(hasNew.getSuggestedSalesPrice());
+                    if (hasNew.getIdVendor() == null) {
+                        hasNew.setIdVendor(null);
+                    }
                     //h.setQtyFound(BigDecimal.ZERO);
 
                     hasFacade.create(hasNew);
@@ -186,6 +184,22 @@ public class EditQuoteController extends AbstractController<Quote> {
                 }
                 quote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
                 quoteFacade.edit(quote);
+
+                if (operation.equals(OperationType.DONE.getOperationName())) {
+                    QuoteStatus qs = quote.getQuoteStatusList().get(0);
+                    qs.setEndDate(new Date());
+                    quoteStatusFacade.edit(qs);
+
+                    QuoteStatus statusNew = new QuoteStatus();
+                    statusNew.setIdQuote(quote);
+                    statusNew.setInitDate(new Date());
+
+                    statusNew.setStatus(StatusType.READY_AND_SENT.getName());
+                    quoteStatusFacade.create(statusNew);
+
+                    // envio notificacion al sales
+                    quoteController.sendQuote(quote);
+                }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
                 return getUserManagedBean().getType();
@@ -309,17 +323,56 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
     }
 
+    public void AddAsNotePart() {
+        boolean warning = false;
+        if (partListHas == null) {
+            partListHas = new ArrayList<>();
+        }
+
+        if (selectedPartSubtitute == null) {
+            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
+        } else {
+
+            StringBuffer nota = new StringBuffer();
+
+            nota.append("It was found the below substitute for the product : ").append(productReplace != null ? productReplace.getProduct().getPartNumber() : "").append("\n\n\n").
+                    append("Part : ").append(selectedPartSubtitute.getPartNumber()).append("\n").
+                    append("Descaription : ").append(selectedPartSubtitute.getDescription()).append("\n").
+                    append("Type: ").append(selectedPartSubtitute.getType()).append("\n").
+                    append("Price: ").append(selectedPartSubtitute.getPrice());
+
+            note = nota.toString();
+
+            if (makeSubstitute) {
+                IsSubstitute sustitute;
+                if (null != selectedPartSubtitute) {
+                    sustitute = isSubstituteFacade.findIsSubstituteByProductBaseAndSubstitute(productReplace.getProduct(), selectedPartSubtitute);
+                    if (sustitute != null) {
+                        RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", "the selected product is already substitute " + productReplace.getProduct().getPartNumber()));
+                        warning = true;
+                    } else {
+                        sustitute = new IsSubstitute();
+                        sustitute.setPartNumberBase(productReplace.getProduct());
+                        sustitute.setPartNumberSubstitute(selectedPartSubtitute);
+                        isSubstituteFacade.create(sustitute);
+                    }
+                }
+            }
+
+            if (!warning) {
+                RequestContext.getCurrentInstance().execute("PF('dialogSubstitute').hide();");
+                RequestContext.getCurrentInstance().update("form:panelTextArea");
+
+                showTextArea();
+                inicializedObject();
+            }
+        }
+
+    }
+
     public void sustituirProduct(String operation) {
         Has object = new Has();
         if (partListHas != null && !partListHas.isEmpty()) {
-            if (makeSubstitute) {
-                for (Product select : selectedPart) {
-                    IsSubstitutePK primary = new IsSubstitutePK(productReplace.getProduct().getPartNumber(), select.getPartNumber());
-                    IsSubstitute sustitute = new IsSubstitute(primary);
-                    sustitute.setProduct(select);
-                    isSubstituteFacade.create(sustitute);
-                }
-            }
 
             if (productGeneric != null) {
                 object.setCondition(productGeneric.getCondition());
@@ -362,10 +415,20 @@ public class EditQuoteController extends AbstractController<Quote> {
                     object.setProduct(productCreado);
                     partListHas.add(object);
                 }
+
                 RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
                 RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
                 RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
 
+            }
+
+            if (makeSubstitute) {
+                if (null != selectedPartSubtitute) {
+                    IsSubstitute sustitute = new IsSubstitute();
+                    sustitute.setPartNumberBase(productReplace.getProduct());
+                    sustitute.setPartNumberSubstitute(selectedPartSubtitute);
+                    isSubstituteFacade.create(sustitute);
+                }
             }
         }
         inicializedObject();
@@ -389,8 +452,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public void addExtended(Has item) {
-        if (item.getQtyRequested() != null && item.getProduct().getPrice() != null) {
-            item.setExtended(item.getProduct().getPrice().multiply(new BigDecimal(item.getQtyRequested())));
+        if (item.getQtyRequested() != null && item.getCustomerTargetPrice() != null) {
+            item.setExtended(item.getCustomerTargetPrice().multiply(new BigDecimal(item.getQtyRequested())));
         }
     }
 
@@ -481,7 +544,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                 case "Substitute":
 
                     for (IsSubstitute sustitute : productReplace.getProduct().getIsSubstituteList()) {
-                        sustirutePartList.add(sustitute.getProduct());
+                        sustirutePartList.add(sustitute.getPartNumberSubstitute());
                     }
                     if (!sustirutePartList.isEmpty()) {
                         if (partList != null) {
@@ -490,8 +553,8 @@ public class EditQuoteController extends AbstractController<Quote> {
                             partList = new ArrayList<>();
                         }
                         partList.addAll(sustirutePartList);
-
-                        RequestContext.getCurrentInstance().update("formDialogSubstitute:panelButtonReplace");
+//
+//                        RequestContext.getCurrentInstance().update("formDialogSubstitute:panelButtonReplace");
                     } else {
                         RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_not_found_sustitute")));
                     }
@@ -509,6 +572,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         productReplace = null;
         productCreado = null;
         selectionSustitute = null;
+        selectedPartSubtitute = null;
     }
 
     public void fillDescriptionGeneric() {
@@ -710,6 +774,22 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public void setSelectedPartSubtitute(Product selectedPartSubtitute) {
         this.selectedPartSubtitute = selectedPartSubtitute;
+    }
+
+    public List<Vendor> getVendorList() {
+        return vendorList;
+    }
+
+    public void setVendorList(List<Vendor> vendorList) {
+        this.vendorList = vendorList;
+    }
+
+    public Vendor getVendorSelected() {
+        return vendorSelected;
+    }
+
+    public void setVendorSelected(Vendor vendorSelected) {
+        this.vendorSelected = vendorSelected;
     }
 
 }

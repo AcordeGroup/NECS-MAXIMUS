@@ -122,14 +122,24 @@ public class QuoteFacade extends AbstractFacade<Quote> {
     }
 
     public List<Quote> findAllQuoteByStatus(String status) {
+        StringBuilder queryAlter = new StringBuilder();
+        queryAlter.append("select distinct q from Quote q ").
+                append("JOIN fetch q.quoteStatusList ql ").
+                append("where ql.status = :status ");
 
-        Query query = em.createQuery("select distinct q "
-                + "from Quote q "
-                + "JOIN fetch q.quoteStatusList ql "
-                + "where ql.endDate is null "
-                + "and ql.status = :status ");
+        if (status.equals(StatusType.CLOSE.getName())) {
+            queryAlter.append("and ql.endDate is not null ");
+        } else {
+            queryAlter.append("and ql.endDate is null ");
+        }
+        Query query = em.createQuery(queryAlter.toString());
         query.setParameter("status", status);
-        return processList(query.getResultList());
+        
+        if (status.equals(StatusType.CLOSE.getName())) {
+            return query.getResultList();
+        } else {
+            return processList(query.getResultList());
+        }
 
     }
 

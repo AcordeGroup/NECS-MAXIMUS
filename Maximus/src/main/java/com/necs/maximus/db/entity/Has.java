@@ -42,10 +42,6 @@ public class Has implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "customer_target_price")
     private BigDecimal customerTargetPrice;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "qty_requested")
-    private Integer qtyRequested;
     @Column(name = "suggested_sales_price")
     private BigDecimal suggestedSalesPrice;
     @Column(name = "qty_found")
@@ -64,6 +60,13 @@ public class Has implements Serializable {
     @JoinColumn(name = "id_quote", referencedColumnName = "id_quote", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Quote quote;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "qty_requested")
+    private Integer qtyRequested;
+    @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor")
+    @ManyToOne(optional = true)
+    private Vendor idVendor;
 
     public Has() {
     }
@@ -167,6 +170,14 @@ public class Has implements Serializable {
 
     public void setExtended(BigDecimal extended) {
         this.extended = extended;
+    }
+
+    public Vendor getIdVendor() {
+        return idVendor;
+    }
+
+    public void setIdVendor(Vendor idVendor) {
+        this.idVendor = idVendor;
     }
 
     @Override

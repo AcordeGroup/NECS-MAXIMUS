@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VendorViewDlg" widgetVar="VendorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.ViewVendorTitle}">
+            <h:form id="VendorViewForm">
+                <h:panelGroup id="display" style="text-align: left">
+                    <p:panelGrid columns="2" rendered="#{vendorController.selected != null}">
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_idVendor}"/>
+                        <h:outputText value="#{vendorController.selected.idVendor}" title="#{maximusBundle.ViewVendorTitle_idVendor}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_companyName}"/>
+                        <h:outputText value="#{vendorController.selected.companyName}" title="#{maximusBundle.ViewVendorTitle_companyName}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_address}"/>
+                        <h:outputText value="#{vendorController.selected.address}" title="#{maximusBundle.ViewVendorTitle_address}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_city}"/>
+                        <h:outputText value="#{vendorController.selected.city}" title="#{maximusBundle.ViewVendorTitle_city}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_state}"/>
+                        <h:outputText value="#{vendorController.selected.state}" title="#{maximusBundle.ViewVendorTitle_state}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_country}"/>
+                        <h:outputText value="#{vendorController.selected.country}" title="#{maximusBundle.ViewVendorTitle_country}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_zip}"/>
+                        <h:outputText value="#{vendorController.selected.zip}" title="#{maximusBundle.ViewVendorTitle_zip}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_firstName}"/>
+                        <h:outputText value="#{vendorController.selected.firstName}" title="#{maximusBundle.ViewVendorTitle_firstName}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_lastName}"/>
+                        <h:outputText value="#{vendorController.selected.lastName}" title="#{maximusBundle.ViewVendorTitle_lastName}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_phoneNumber}"/>
+                        <h:outputText value="#{vendorController.selected.phoneNumber}" title="#{maximusBundle.ViewVendorTitle_phoneNumber}"/>
+                        <h:outputText value="#{maximusBundle.ViewVendorLabel_email}"/>
+                        <h:outputText value="#{vendorController.selected.email}" title="#{maximusBundle.ViewVendorTitle_email}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{maximusBundle.Close}" onclick="VendorViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -17,9 +17,6 @@ public class IsSubstituteConverter implements Converter {
     @Inject
     private IsSubstituteFacade ejbFacade;
 
-    private static final String SEPARATOR = "#";
-    private static final String SEPARATOR_ESCAPED = "\\#";
-
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
@@ -28,20 +25,15 @@ public class IsSubstituteConverter implements Converter {
         return this.ejbFacade.find(getKey(value));
     }
 
-    com.necs.maximus.db.entity.IsSubstitutePK getKey(String value) {
-        com.necs.maximus.db.entity.IsSubstitutePK key;
-        String values[] = value.split(SEPARATOR_ESCAPED);
-        key = new com.necs.maximus.db.entity.IsSubstitutePK();
-        key.setPartNumber1(values[0]);
-        key.setPartNumber2(values[1]);
+    Integer getKey(String value) {
+        Integer key;
+        key = Integer.valueOf(value);
         return key;
     }
 
-    String getStringKey(com.necs.maximus.db.entity.IsSubstitutePK value) {
+    String getStringKey(Integer value) {
         StringBuffer sb = new StringBuffer();
-        sb.append(value.getPartNumber1());
-        sb.append(SEPARATOR);
-        sb.append(value.getPartNumber2());
+        sb.append(value);
         return sb.toString();
     }
 
@@ -53,7 +45,7 @@ public class IsSubstituteConverter implements Converter {
         }
         if (object instanceof IsSubstitute) {
             IsSubstitute o = (IsSubstitute) object;
-            return getStringKey(o.getIsSubstitutePK());
+            return getStringKey(o.getIdSubstitute());
         } else {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), IsSubstitute.class.getName()});
             return null;

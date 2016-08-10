@@ -21,16 +21,6 @@ public class IsSubstituteController extends AbstractController<IsSubstitute> {
         super(IsSubstitute.class);
     }
 
-    @Override
-    protected void setEmbeddableKeys() {
-        this.getSelected().getIsSubstitutePK().setPartNumber1(this.getSelected().getProduct().getPartNumber());
-    }
-
-    @Override
-    protected void initializeEmbeddableKey() {
-        this.getSelected().setIsSubstitutePK(new com.necs.maximus.db.entity.IsSubstitutePK());
-    }
-
     /**
      * Resets the "selected" attribute of any parent Entity controllers.
      */
@@ -46,7 +36,7 @@ public class IsSubstituteController extends AbstractController<IsSubstitute> {
      */
     public void prepareProduct(ActionEvent event) {
         if (this.getSelected() != null && productController.getSelected() == null) {
-            productController.setSelected(this.getSelected().getProduct());
+            productController.setSelected(this.getSelected().getPartNumberBase());
         }
     }
 }

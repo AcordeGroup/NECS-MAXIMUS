@@ -297,5 +297,20 @@
             <to-view-id>/admin/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/admin/vendor/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>indexPurchasing</from-outcome>
+            <to-view-id>/purchasing/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>indexSales</from-outcome>
+            <to-view-id>/sales/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>indexAdmin</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     
 </faces-config>

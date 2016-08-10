@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
@@ -74,7 +73,7 @@ public class Product implements Serializable {
     private BigDecimal wholesalePrice;
     @Column(name = "price")
     private BigDecimal price;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partNumberBase")
     private List<IsSubstitute> isSubstituteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Has> hasList;

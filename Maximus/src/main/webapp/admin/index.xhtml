@@ -17,8 +17,9 @@
         <ui:define name="body">
             <p:panel header="#{maximusBundle.label_admin_dashboard}" id="adminDashboard" >
                 <h:form id="formAdmin">
-                    <h:panelGrid columns="4" id="panelButton">
-                        <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{agentController.prepareCreate}" id="buttonAgent"  update=":AgentCreateForm" onclick="#{agentController.createAgentTrue()}" oncomplete="PF('AgentCreateDialog').show()" />
+                    <h:panelGrid columns="5" id="panelButton">
+                        <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{vendorController.prepareCreate}" id="buttonVendor"  update=":VendorCreateForm" onclick="#{vendorController.createVendorTrue()}" oncomplete="PF('VendorCreateDialog').show()" />
+                        <p:commandButton value="#{maximusBundle.new_agent_button}" actionListener="#{agentController.prepareCreate}" id="buttonAgent"  update=":AgentCreateForm" onclick="#{agentController.createAgentTrue()}" oncomplete="PF('AgentCreateDialog').show()" />
                         <p:commandButton value="#{maximusBundle.enter_new_part_button}" actionListener="#{productController.prepareCreate}" id="buttonNewPart"  update=":ProductCreateForm" onclick="#{productController.createPartTrue()}" oncomplete="PF('ProductCreateDialog').show()"/>
                         <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
@@ -223,21 +224,21 @@
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                     <f:param value="#{item.quoteStatusList.get(0).status}" name="statusQuote"/>
                                 </p:commandLink> 
-                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY'}">&nbsp;|&nbsp;</h:panelGroup> 
-                                <p:commandLink id="btnSent" 
+                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
+<!--                                <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.send}"
                                                actionListener="#{quoteController.sendQuote(item)}" ajax="false"
                                                rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
                                                update=":formAdmin:fieldSetClose">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
-                                </p:commandLink>
-                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
+                                </p:commandLink>-->
+<!--                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">&nbsp;|&nbsp;</h:panelGroup> -->
                                 <p:commandLink id="btnReSent" 
                                                value="#{maximusBundle.Resend}"
                                                actionListener="#{quoteController.sendQuote(item)}"
                                                ajax="true"
                                                update=":formAdmin:fieldSetClose"
-                                               rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">  
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink> 
                             </p:column>
@@ -263,6 +264,7 @@
                 <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//agent/Create.xhtml"/>
+                <ui:include src="/WEB-INF/include/admin/entity//vendor/Create.xhtml"/>
             </p:panel>
 
         </ui:define>

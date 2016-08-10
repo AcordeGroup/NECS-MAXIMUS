@@ -142,7 +142,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                     h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
                     h.setQuote(newQuote);
                     h.setCustomerTargetPrice(h.getProduct().getPrice());
-                    h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
+                    //h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
                     if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
                         h.setObservation(observation);  
                         //h.setQtyFound(BigDecimal.ZERO);

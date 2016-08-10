@@ -142,7 +142,7 @@
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_price}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.price}">
-                                     <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                                 </h:outputText>
                             </p:column>
 
@@ -161,6 +161,7 @@
                     </h:panelGroup>
                     <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogSubstitute').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
                     <p:commandButton value="#{maximusBundle.replace}" id="buttonAddSustitute" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form:datalistProduct" oncomplete="PF('dialogSubstitute').initPosition()" />
+                    <p:commandButton value="#{maximusBundle.add_as_note}" id="buttonAddAsNote" ajax="true" action="#{editQuoteController.AddAsNotePart()}"  update=":form:datalistProduct"  />
                 </h:panelGrid>
             </h:form>
         </p:dialog>

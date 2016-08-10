@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.entity;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,49 +27,56 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "is_substitute")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IsSubstitute.findAll", query = "SELECT i FROM IsSubstitute i"),
-    @NamedQuery(name = "IsSubstitute.findByPartNumber1", query = "SELECT i FROM IsSubstitute i WHERE i.isSubstitutePK.partNumber1 = :partNumber1"),
-    @NamedQuery(name = "IsSubstitute.findByPartNumber2", query = "SELECT i FROM IsSubstitute i WHERE i.isSubstitutePK.partNumber2 = :partNumber2")})
+    @NamedQuery(name = "IsSubstitute.findAll", query = "SELECT i FROM IsSubstitute i")})
 public class IsSubstitute implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected IsSubstitutePK isSubstitutePK;
-    @JoinColumn(name = "part_number_1", referencedColumnName = "part_number", insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_substitute")
+    private Integer idSubstitute;
+    @JoinColumn(name = "part_number_base", referencedColumnName = "part_number")
     @ManyToOne(optional = false)
-    private Product product;
+    private Product partNumberBase;
+    @JoinColumn(name = "part_number_substitute", referencedColumnName = "part_number")
+    @ManyToOne(optional = false)
+    private Product partNumberSubstitute;
 
     public IsSubstitute() {
     }
 
-    public IsSubstitute(IsSubstitutePK isSubstitutePK) {
-        this.isSubstitutePK = isSubstitutePK;
+    public IsSubstitute(Integer idSubstitute) {
+        this.idSubstitute = idSubstitute;
     }
 
-    public IsSubstitute(String partNumber1, String partNumber2) {
-        this.isSubstitutePK = new IsSubstitutePK(partNumber1, partNumber2);
+    public Integer getIdSubstitute() {
+        return idSubstitute;
     }
 
-    public IsSubstitutePK getIsSubstitutePK() {
-        return isSubstitutePK;
+    public void setIdSubstitute(Integer idSubstitute) {
+        this.idSubstitute = idSubstitute;
     }
 
-    public void setIsSubstitutePK(IsSubstitutePK isSubstitutePK) {
-        this.isSubstitutePK = isSubstitutePK;
+    public Product getPartNumberBase() {
+        return partNumberBase;
     }
 
-    public Product getProduct() {
-        return product;
+    public void setPartNumberBase(Product partNumberBase) {
+        this.partNumberBase = partNumberBase;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public Product getPartNumberSubstitute() {
+        return partNumberSubstitute;
+    }
+
+    public void setPartNumberSubstitute(Product partNumberSubstitute) {
+        this.partNumberSubstitute = partNumberSubstitute;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (isSubstitutePK != null ? isSubstitutePK.hashCode() : 0);
+        hash += (idSubstitute != null ? idSubstitute.hashCode() : 0);
         return hash;
     }
 
@@ -77,7 +87,7 @@ public class IsSubstitute implements Serializable {
             return false;
         }
         IsSubstitute other = (IsSubstitute) object;
-        if ((this.isSubstitutePK == null && other.isSubstitutePK != null) || (this.isSubstitutePK != null && !this.isSubstitutePK.equals(other.isSubstitutePK))) {
+        if ((this.idSubstitute == null && other.idSubstitute != null) || (this.idSubstitute != null && !this.idSubstitute.equals(other.idSubstitute))) {
             return false;
         }
         return true;
@@ -85,7 +95,7 @@ public class IsSubstitute implements Serializable {
 
     @Override
     public String toString() {
-        return "com.necs.maximus.db.entity.IsSubstitute[ isSubstitutePK=" + isSubstitutePK + " ]";
+        return "com.necs.maximus.db.entity.IsSubstitute[ idSubstitute=" + idSubstitute + " ]";
     }
 
 }

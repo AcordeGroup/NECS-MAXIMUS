@@ -13,8 +13,8 @@ public enum StatusType {
 
     OPEN(1, "OPEN"),
     IN_PROGRESS(2, "IN PROGRESS"),
-    READY(3, "READY"),
-    SENT(4, "SENT"),
+    READY_AND_SENT(3, "READY_AND_SENT"),
+//    SENT(4, "SENT"),
     CLOSE(4, "CLOSE");
 
     private Integer id;

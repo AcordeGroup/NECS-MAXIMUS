@@ -46,6 +46,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
     private boolean mostrarQtyFound;
     private boolean mostrarShippingCostPerItem;
     private boolean mostrarSuggestedSalesPrice;
+    private boolean mostrarVendor;
     private int nroColumnVariable;
 
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -61,7 +62,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
         if (quoteId != null) {
             String status = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("statusQuote");
-            if (status != null && status.equals(StatusType.SENT.getName())) {
+            if (status != null && status.equals(StatusType.CLOSE.getName())) {
                 HashMap param = new HashMap();
                 param.put("idQuote", Integer.parseInt(quoteId));
                 quote = quoteFacade.listUniqueNamedQuery(Quote.class, "Quote.findByIdQuote", param);
@@ -90,6 +91,9 @@ public class ViewQuoteController extends AbstractController<Quote> {
                 if (h.getSuggestedSalesPrice() != null && h.getSuggestedSalesPrice().intValue() != 0) {
                     mostrarSuggestedSalesPrice = true;
                 }
+                if (h.getIdVendor() != null) {
+                    mostrarVendor = true;
+                }
             }
             if (mostrarQtyFound) {
                 nroColumnVariable = nroColumnVariable + 1;
@@ -98,6 +102,9 @@ public class ViewQuoteController extends AbstractController<Quote> {
                 nroColumnVariable = nroColumnVariable + 1;
             }
             if (mostrarSuggestedSalesPrice) {
+                nroColumnVariable = nroColumnVariable + 1;
+            }
+            if (mostrarVendor) {
                 nroColumnVariable = nroColumnVariable + 1;
             }
         }

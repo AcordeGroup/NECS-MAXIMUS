@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VendorCreateDlg" widgetVar="VendorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateVendorTitle}">
+            <h:form id="VendorCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vendorController.selected != null}" style="text-align: left">
+<!--                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_idVendor}" for="idVendor" />
+                        <p:inputText id="idVendor" value="#{vendorController.selected.idVendor}" title="#{maximusBundle.CreateVendorTitle_idVendor}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_idVendor}" size="40" maxlength="40"/>-->
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_companyName}" for="companyName" />
+                        <p:inputText id="companyName" value="#{vendorController.selected.companyName}" title="#{maximusBundle.CreateVendorTitle_companyName}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_companyName}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_address}" for="address" />
+                        <p:inputText id="address" value="#{vendorController.selected.address}" title="#{maximusBundle.CreateVendorTitle_address}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_address}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{vendorController.selected.city}" title="#{maximusBundle.CreateVendorTitle_city}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_city}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{vendorController.selected.state}" title="#{maximusBundle.CreateVendorTitle_state}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_state}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_country}" for="country" />
+                        <p:inputText id="country" value="#{vendorController.selected.country}" title="#{maximusBundle.CreateVendorTitle_country}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_country}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_zip}" for="zip" />
+                        <p:inputText id="zip" value="#{vendorController.selected.zip}" title="#{maximusBundle.CreateVendorTitle_zip}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_zip}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_firstName}" for="firstName" />
+                        <p:inputText id="firstName" value="#{vendorController.selected.firstName}" title="#{maximusBundle.CreateVendorTitle_firstName}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_firstName}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_lastName}" for="lastName" />
+                        <p:inputText id="lastName" value="#{vendorController.selected.lastName}" title="#{maximusBundle.CreateVendorTitle_lastName}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_lastName}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_phoneNumber}" for="phoneNumber" />
+                        <p:inputText id="phoneNumber" value="#{vendorController.selected.phoneNumber}" title="#{maximusBundle.CreateVendorTitle_phoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateVendorRequiredMessage_phoneNumber}" size="40" maxlength="40"/>
+                        <p:outputLabel value="#{maximusBundle.CreateVendorLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{vendorController.selected.email}" title="#{maximusBundle.CreateVendorTitle_email}" size="40" maxlength="40"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vendorController.saveNew}" value="#{maximusBundle.Save}" update="display,#{vendorController.createVendor ? '' : ':VendorListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('VendorCreateDialog'));"/>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('VendorCreateDialog').hide();" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

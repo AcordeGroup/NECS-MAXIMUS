@@ -105,21 +105,21 @@
                                                rendered="#{item.quoteStatusList.get(0).status == 'OPEN'}">  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink>
-                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
+<!--                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnSent" 
                                                value="#{maximusBundle.send}"
                                                actionListener="#{quoteController.sendQuote(item)}" ajax="false"
                                                rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
                                                update=":formSales:fieldSetOpen">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
-                                </p:commandLink>
-                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY' || item.quoteStatusList.get(0).status == 'SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
+                                </p:commandLink>-->
+                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnClose" 
                                                value="#{maximusBundle.Close}"
                                                actionListener="#{quoteController.closeQuote(item)}" ajax="false"
-                                               rendered="#{item.quoteStatusList.get(0).status == 'READY' || item.quoteStatusList.get(0).status == 'SENT'}"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}"
                                                update=":formSales:fieldSetOpen">  
-                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCloseMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink>
                             </p:column>
 
@@ -206,7 +206,7 @@
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                     <f:param value="#{item.quoteStatusList.get(0).status}" name="statusQuote"/>
                                 </p:commandLink> 
-                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
+<!--                                <h:panelGroup  rendered="#{item.quoteStatusList.get(0).status == 'SENT'}" >&nbsp;|&nbsp;</h:panelGroup> 
                                 <p:commandLink id="btnReSent" 
                                                value="#{maximusBundle.Resend}"
                                                actionListener="#{quoteController.sendQuote(item)}"
@@ -214,7 +214,7 @@
                                                update=":formSales:fieldSetClose"
                                                rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
-                                </p:commandLink> 
+                                </p:commandLink> -->
 
                             </p:column>
 

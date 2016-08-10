@@ -103,7 +103,7 @@
                                 <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                             </p:column>
 
-                            <p:column style="width : 95px">
+                            <p:column style="width : 93px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
@@ -133,13 +133,13 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.target_price_label}"/>
                                 </f:facet>
-                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.product.price}" size="7">
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.customerTargetPrice}" size="7">
                                     <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
                                 </p:inputText>
 
                             </p:column>
 
-                            <p:column  style="width : 73px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
+                            <p:column  style="width : 68px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
                                 </f:facet>
@@ -161,10 +161,30 @@
                                 <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}" required="true" requiredMessage="#{maximusBundle.message_shipping_cost_for_product}" size="7"/>
 
                             </p:column>
+                            <p:column style="width : 90px"  rendered="#{userManagedBean.type != 'Sales'}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Vendor"/>
+                                </f:facet>
+                                <p:selectOneMenu id="vendor" value="#{item.idVendor}" converter="vendorConverter" panelStyle="width:180px;"
+                                                 effect="fade" var="t" style="width:115px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}" itemValue=""/>
+                                    <f:selectItems value="#{editQuoteController.vendorList}" 
+                                                   var="vendor" 
+                                                   itemLabel="#{vendor.companyName}" 
+                                                   itemValue="#{vendor}" />
+                                    <p:column style="width:10%">
+                                        <h:outputText styleClass="ui-theme ui-theme-#{t.companyName}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{t.companyName}" />
+                                    </p:column>
+                                </p:selectOneMenu>
+
+                            </p:column>
 
                             <p:columnGroup type="footer" rendered="#{editQuoteController.includeShipping== maximusBundle.Yes_separate and userManagedBean.type != 'Sales'}">
                                 <p:row>
-                                    <p:column colspan="8" footerText="#{maximusBundle.shipping_cost_label} $" style="text-align:right"/>
+                                    <p:column colspan="9" footerText="#{maximusBundle.shipping_cost_label} $" style="text-align:right"/>
                                     <p:column footerText="#{editQuoteController.quote.shipping_cost}" >
                                         <f:facet name="footer">
                                             <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{editQuoteController.quote.shipping_cost}" required="true" requiredMessage="#{maximusBundle.message_shipping_cost}" size="7"/>
@@ -172,7 +192,7 @@
                                     </p:column>
                                 </p:row>
                             </p:columnGroup>
-                            <p:column style="width : 82px">
+                            <p:column style="width : 70px">
                                 <f:facet name="header">
                                     <h:outputText value="action"/>
                                 </f:facet>
@@ -190,7 +210,7 @@
                                                    ajax="true"
                                                    actionListener="#{editQuoteController.fillPartReplace(item)}"
                                                    update=":formDialogSubstitute:panelPrincipalSubstitute" 
-                                                   rendered="#{item.observation == null}"
+                                                   rendered="#{(userManagedBean.type != 'Sales') and (item.observation == null)}"
                                                    process="@this"/>   
                                 </div>
                                 <div>
@@ -199,7 +219,7 @@
                                                    oncomplete="PF('dialogProccessGeneric').show()" 
                                                    ajax="true"
                                                    actionListener="#{editQuoteController.fillPartGeneric(item)}"
-                                                   rendered="#{item.observation != null}"
+                                                   rendered="#{(userManagedBean.type != 'Sales') and (item.observation != null)}"
                                                    process="@this"/> 
                                 </div>
                             </p:column>
@@ -287,8 +307,8 @@
                 <p:commandButton value="#{maximusBundle.Done}" action="#{editQuoteController.editRequest('done')}" id="buttonDone" rendered="#{userManagedBean.type != 'Sales'}">
                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDoneQuoteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
-                
-            <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+
+                <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
             </h:form>
             <h:form
                 id="formDialog">
@@ -403,7 +423,7 @@
                                         <h:outputText value="#{maximusBundle.CreateProductTitle_wholesalePrice}"/>
                                     </f:facet>
                                     <h:outputText value="#{item.wholesalePrice}">  
-                                         <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                        <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                                     </h:outputText>
                                 </p:column>
 
@@ -412,7 +432,7 @@
                                         <h:outputText value="#{maximusBundle.CreateProductTitle_price}"/>
                                     </f:facet>
                                     <h:outputText value="#{item.price}">
-                                         <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                        <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                                     </h:outputText>
                                 </p:column>
 
@@ -437,7 +457,7 @@
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.search_part}"  id="buttonSearch" onclick="PF('dialogPartReplace').show()" ajax="true"/>
                             <p:commandButton value="#{maximusBundle.enter_new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.fillDescriptionGeneric()}" oncomplete="PF('ProductCreateDialog').show()">
-                               
+
                             </p:commandButton>
                         </h:panelGrid>
                     </h:panelGrid>
@@ -449,7 +469,7 @@
                     <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">
                         <h:outputText value="#{maximusBundle.message_replace_product_generic}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirm').hide(); PF('dialogPart').hide(); PF('dialogProccessGeneric').hide();"/>
+                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirm').hide(); PF('dialogPart').hide(); PF('dialogProccessGeneric').hide();PF('dialogPartReplace').hide();"/>
                             <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirm').hide(); " update=":form:datalistProduct"/>
                         </h:panelGrid>
                     </h:panelGrid>
@@ -468,7 +488,7 @@
                     </h:panelGrid>
                 </h:form>
             </p:dialog>
-            
+
             <p:dialog header="Confirm"  widgetVar="dialogPartConfirmCreateSubstitute"  id="dialogPartConfirmCreateSubstitute" resizable="false"  modal="true" position="center" width="300px" height="50%">
                 <h:form >
                     <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">

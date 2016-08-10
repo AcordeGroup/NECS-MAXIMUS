@@ -14,6 +14,8 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJBException;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -216,7 +218,7 @@ public abstract class AbstractController<T> implements Serializable {
                         if (msg.length() > 0) {
                             JsfUtil.addErrorMessage(msg);
                         } else {
-                            JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                            JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/MaximusBundle").getString("PersistenceErrorOccured"));
                         }
                     }
                 }
@@ -310,4 +312,12 @@ public abstract class AbstractController<T> implements Serializable {
     public String typeAgent() {
         return getUserManagedBean().getType();
     }
+
+    public boolean emailValidator(String email) {
+        Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\.\\-+])+@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$");
+
+        Matcher m = pattern.matcher(email);
+        return m.matches();
+    }
+
 }
