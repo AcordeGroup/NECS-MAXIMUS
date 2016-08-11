@@ -76,7 +76,7 @@
                         <p:spacer />
                         <p:separator />
                         <p:outputPanel style="text-align: right; width: 100% ">
-                            <p:commandButton  type="button" id="buttonAddPart" value="#{maximusBundle.add_part_button}" onclick="PF('dialogPart').show()" ajax="true" />
+                            <p:commandButton  type="button" id="buttonAddPart" value="#{maximusBundle.add_part_button}" onclick="PF('dialogPart').show()" ajax="true" oncomplete="#{editQuoteController.reset()}" />
                         </p:outputPanel>
                         <p:spacer />
                         <p:dataTable id="datalistProduct"
@@ -445,7 +445,7 @@
                     <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
 
                         <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
-                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{editQuoteController.addPart()}"  update=":form:datalistProduct" oncomplete="PF('dialogPart').initPosition()" />
+                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{editQuoteController.addPart()}"  update=":form,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
                     </p:outputPanel> 
                 </h:form>
             </p:dialog>

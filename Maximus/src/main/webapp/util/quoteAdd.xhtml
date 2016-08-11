@@ -201,14 +201,15 @@
 
                         <p:spacer />
 
-                        <p:outputPanel  rendered="#{createQuoteController.partList != null}" id="panelTable" autoUpdate="true">
+                        <p:outputPanel  rendered="#{createQuoteController.partList != null}" id="panelTable">
                             <p:separator/>
                             <p:dataTable id="datalistPart"
                                          value="#{createQuoteController.partList}"
                                          var="item"
                                          paginator="true"
                                          rows="10"
-                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          emptyMessage="#{maximusBundle.no_search_result}"
                                          paginatorPosition="bottom"
                                          selection="#{createQuoteController.selectedPart}"
@@ -290,7 +291,7 @@
                     <p:outputPanel style="text-align: left; width: 100%">
 
                         <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct" actionListener="#{createQuoteController.reset()}"/>
-                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{createQuoteController.addPart()}"  update=":form:datalistProduct" oncomplete="PF('dialogPart').initPosition()" />
+                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{createQuoteController.addPart()}"  update=":form,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
                     </p:outputPanel> 
                 </h:form>
             </p:dialog>
