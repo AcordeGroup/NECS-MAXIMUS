@@ -15,33 +15,21 @@
                 <h:panelGroup id="display" rendered="#{manageController.selected != null}" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_idQuote}" for="managePK_idQuote" />
-                        <h:panelGroup>
-                            <p:inputText id="managePK_idQuote" value="#{manageController.selected.managePK.idQuote}" title="#{maximusBundle.CreateManageTitle_managePK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_idQuote}" size="50" maxlength="50"/>
-                            <p:tooltip for="managePK_idQuote" value="#{manageController.getComponentMessages('managePK_idQuote', maximusBundle.CreateManageHelpText_managePK_idQuote)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_idAgent}" for="managePK_idAgent" />
-                        <h:panelGroup>
-                            <p:inputText id="managePK_idAgent" value="#{manageController.selected.managePK.idAgent}" title="#{maximusBundle.CreateManageTitle_managePK_idAgent}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_idAgent}" size="50" maxlength="50"/>
-                            <p:tooltip for="managePK_idAgent" value="#{manageController.getComponentMessages('managePK_idAgent', maximusBundle.CreateManageHelpText_managePK_idAgent)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_managePK_notes}" for="managePK_notes" />
-                        <h:panelGroup>
-                            <p:inputTextarea id="managePK_notes" value="#{manageController.selected.managePK.notes}" title="#{maximusBundle.CreateManageTitle_managePK_notes}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_managePK_notes}" style="width: 380px" maxlength="100"/>
-                            <p:tooltip for="managePK_notes" value="#{manageController.getComponentMessages('managePK_notes', maximusBundle.CreateManageHelpText_managePK_notes)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{maximusBundle.CreateManageLabel_assignmentDate}" for="assignmentDate" />
                         <h:panelGroup>
                             <p:calendar id="assignmentDate" pattern="MM/dd/yyyy" value="#{manageController.selected.assignmentDate}" title="#{maximusBundle.CreateManageTitle_assignmentDate}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_assignmentDate}" showOn="button" style="width: 380px"/>
                             <p:tooltip for="assignmentDate" value="#{manageController.getComponentMessages('assignmentDate', maximusBundle.CreateManageHelpText_assignmentDate)}"/>
                         </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_agent}" for="agent" />
+                        
+                         <p:outputLabel value="#{maximusBundle.CreateManageLabel_DeallocationDate}" for="deallocationDate" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="agent" value="#{manageController.selected.agent}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_agent}" converter="agentConverter" style="width: 380px">
+                            <p:calendar id="deallocationDate" pattern="MM/dd/yyyy" value="#{manageController.selected.deallocationDate}" title="#{maximusBundle.CreateManageTitle_DeallocationDate}" showOn="button" style="width: 380px"/>
+                            <p:tooltip for="deallocationDate" value="#{manageController.getComponentMessages('deallocationDate', maximusBundle.CreateManageHelpText_assignmentDate)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_agent}" for="idAgent" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idAgent" value="#{manageController.selected.idAgent}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_agent}" converter="agentConverter" style="width: 380px">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{agentController.items}"
                                                var="agentItem"
@@ -50,12 +38,12 @@
                                                />
 
                             </p:selectOneMenu>
-                            <p:tooltip for="agent" value="#{manageController.getComponentMessages('agent', maximusBundle.CreateManageHelpText_agent)}"/>
+                            <p:tooltip for="idAgent" value="#{manageController.getComponentMessages('idAgent', maximusBundle.CreateManageHelpText_agent)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_quote}" for="quote" />
+                        <p:outputLabel value="#{maximusBundle.CreateManageLabel_quote}" for="idQuote" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="quote" value="#{manageController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_quote}" converter="quoteConverter" style="width: 380px">
+                            <p:selectOneMenu id="idQuote" value="#{manageController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.CreateManageRequiredMessage_quote}" converter="quoteConverter" style="width: 380px">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{quoteController.items}"
                                                var="quoteItem"
@@ -64,7 +52,7 @@
                                                />
 
                             </p:selectOneMenu>
-                            <p:tooltip for="quote" value="#{manageController.getComponentMessages('quote', maximusBundle.CreateManageHelpText_quote)}"/>
+                            <p:tooltip for="idQuote" value="#{manageController.getComponentMessages('idQuote', maximusBundle.CreateManageHelpText_quote)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{manageController.saveNew}" value="#{maximusBundle.Save}" update="display,:ManageListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ManageCreateDialog'));">

@@ -19,7 +19,7 @@ public class ProductController extends AbstractController<Product> {
 
     public ProductController() {
         // Inform the Abstract parent controller of the concrete Product Entity
-            super(Product.class);
+        super(Product.class);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ProductController extends AbstractController<Product> {
     public void createPartTrue() {
         createPart = true;
     }
-    
+
     public void createPartSustituteTrue() {
         createPartSustitute = true;
     }

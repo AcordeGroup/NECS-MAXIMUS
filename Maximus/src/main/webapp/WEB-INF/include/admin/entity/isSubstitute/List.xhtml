@@ -15,7 +15,7 @@
                 <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('IsSubstituteListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('IsSubstituteListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
-                <p:menuitem value="#{maximusBundle.IsSubstituteMenuItem_product}" icon="ui-icon-search"  actionListener="#{isSubstituteController.prepareProduct}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty isSubstituteController.selected.product}"/>  
+                <p:menuitem value="#{maximusBundle.IsSubstituteMenuItem_product}" icon="ui-icon-search"  actionListener="#{isSubstituteController.prepareProduct}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty isSubstituteController.selected.partNumberBase}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{isSubstituteController.lazyItems}"
@@ -41,27 +41,27 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{isSubstituteController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('IsSubstituteListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.isSubstitutePK.partNumber1}" filterBy="#{item.isSubstitutePK.partNumber1}">
+                <p:column sortBy="#{item.partNumberBase.partNumber}" filterBy="#{item.partNumberBase.partNumber}">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
                     </f:facet>
-                    <h:outputText value="#{item.isSubstitutePK.partNumber1}"/>
+                    <h:outputText value="#{item.partNumberBase.partNumber}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.isSubstitutePK.partNumber2}" filterBy="#{item.isSubstitutePK.partNumber2}">
+                <p:column sortBy="#{item.partNumberSubstitute.partNumber}" filterBy="#{item.partNumberSubstitute.partNumber}">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
                     </f:facet>
-                    <h:outputText value="#{item.isSubstitutePK.partNumber2}"/>
+                    <h:outputText value="#{item.partNumberSubstitute.partNumber}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.product.description}" filterBy="#{item.product.description}">
+                <p:column sortBy="#{item.partNumberSubstitute.description}" filterBy="#{item.partNumberSubstitute.description}">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_product}"/>
                     </f:facet>
-                    <h:outputText value="#{item.product.description}"/>
+                    <h:outputText value="#{item.partNumberSubstitute.description}"/>
                 </p:column>
 
 

@@ -17,21 +17,21 @@
 
                         <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
                         <h:panelGroup>
-                            <h:outputText id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.isSubstitutePK.partNumber1}" />
+                            <h:outputText id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.partNumberBase.partNumber}" />
                             <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber1', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber1)}"/>
                         </h:panelGroup>
 
 
                         <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
                         <h:panelGroup>
-                            <h:outputText id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.isSubstitutePK.partNumber2}" />
+                            <h:outputText id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.partNumberSubstitute.partNumber}" />
                             <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber2', maximusBundle.EditIsSubstituteHelpText_isSubstitutePK_partNumber2)}"/>
                         </h:panelGroup>
 
 
                         <h:outputLabel value="#{maximusBundle.EditIsSubstituteLabel_product}" for="product" />
                         <h:panelGroup>
-                            <h:outputText id="product" value="#{isSubstituteController.selected.product}" />
+                            <h:outputText id="product" value="#{isSubstituteController.selected.partNumberSubstitute}" />
                             <p:tooltip for="product" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.EditIsSubstituteHelpText_product)}"/>
                         </h:panelGroup>
                     </p:panelGrid>

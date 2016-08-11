@@ -11,7 +11,7 @@
 
             <h:form id="AgentEditForm">
 
-                <h:panelGroup id="display">
+                <h:panelGroup id="display" style="text-align: left;">
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{agentController.selected != null}">
 
 
@@ -23,19 +23,19 @@
 
                         <p:outputLabel value="#{maximusBundle.EditAgentLabel_name}" for="name" />
                         <h:panelGroup>
-                            <p:inputText id="name" value="#{agentController.selected.name}" title="#{maximusBundle.EditAgentTitle_name}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_name}" size="20" maxlength="20"/>
+                            <p:inputText id="name" value="#{agentController.selected.name}" title="#{maximusBundle.EditAgentTitle_name}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_name}" size="30" maxlength="30"/>
                             <p:tooltip for="name" value="#{agentController.getComponentMessages('name', maximusBundle.EditAgentHelpText_name)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditAgentLabel_lastName}" for="lastName" />
                         <h:panelGroup>
-                            <p:inputText id="lastName" value="#{agentController.selected.lastName}" title="#{maximusBundle.EditAgentTitle_lastName}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_lastName}" size="20" maxlength="20"/>
+                            <p:inputText id="lastName" value="#{agentController.selected.lastName}" title="#{maximusBundle.EditAgentTitle_lastName}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_lastName}" size="30" maxlength="30"/>
                             <p:tooltip for="lastName" value="#{agentController.getComponentMessages('lastName', maximusBundle.EditAgentHelpText_lastName)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditAgentLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.EditAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_type}" size="20" maxlength="20"/>
+                            <p:inputText id="type" value="#{agentController.selected.type}" title="#{maximusBundle.EditAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.EditAgentRequiredMessage_type}" size="30" maxlength="30"/>
                             <p:tooltip for="type" value="#{agentController.getComponentMessages('type', maximusBundle.EditAgentHelpText_type)}"/>
                         </h:panelGroup>
 
@@ -47,7 +47,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditAgentLabel_passwordVal}" for="passwordVal" />
                         <h:panelGroup>
-                            <p:inputText id="passwordVal" value="#{agentController.selected.passwordVal}" title="#{maximusBundle.EditAgentTitle_passwordVal}" size="16" maxlength="16"/>
+                            <p:inputText id="passwordVal" value="#{agentController.selected.passwordVal}" title="#{maximusBundle.EditAgentTitle_passwordVal}" size="30" maxlength="30"/>
                             <p:tooltip for="passwordVal" value="#{agentController.getComponentMessages('passwordVal', maximusBundle.EditAgentHelpText_passwordVal)}"/>
                         </h:panelGroup>
                     </p:panelGrid>

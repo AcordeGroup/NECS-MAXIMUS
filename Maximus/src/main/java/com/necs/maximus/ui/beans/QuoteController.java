@@ -95,13 +95,13 @@ public class QuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
+
         HashMap param = new HashMap();
         param.put("idAgent", getUserManagedBean().getAgentId());
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
         quoteClose = new ArrayList<>();
         quoteOpen = new ArrayList<>();
         inicializedListByStatus();
-
     }
 
     public void inicializedListByStatus() {
@@ -124,14 +124,14 @@ public class QuoteController extends AbstractController<Quote> {
                 quoteClose.addAll(quoteFacade.findQuoteByListStatus(status));
                 //quoteClose.addAll(quoteFacade.findAllQuoteByStatus(StatusType.SENT.getName()));
                 quoteClose.addAll(quoteFacade.findAllQuoteByStatus(StatusType.CLOSE.getName()));
-//                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
-//                quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
+//              quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.SENT.getName(), getUserManagedBean().getAgentId()));
+//              quoteClose.addAll(quoteStatusFacade.findQuoteStatusByStatusAndAgent(StatusType.READY.getName(), getUserManagedBean().getAgentId()));
                 break;
 
             case Sales:
                 quoteOpen.addAll(quoteFacade.findQuoteByIdAgent(getUserManagedBean().getAgentId()));
-//                quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.READY_AND_SENT.getName(), agent));
-//quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.SENT.getName(), agent));
+//              quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.READY_AND_SENT.getName(), agent));
+//              quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.SENT.getName(), agent));
                 quoteClose.addAll(quoteFacade.findQuoteByStatusAndAgent(StatusType.CLOSE.getName(), agent));
                 break;
             case Purchasing:
@@ -242,24 +242,11 @@ public class QuoteController extends AbstractController<Quote> {
     public void sendQuote(Quote quote) {
         try {
             if (quote != null) {
-//                QuoteStatus qs = quote.getQuoteStatusList().get(0);
-//                if (qs.getStatus().equals(StatusType.IN_PROGRESS.getName())) {
-//                    qs.setEndDate(new Date());
-//                    quoteStatusFacade.edit(qs);
-//                }
-//                QuoteStatus statusNew = new QuoteStatus();
-//                statusNew.setIdQuote(quote);
-//                statusNew.setInitDate(new Date());
-//                statusNew.setEndDate(new Date());
-//                statusNew.setStatus(StatusType.READY_AND_SENT.getName());
-//                quoteStatusFacade.create(statusNew);
-//                init();
-
                 // aqui envio quote..... conversar con Carlos para conocer el flujo
                 exportPdf(quote, OperationType.SEND.getOperationName());
+                RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
             }
 
-            RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
         } catch (MessagingException e) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
@@ -326,8 +313,6 @@ public class QuoteController extends AbstractController<Quote> {
         BigDecimal total = new BigDecimal(0);
         Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "start ViewQuoteController.exportPdf");
 
-        //Integer quoteId = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("quoteId"));
-        //Quote quote = quoteFacade.find(quoteId);
         Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "quoteId=".concat(quote.getIdQuote().toString()));
 
         try {
@@ -376,7 +361,6 @@ public class QuoteController extends AbstractController<Quote> {
 
             Float defaultPadding = 5f;
             Float defaultSpacing = 15f;
-             //  *****  --------------------  *******
 
             //section title........
             PdfPTable tablaTitle = new PdfPTable(2);
@@ -387,8 +371,6 @@ public class QuoteController extends AbstractController<Quote> {
             //sumna title company 
             tablaTitle.addCell(createCell(bundle.getString("titleCompany"), null, 2, fontHeader, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
 
-//            //suma image company
-//            tablaTitle.addCell(createCellImage(PATH_IMAGE));
             tablaTitle.addCell(createCell(bundle.getString("sale_quote"), null, null, fontHeaderBig, null, Element.ALIGN_RIGHT, defaultPadding, PdfPCell.NO_BORDER, null));
 
             //section Sales quote Interna........
@@ -464,10 +446,10 @@ public class QuoteController extends AbstractController<Quote> {
             tablePart1.addCell(createCell(bundle.getString("payment_method"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             //suma valores primer encabezado 
             tablePart1.addCell(createCell(convertDateToString(quote.getCreationDate()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell(bundle.getString("ship_via"), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell(bundle.getString("f_o_v"), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell(quote.getIdCustomer().getPrimaryPhoneNumber(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell(bundle.getString("payment_method"), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             PdfPTable tablePart2 = new PdfPTable(4);
             tablePart2.setWidths(new int[]{25, 25, 25, 25});
@@ -480,8 +462,8 @@ public class QuoteController extends AbstractController<Quote> {
             //suma valores segundo encabezado 
             tablePart2.addCell(createCell(quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart2.addCell(createCell(quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart2.addCell(createCell(bundle.getString("ordered_by"), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart2.addCell(createCell(bundle.getString("resale_number"), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart2.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart2.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             PdfPTable tablePart3 = new PdfPTable(6);
             tablePart3.setWidths(new int[]{13, 13, 5, 35, 17, 17});
@@ -498,10 +480,9 @@ public class QuoteController extends AbstractController<Quote> {
             for (Has has : quote.getHasList()) {
                 tablePart3.addCell(createCell(has.getQtyRequested() != null ? has.getQtyRequested().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell(has.getQtyFound() != null ? has.getQtyFound().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
-                tablePart3.addCell(createCell("TAX", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
+                tablePart3.addCell(createCell("Y", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCellTextColor(has.getProduct() != null ? has.getProduct().getPartNumber() : "", "                       ".concat("U of M : Pieces\n").concat(has.getProduct().getDescription()), null, null, fontDefault, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding, null, null));
 
-                //tablePart.addCell(createCell(has.getCustomerTargetPrice() != null ? has.getCustomerTargetPrice().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null));
                 tablePart3.addCell(createCell(has.getSuggestedSalesPrice() != null ? has.getSuggestedSalesPrice().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell(has.getExtended() != null ? has.getExtended().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
 
@@ -511,10 +492,6 @@ public class QuoteController extends AbstractController<Quote> {
 
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             tablePart3.addCell(cell);
-//            PdfPCell ce = createCellImage(PATH_IMAGE);
-//            ce.setColspan(6);
-//            ce.setHorizontalAlignment(Element.ALIGN_CENTER);
-//            tablePart3.addCell(ce);
 
             //section footer........
             PdfPTable tablaFooter = new PdfPTable(2);
@@ -593,11 +570,11 @@ public class QuoteController extends AbstractController<Quote> {
                             to.add(quote.getIdAgent().getEmail());
 
                             MailBean mail = new MailBean();
-                            mail.setFrom( bundle.getString("email_remitent"));
+                            mail.setFrom(bundle.getString("email_remitent"));
                             mail.setTo(to);
                             mail.setNameFlie(filename);
                             mail.setSubject(bundle.getString("processed_quote"));
-                            mail.setBody(bundle.getString("body_email"));
+                            mail.setBody(bundle.getString("body_email").replace("{0}", quote.getIdQuote().toString()));
                             mail.setFile(fileA);
 
                             sendMail(mail);
@@ -640,7 +617,6 @@ public class QuoteController extends AbstractController<Quote> {
         PdfPCell cell = null;
         try {
             Image img = Image.getInstance(path);
-            //img.setWidthPercentage(2);
             img.scaleAbsolute(5, 5);
             cell = new PdfPCell(img, true);
             cell.setBorder(PdfPCell.NO_BORDER);

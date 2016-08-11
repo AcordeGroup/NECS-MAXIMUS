@@ -167,4 +167,12 @@ public class ViewQuoteController extends AbstractController<Quote> {
         this.nroColumnVariable = nroColumnVariable;
     }
 
+    public boolean isMostrarVendor() {
+        return mostrarVendor;
+    }
+
+    public void setMostrarVendor(boolean mostrarVendor) {
+        this.mostrarVendor = mostrarVendor;
+    }
+
 }

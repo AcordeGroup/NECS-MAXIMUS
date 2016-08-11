@@ -2,7 +2,6 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Customer;
-import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -56,8 +55,8 @@ public class CustomerController extends AbstractController<Customer> {
             companyNameController.setSelected(this.getSelected().getCompanyName());
         }
     }
-    
-    public void createSalesTrue(){
+
+    public void createSalesTrue() {
         createSales = true;
     }
 

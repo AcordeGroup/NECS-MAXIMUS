@@ -11,7 +11,7 @@
 
             <h:form id="CustomerEditForm">
 
-                <h:panelGroup id="display">
+                <h:panelGroup id="display" style="text-align: left;">
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
 
 
@@ -29,7 +29,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditCustomerLabel_primaryPhoneNumber}" for="primaryPhoneNumber" />
                         <h:panelGroup>
-                            <p:inputText id="primaryPhoneNumber" value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.EditCustomerTitle_primaryPhoneNumber}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_primaryPhoneNumber}" size="20" maxlength="20"/>
+                            <p:inputText id="primaryPhoneNumber" value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.EditCustomerTitle_primaryPhoneNumber}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_primaryPhoneNumber}" size="40" maxlength="40"/>
                             <p:tooltip for="primaryPhoneNumber" value="#{customerController.getComponentMessages('primaryPhoneNumber', maximusBundle.EditCustomerHelpText_primaryPhoneNumber)}"/>
                         </h:panelGroup>
 
@@ -41,7 +41,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditCustomerLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{customerController.selected.type}" title="#{maximusBundle.EditCustomerTitle_type}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_type}" size="25" maxlength="25"/>
+                            <p:inputText id="type" value="#{customerController.selected.type}" title="#{maximusBundle.EditCustomerTitle_type}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_type}" size="40" maxlength="40"/>
                             <p:tooltip for="type" value="#{customerController.getComponentMessages('type', maximusBundle.EditCustomerHelpText_type)}"/>
                         </h:panelGroup>
 

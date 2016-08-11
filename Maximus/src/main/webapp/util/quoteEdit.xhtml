@@ -305,6 +305,7 @@
                 <p:commandButton value="#{maximusBundle.Cancel}" action="#{editQuoteController.typeAgent()}" id="buttonCancel" ajax="true" process="@this" />
                 <p:commandButton value="#{maximusBundle.Save}" action="#{editQuoteController.editRequest('save')}" id="buttonEdit" ajax="false"/>
                 <p:commandButton value="#{maximusBundle.Done}" action="#{editQuoteController.editRequest('done')}" id="buttonDone" rendered="#{userManagedBean.type != 'Sales'}">
+                   
                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDoneQuoteMessage}" icon="ui-icon-alert"/>
                 </p:commandButton>
 
@@ -563,6 +564,19 @@
                 </h:form>
 
             </p:dialog>
+            
+            <p:dialog header="Success"  widgetVar="dialogSuccess"  id="dialogSuccess" resizable="false"  modal="true" position="center" width="300px" height="50%">
+                    <h:form >
+                        <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">
+                            <h:outputText value="#{maximusBundle.message_send_mail_success}" style="font-weight: bold;" />
+                            <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
+                                <p:commandButton value="#{maximusBundle.accept}" ajax="true" action="#{editQuoteController.typeAgent()}" oncomplete="PF('dialogSuccess').hide();"/>
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+            
 
             <ui:include src="/util/DialogSustituteForm.xhtml"/> 
             <ui:include src="/util/DialogReplace.xhtml"/> 

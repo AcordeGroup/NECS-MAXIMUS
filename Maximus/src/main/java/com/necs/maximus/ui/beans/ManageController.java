@@ -23,17 +23,6 @@ public class ManageController extends AbstractController<Manage> {
         super(Manage.class);
     }
 
-//    @Override
-//    protected void setEmbeddableKeys() {
-//        this.getSelected().getManagePK().setIdQuote(this.getSelected().getQuote().getIdQuote());
-//        this.getSelected().getManagePK().setIdAgent(this.getSelected().getAgent().getIdAgent());
-//    }
-//
-//    @Override
-//    protected void initializeEmbeddableKey() {
-//        this.getSelected().setManagePK(new com.necs.maximus.db.entity.ManagePK());
-//    }
-
     /**
      * Resets the "selected" attribute of any parent Entity controllers.
      */

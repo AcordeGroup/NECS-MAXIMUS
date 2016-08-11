@@ -16,13 +16,13 @@
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{isSubstituteController.selected != null}">
 
                         <h:outputText value="#{maximusBundle.ViewIsSubstituteLabel_isSubstitutePK_partNumber1}"/>
-                        <h:outputText value="#{isSubstituteController.selected.isSubstitutePK.partNumber1}" title="#{maximusBundle.ViewIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
+                        <h:outputText value="#{isSubstituteController.selected.partNumberBase.partNumber}" title="#{maximusBundle.ViewIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
 
                         <h:outputText value="#{maximusBundle.ViewIsSubstituteLabel_isSubstitutePK_partNumber2}"/>
-                        <h:outputText value="#{isSubstituteController.selected.isSubstitutePK.partNumber2}" title="#{maximusBundle.ViewIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
+                        <h:outputText value="#{isSubstituteController.selected.partNumberSubstitute.partNumber}" title="#{maximusBundle.ViewIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
 
                         <h:outputText value="#{maximusBundle.ViewIsSubstituteLabel_product}"/>
-                        <h:outputText value="#{isSubstituteController.selected.product.description}"/>
+                        <h:outputText value="#{isSubstituteController.selected.partNumberSubstitute.description}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{maximusBundle.Close}" onclick="PF('IsSubstituteViewDialog').hide()"/>
                 </h:panelGroup>

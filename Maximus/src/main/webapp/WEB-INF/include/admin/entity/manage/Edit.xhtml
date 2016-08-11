@@ -17,7 +17,7 @@
 
                         <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_idQuote}" for="managePK_idQuote" />
                         <h:panelGroup>
-                            <h:outputText id="managePK_idQuote" value="#{manageController.selected.managePK.idQuote}" />
+                            <h:outputText id="managePK_idQuote" value="#{manageController.selected.idQuote}" />
                             <p:tooltip for="managePK_idQuote" value="#{manageController.getComponentMessages('managePK_idQuote', maximusBundle.EditManageHelpText_managePK_idQuote)}"/>
                         </h:panelGroup>
 
@@ -28,12 +28,6 @@
                             <p:tooltip for="managePK_idAgent" value="#{manageController.getComponentMessages('managePK_idAgent', maximusBundle.EditManageHelpText_managePK_idAgent)}"/>
                         </h:panelGroup>
 
-
-                        <h:outputLabel value="#{maximusBundle.EditManageLabel_managePK_notes}" for="managePK_notes" />
-                        <h:panelGroup>
-                            <h:outputText id="managePK_notes" value="#{manageController.selected.managePK.notes}" />
-                            <p:tooltip for="managePK_notes" value="#{manageController.getComponentMessages('managePK_notes', maximusBundle.EditManageHelpText_managePK_notes)}"/>
-                        </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditManageLabel_assignmentDate}" for="assignmentDate" />
                         <h:panelGroup>

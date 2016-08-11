@@ -199,10 +199,16 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     // envio notificacion al sales
                     quoteController.sendQuote(quote);
+                    RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
                 }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
-                return getUserManagedBean().getType();
+                if (!operation.equals(OperationType.DONE.getOperationName())) {
+                    return getUserManagedBean().getType();
+                } else {
+                    return "";
+                }
+
             }
         } catch (Exception e) {
 
