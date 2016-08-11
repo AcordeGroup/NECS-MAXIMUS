@@ -18,8 +18,6 @@
                         <h:outputText value="#{maximusBundle.ViewQuoteLabel_idQuote}"/>
                         <h:outputText value="#{quoteController.selected.idQuote}" title="#{maximusBundle.ViewQuoteTitle_idQuote}"/>
 
-                        <h:outputText value="#{maximusBundle.ViewQuoteLabel_notes}"/>
-                        <h:outputText value="#{quoteController.selected.notes}" title="#{maximusBundle.ViewQuoteTitle_notes}"/>
 
                         <h:outputText value="#{maximusBundle.ViewQuoteLabel_creationDate}"/>
                         <h:outputText value="#{quoteController.selected.creationDate}" title="#{maximusBundle.ViewQuoteTitle_creationDate}">
@@ -30,7 +28,7 @@
                         <h:outputText value="#{quoteController.selected.idAgent.name}"/>
 
                         <h:outputText value="#{maximusBundle.ViewQuoteLabel_idCustomer}"/>
-                        <h:outputText value="#{quoteController.selected.idCustomer.companyName}"/>
+                        <h:outputText value="#{quoteController.selected.idCustomer.companyName.companyName}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{maximusBundle.Close}" onclick="PF('QuoteViewDialog').hide()"/>
                 </h:panelGroup>

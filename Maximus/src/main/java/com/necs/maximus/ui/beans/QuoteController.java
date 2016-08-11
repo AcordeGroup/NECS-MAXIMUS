@@ -481,12 +481,29 @@ public class QuoteController extends AbstractController<Quote> {
                 tablePart3.addCell(createCell(has.getQtyRequested() != null ? has.getQtyRequested().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell(has.getQtyFound() != null ? has.getQtyFound().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell("Y", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
-                tablePart3.addCell(createCellTextColor(has.getProduct() != null ? has.getProduct().getPartNumber() : "", "                       ".concat("U of M : Pieces\n").concat(has.getProduct().getDescription()), null, null, fontDefault, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding, null, null));
+
+                //section table Interna que maneja informacion del description........
+                PdfPTable tablaInter = new PdfPTable(2);
+                tablaInter.setWidths(new int[]{65, 35});
+                tablaInter.setWidthPercentage(100);
+                tablaInter.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getPartNumber() : "", null, null, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding,  PdfPCell.NO_BORDER , null));
+                tablaInter.addCell(createCell("U of M : Pieces", null, null, fontDefault, null, Element.ALIGN_RIGHT, defaultPadding,  PdfPCell.NO_BORDER, null));
+                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getDescription() : "", 2, null, fontDefaultBold, null, Element.ALIGN_LEFT, defaultPadding,  PdfPCell.NO_BORDER, null));
+
+                //suma text sales quote
+                PdfPCell cellInterDescription = new PdfPCell();
+                cellInterDescription.addElement(tablaInter);
+                //cellInterDescription.setBorder(PdfPCell.NO_BORDER);
+                cellInterDescription.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                tablePart3.addCell(cellInterDescription);
 
                 tablePart3.addCell(createCell(has.getSuggestedSalesPrice() != null ? has.getSuggestedSalesPrice().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell(has.getExtended() != null ? has.getExtended().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
 
-                total = total.add(has.getExtended());
+                total = total.add(has.getExtended() == null ? BigDecimal.ZERO : has.getExtended());
             }
             PdfPCell cell = createCell(bundle.getString("approved_by").concat(" :_____________________________________"), 6, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, 40f);
 

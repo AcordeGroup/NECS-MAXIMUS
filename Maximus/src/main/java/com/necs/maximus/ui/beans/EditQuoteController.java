@@ -32,8 +32,10 @@ import com.necs.maximus.enums.ShippingCostType;
 import com.necs.maximus.enums.StatusType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -298,15 +300,33 @@ public class EditQuoteController extends AbstractController<Quote> {
 
             } else {
 
-                for (Product pro : selectedPart) {
-                    Has object = new Has();
-                    object.setProduct(pro);
-                    partListHas.add(object);
+                List<Has> auxPartHas = new ArrayList<>();
+                Collection<Product> listWithoutDuplicates = new HashSet<>(selectedPart);
+                for (Product pro : listWithoutDuplicates) {
+                    boolean productExist = false;
+                    if (partListHas != null && !partListHas.isEmpty()) {
+                        for (Has h : partListHas) {
+                            if (h.getProduct().getPartNumber().equals(pro.getPartNumber())) {
+                                productExist = true;
+                                break;
+                            }
+                        }
+                        if (!productExist) {
+                            Has object = new Has();
+                            object.setProduct(pro);
+                            auxPartHas.add(object);
+                        }
+                    } else {
+                        Has object = new Has();
+                        object.setProduct(pro);
+                        auxPartHas.add(object);
+                    }
                 }
+                partListHas.addAll(auxPartHas);
 
                 RequestContext.getCurrentInstance().update("form:datalistProduct");
                 RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
-                inicializedObject();
+                reset();
 
             }
 
@@ -336,7 +356,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
 
         if (selectedPartSubtitute == null) {
-            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
+            FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error_note")));
         } else {
 
             StringBuffer nota = new StringBuffer();

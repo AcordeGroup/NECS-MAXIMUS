@@ -12,7 +12,7 @@
             <p:contextMenu id="IsSubstituteDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('IsSubstituteListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('IsSubstituteListForm:viewButton').click();" icon="ui-icon-search"/>
-                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('IsSubstituteListForm:editButton').click();" icon="ui-icon-pencil"/>
+<!--                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('IsSubstituteListForm:editButton').click();" icon="ui-icon-pencil"/>-->
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('IsSubstituteListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.IsSubstituteMenuItem_product}" icon="ui-icon-search"  actionListener="#{isSubstituteController.prepareProduct}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty isSubstituteController.selected.partNumberBase}"/>  
