@@ -2,10 +2,15 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Product;
+import com.necs.maximus.db.facade.ProductFacade;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 @Named(value = "productController")
 @ViewScoped
@@ -14,8 +19,15 @@ public class ProductController extends AbstractController<Product> {
     @Inject
     private MobilePageController mobilePageController;
 
+    @Inject
+    private ProductFacade ejbFacade;
+
     private boolean createPart;
     private boolean createPartSustitute;
+
+    private final FacesContext facesContext = FacesContext.getCurrentInstance();
+    private final Locale locale = facesContext.getViewRoot().getLocale();
+    protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
 
     public ProductController() {
         // Inform the Abstract parent controller of the concrete Product Entity
@@ -60,6 +72,16 @@ public class ProductController extends AbstractController<Product> {
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("ProductCost_items", this.getSelected().getProductCostList());
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/productCost/index";
+    }
+
+    public void createProduct(String partNumber) {
+        Product product = ejbFacade.findByNumberProduct(partNumber);
+        if (product != null) {
+            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_product_exist")));
+        } else {
+            this.saveNew(null);
+        }
+
     }
 
     public void createPartTrue() {

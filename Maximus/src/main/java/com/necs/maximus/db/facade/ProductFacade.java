@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -66,15 +67,30 @@ public class ProductFacade extends AbstractFacade<Product> {
 
         return query.getResultList();
     }
-    
-    public List<Product> findProductByNumberProduct(String partNumber){
-        
-         Query query = em.createQuery("select p "
+
+    public List<Product> findProductByNumberProduct(String partNumber) {
+
+        Query query = em.createQuery("select p "
                 + "from Product p "
                 + "where UPPER(p.partNumber) like :partNumber ");
-          query.setParameter("partNumber", partNumber.toUpperCase()+ "%");
+        query.setParameter("partNumber", partNumber.toUpperCase() + "%");
         return query.getResultList();
-        
+
+    }
+
+    public Product findByNumberProduct(String partNumber) {
+        try {
+
+            Query query = em.createQuery("select p "
+                    + "from Product p "
+                    + "where p.partNumber = :partNumber ");
+            query.setParameter("partNumber", partNumber);
+            return (Product) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

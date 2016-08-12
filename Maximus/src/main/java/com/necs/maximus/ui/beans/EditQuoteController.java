@@ -582,12 +582,18 @@ public class EditQuoteController extends AbstractController<Quote> {
         try {
 
             if (proController.getSelected() != null) {
-                productFacade.create(proController.getSelected());
-                setProductCreado(proController.getSelected());
-                if (isGeneric) {
-                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
+                Product product = productFacade.findByNumberProduct(proController.getSelected().getPartNumber());
+                if (product != null) {
+                    RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_product_exist")));
                 } else {
-                    RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreateSubstitute').show();");
+
+                    productFacade.create(proController.getSelected());
+                    setProductCreado(proController.getSelected());
+                    if (isGeneric) {
+                        RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
+                    } else {
+                        RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreateSubstitute').show();");
+                    }
                 }
             }
 

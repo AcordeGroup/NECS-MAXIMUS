@@ -63,7 +63,7 @@
                             <p:tooltip for="price" value="#{productController.getComponentMessages('price', maximusBundle.CreateProductHelpText_price)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{productController.saveNew}" value="#{maximusBundle.Save}" update="display,#{productController.createPart ? '' : ':ProductListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('ProductCreateDialog'));">
+                    <p:commandButton actionListener="#{productController.createProduct(productController.selected.partNumber)}" value="#{maximusBundle.Save}" update="display,#{productController.createPart ? '' : ':ProductListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('ProductCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
