@@ -50,14 +50,15 @@
 
                     <p:spacer />
 
-                    <p:outputPanel  rendered="#{editQuoteController.partList != null}" id="panelTable" autoUpdate="true">
+                    <p:outputPanel  rendered="#{editQuoteController.partList != null}" id="panelTable">
                         <p:separator/>
                         <p:dataTable id="datalistPart"
                                      value="#{editQuoteController.partList}"
                                      var="item"
                                      paginator="true"
                                      rows="10"
-                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
                                      emptyMessage="#{maximusBundle.no_search_result}"
                                      paginatorPosition="bottom"
                                      selection="#{editQuoteController.selectedPartSubtitute}"
@@ -140,9 +141,9 @@
                 <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
 
                     <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPartReplace').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
-                    <p:commandButton value="#{maximusBundle.replace}" id="buttonAdd" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />
+                    <p:commandButton value="#{maximusBundle.replace}" id="buttonAdd" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form,:formDialogReplace" oncomplete="PF('dialogPartReplace').initPosition()" />
                     <p:commandButton value="#{maximusBundle.notes}" id="buttonNotes" ajax="true" action="ss"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />
-                    
+
                 </p:outputPanel> 
             </h:form>
         </p:dialog>

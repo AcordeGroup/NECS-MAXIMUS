@@ -118,7 +118,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.target_price_label}"/>
                                     </f:facet>
-                                    <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}"  value="#{item.product.price}"  size="10">
+                                    <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundle.message_only_numbers}"  value="#{item.product.price}"  size="10">
                                         <p:ajax update=":form:datalistProduct:extended" listener="#{createQuoteController.addExtended(item)}" />
                                     </p:inputText>
 

@@ -153,16 +153,6 @@ public class EditQuoteController extends AbstractController<Quote> {
                     agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
                 }
 
-                if (note != null && !note.equals("")) {
-                    // create nota entity
-                    QuoteNote nota = new QuoteNote();
-                    nota.setCreationDate(new Date());
-                    nota.setIdQuote(quote);
-                    nota.setNote(note);
-                    nota.setIdAgent(agent);
-                    quoteNoteFacade.create(nota);
-                }
-
                 //remove list has existent
                 for (Has h : quote.getHasList()) {
                     hasFacade.remove(h);
@@ -202,6 +192,16 @@ public class EditQuoteController extends AbstractController<Quote> {
                     // envio notificacion al sales
                     quoteController.sendQuote(quote);
                     RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
+                }
+
+                if (note != null && !note.equals("")) {
+                    // create nota entity
+                    QuoteNote nota = new QuoteNote();
+                    nota.setCreationDate(new Date());
+                    nota.setIdQuote(quote);
+                    nota.setNote(note);
+                    nota.setIdAgent(agent);
+                    quoteNoteFacade.create(nota);
                 }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
@@ -334,6 +334,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public void replacePart() {
+        boolean genericSelected = false;
+
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
@@ -341,10 +343,43 @@ public class EditQuoteController extends AbstractController<Quote> {
         if (selectedPartSubtitute == null) {
             FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("replace_part_quote_error")));
         } else {
-            if (productGeneric != null) {
-                RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
-            } else if (productReplace != null) {
-                RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
+
+            if (selectedPartSubtitute.getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                genericSelected = true;
+
+            }
+
+            if (genericSelected) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("generic_product_select")));
+
+            } else {
+
+                boolean productExist = false;
+                if (partListHas != null && !partListHas.isEmpty()) {
+                    for (Has h : partListHas) {
+                        if (h.getProduct().getPartNumber().equals(selectedPartSubtitute.getPartNumber())) {
+                            productExist = true;
+                            break;
+                        }
+                    }
+                    if (productExist) {
+                        RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("product_exist")));
+                    } else {
+                        if (productGeneric != null) {
+                            RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
+                        } else if (productReplace != null) {
+                            RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
+                        }
+
+                    }
+                } else {
+                    if (productGeneric != null) {
+                        RequestContext.getCurrentInstance().execute("PF('dialogPartConfirm').show();");
+                    } else if (productReplace != null) {
+                        RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
+                    }
+
+                }
             }
         }
     }
@@ -489,7 +524,8 @@ public class EditQuoteController extends AbstractController<Quote> {
             if (agent == null) {
                 HashMap param = new HashMap();
                 param.put("idAgent", getUserManagedBean().getAgentId());
-                agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
+                agent
+                        = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
             }
 
             for (QuoteStatus qs : quote.getQuoteStatusList()) {

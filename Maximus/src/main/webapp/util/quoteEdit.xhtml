@@ -455,7 +455,7 @@
                     <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%">
                         <h:outputText value="#{maximusBundle.message_process_product_generic}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                            <p:commandButton value="#{maximusBundle.search_part}"  id="buttonSearch" onclick="PF('dialogPartReplace').show()" ajax="true"/>
+                            <p:commandButton value="#{maximusBundle.search_part}"  id="buttonSearch" onclick="PF('dialogPartReplace').show()" ajax="true" oncomplete="#{editQuoteController.reset()}"/>
                             <p:commandButton value="#{maximusBundle.enter_new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.fillDescriptionGeneric()}" oncomplete="PF('ProductCreateDialog').show()">
 
                             </p:commandButton>
@@ -496,7 +496,7 @@
                         <h:outputText value="#{maximusBundle.message_replace_created}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialog').hide(); PF('dialogSubstitute').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialog').hide(); PF('dialogSubstitute').hide();" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialog').hide();" update=":form, :formDialogSubstitute" actionListener="#{editQuoteController.inicializedObject()}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>

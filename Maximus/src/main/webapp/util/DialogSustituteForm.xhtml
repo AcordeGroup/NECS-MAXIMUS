@@ -49,9 +49,8 @@
 
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
                                     <p:inputText value="#{editQuoteController.descriptionPart}" />
-                                    <p:commandButton value="#{maximusBundle.new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.fillDescriptionGeneric()}" oncomplete="PF('ProductCreateDialog').show()" style="height: 25px; vertical-align: middle; margin: 0 0 0 0 !important; width: 98px;">
-                                        <p:ajax listener="#{editQuoteController.fillMessageDialog(false)}"/>
-                                    </p:commandButton>
+                                    <p:commandButton value="#{maximusBundle.new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.proController.prepareCreate()}" oncomplete="PF('ProductCreateDialog').show()" style="height: 25px; vertical-align: middle; margin: 0 0 0 0 !important; width: 98px;">
+                              
 
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
                                     <p:inputText value="#{editQuoteController.typePart}"  />
@@ -67,14 +66,15 @@
 
                     <p:spacer />
 
-                    <p:outputPanel  rendered="#{editQuoteController.partList != null}" id="panelTableSustitute" autoUpdate="true">
+                    <p:outputPanel  rendered="#{editQuoteController.partList != null}" id="panelTableSustitute">
                         <p:separator/>
                         <p:dataTable id="datalistPartSustitute"
                                      value="#{editQuoteController.partList}"
                                      var="item"
                                      paginator="true"
                                      rows="10"
-                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
                                      emptyMessage="#{maximusBundle.no_search_result}"
                                      paginatorPosition="bottom"
                                      selection="#{editQuoteController.selectedPartSubtitute}"
@@ -171,8 +171,8 @@
                 <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">
                     <h:outputText value="#{maximusBundle.message_replace_product}" />
                     <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                        <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartReplaceConfirm').hide(); PF('dialogSubstitute').hide();"/>
-                        <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartReplaceConfirm').hide();" update=":form:datalistProduct" />
+                        <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form,:formDialogSubstitute:" oncomplete="PF('dialogPartReplaceConfirm').hide(); PF('dialogSubstitute').hide();"/>
+                        <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartReplaceConfirm').hide();" update=":form,:formDialogSubstitute:" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

@@ -122,6 +122,19 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 newQuote.setEmail(customerSelected.getPrimaryEmail());
 
                 quoteFacade.create(newQuote);
+
+                for (Has h : partListHas) {
+                    h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
+                    h.setQuote(newQuote);
+                    h.setCustomerTargetPrice(h.getProduct().getPrice());
+                    //h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
+                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                        h.setObservation(observation);
+                        //h.setQtyFound(BigDecimal.ZERO);
+                    }
+                    hasFacade.create(h);
+                }
+
                 if (note != null && !note.equals("")) {
                     // create nota entity
                     QuoteNote nota = new QuoteNote();
@@ -139,18 +152,6 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 status.setStatus(StatusType.OPEN.getName());
 
                 quoteStatusFacade.create(status);
-
-                for (Has h : partListHas) {
-                    h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
-                    h.setQuote(newQuote);
-                    h.setCustomerTargetPrice(h.getProduct().getPrice());
-                    //h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
-                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
-                        h.setObservation(observation);
-                        //h.setQtyFound(BigDecimal.ZERO);
-                    }
-                    hasFacade.create(h);
-                }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("save_success_quote")));
                 return getUserManagedBean().getType();
