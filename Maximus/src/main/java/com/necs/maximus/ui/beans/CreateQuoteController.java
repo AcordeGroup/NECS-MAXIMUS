@@ -212,7 +212,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         }
 
         partList = productFacade.findAllByFilter(parametros);
-    }
+    } 
 
     public void addPart() {
         if (partListHas == null) {

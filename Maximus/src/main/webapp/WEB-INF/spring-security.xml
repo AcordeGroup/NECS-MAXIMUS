@@ -18,7 +18,7 @@
           access-decision-manager-ref="accessDecisionManager" use-expressions="true">
         <intercept-url pattern="/faces/login/*" access="isAnonymous()"/>
         <intercept-url pattern="/faces/*" access="hasAnyRole('Purchasing','Sales','Administrator')" />
-        <intercept-url pattern="/faces/admin/**" access="hasAnyRole('Administrator')" />
+        <intercept-url pattern="/faces/admin/**" access="hasAnyRole('Purchasing','Sales','Administrator')" />
         <intercept-url pattern="/faces/sales/**" access="hasAnyRole('Sales')" />
         <intercept-url pattern="/faces/purchasing/**" access="hasAnyRole('Purchasing')" />
         <form-login login-page='/faces/login/login.xhtml'/>

@@ -12,6 +12,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Has;
@@ -83,6 +84,7 @@ public class QuoteController extends AbstractController<Quote> {
     private StreamedContent filePdf;
 
     private static final String PATH_IMAGE = "check.png";
+    private static final String PATH_IMAGE_LOGO = "logoNecs.png";
 
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
     private final Locale locale = facesContext.getViewRoot().getLocale();
@@ -329,10 +331,8 @@ public class QuoteController extends AbstractController<Quote> {
 
             // Se asocia el documento al OutputStream y se indica que el espaciado entre
             // lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
-            PdfWriter.getInstance(document, out).setInitialLeading(20);
-
-            //se apertura el documento..
-            document.open();
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+            writer.setInitialLeading(20);
 
             //  *****  creacion de fuentes asociadas al documentos *******
             Font fontHeader = FontFactory.getFont("Times New Roman", // fuente
@@ -356,27 +356,46 @@ public class QuoteController extends AbstractController<Quote> {
                     13, // tamaño
                     Font.BOLD, // estilo
                     BaseColor.BLACK);
+            
+            Font fontFooter = FontFactory.getFont("Times New Roman", // fuente
+                    7, // tamaño
+                    Font.NORMAL, // estilo
+                    BaseColor.LIGHT_GRAY);
 
             BaseColor baseColor = new BaseColor(223, 232, 254);
 
             Float defaultPadding = 5f;
             Float defaultSpacing = 15f;
 
+            //section footer........
+            PdfPTable tablaFooter = new PdfPTable(1);
+            tablaFooter.setTotalWidth(523);
+            tablaFooter.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            tablaFooter.addCell(createCell(bundle.getString("footer"), null, null, fontFooter, null, Element.ALIGN_CENTER, null, PdfPCell.NO_BORDER, null));
+
+            FooterTable event = new FooterTable(tablaFooter);
+            writer.setPageEvent(event);
+
+            //se apertura el documento..
+            document.open();
+
             //section title........
             PdfPTable tablaTitle = new PdfPTable(2);
-            tablaTitle.setWidths(new int[]{50, 50});
+            tablaTitle.setWidths(new int[]{30, 70});
             tablaTitle.setWidthPercentage(100);
             tablaTitle.setHorizontalAlignment(Element.ALIGN_CENTER);
 
             //sumna title company 
-            tablaTitle.addCell(createCell(bundle.getString("titleCompany"), null, 2, fontHeader, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
+//            tablaTitle.addCell(createCell(bundle.getString("titleCompany"), null, 2, fontHeader, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
+            tablaTitle.addCell(createCellImage(PATH_IMAGE_LOGO));
 
             tablaTitle.addCell(createCell(bundle.getString("sale_quote"), null, null, fontHeaderBig, null, Element.ALIGN_RIGHT, defaultPadding, PdfPCell.NO_BORDER, null));
 
             //section Sales quote Interna........
             PdfPTable tablaSalesQuoteInter = new PdfPTable(2);
             tablaSalesQuoteInter.setWidths(new int[]{50, 50});
-            tablaSalesQuoteInter.setWidthPercentage(70);
+            tablaSalesQuoteInter.setWidthPercentage(60);
             tablaSalesQuoteInter.setHorizontalAlignment(Element.ALIGN_RIGHT);
             tablaSalesQuoteInter.setSpacingBefore(defaultSpacing);
 
@@ -446,10 +465,10 @@ public class QuoteController extends AbstractController<Quote> {
             tablePart1.addCell(createCell(bundle.getString("payment_method"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             //suma valores primer encabezado 
             tablePart1.addCell(createCell(convertDateToString(quote.getCreationDate()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart1.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart1.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             PdfPTable tablePart2 = new PdfPTable(4);
             tablePart2.setWidths(new int[]{25, 25, 25, 25});
@@ -462,8 +481,8 @@ public class QuoteController extends AbstractController<Quote> {
             //suma valores segundo encabezado 
             tablePart2.addCell(createCell(quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart2.addCell(createCell(quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart2.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart2.addCell(createCell("include in second stage", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart2.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablePart2.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             PdfPTable tablePart3 = new PdfPTable(6);
             tablePart3.setWidths(new int[]{13, 13, 5, 35, 17, 17});
@@ -488,9 +507,9 @@ public class QuoteController extends AbstractController<Quote> {
                 tablaInter.setWidthPercentage(100);
                 tablaInter.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getPartNumber() : "", null, null, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding,  PdfPCell.NO_BORDER , null));
-                tablaInter.addCell(createCell("U of M : Pieces", null, null, fontDefault, null, Element.ALIGN_RIGHT, defaultPadding,  PdfPCell.NO_BORDER, null));
-                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getDescription() : "", 2, null, fontDefaultBold, null, Element.ALIGN_LEFT, defaultPadding,  PdfPCell.NO_BORDER, null));
+                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getPartNumber() : "", null, null, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
+                tablaInter.addCell(createCell("U of M : Pieces", null, null, fontDefault, null, Element.ALIGN_RIGHT, defaultPadding, PdfPCell.NO_BORDER, null));
+                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getDescription() : "", 2, null, fontDefaultBold, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
 
                 //suma text sales quote
                 PdfPCell cellInterDescription = new PdfPCell();
@@ -510,12 +529,12 @@ public class QuoteController extends AbstractController<Quote> {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             tablePart3.addCell(cell);
 
-            //section footer........
-            PdfPTable tablaFooter = new PdfPTable(2);
-            tablaFooter.setWidths(new int[]{1, 1});
-            tablaFooter.setWidthPercentage(100);
-            tablaFooter.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaFooter.setSpacingBefore(defaultSpacing);
+            //section totales.......
+            PdfPTable tablaTotales = new PdfPTable(2);
+            tablaTotales.setWidths(new int[]{1, 1});
+            tablaTotales.setWidthPercentage(100);
+            tablaTotales.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaTotales.setSpacingBefore(defaultSpacing);
 
             //section Sales footer Interna left........
             PdfPTable tablaFooterInterLeft = new PdfPTable(2);
@@ -557,16 +576,16 @@ public class QuoteController extends AbstractController<Quote> {
             cellFooterInterRigth.setBorder(PdfPCell.NO_BORDER);
             cellFooterInterRigth.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-            //sumna title Footer 
-            tablaFooter.addCell(cellFooterInterLeft);
-            tablaFooter.addCell(cellFooterInterRigth);
+            //sumna title totales 
+            tablaTotales.addCell(cellFooterInterLeft);
+            tablaTotales.addCell(cellFooterInterRigth);
 
             document.add(tablaTitle);
             document.add(tablaContent);
             document.add(tablePart1);
             document.add(tablePart2);
             document.add(tablePart3);
-            document.add(tablaFooter);
+            document.add(tablaTotales);
             document.close();
             out.flush();
             out.close();
@@ -634,9 +653,12 @@ public class QuoteController extends AbstractController<Quote> {
         PdfPCell cell = null;
         try {
             Image img = Image.getInstance(path);
-            img.scaleAbsolute(5, 5);
+            //img.scaleAbsolute(5, 5);
             cell = new PdfPCell(img, true);
             cell.setBorder(PdfPCell.NO_BORDER);
+            cell.setRowspan(2);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell.setVerticalAlignment(Element.ALIGN_TOP);
 
         } catch (BadElementException ex) {
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.SEVERE, null, ex);
@@ -727,6 +749,19 @@ public class QuoteController extends AbstractController<Quote> {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         String date = sdf.format(dateCreation);
         return date;
+    }
+
+    public class FooterTable extends PdfPageEventHelper {
+
+        protected PdfPTable footer;
+
+        public FooterTable(PdfPTable footer) {
+            this.footer = footer;
+        }
+
+        public void onEndPage(PdfWriter writer, Document document) {
+            footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
+        }
     }
 
     public List<Quote> getFilteredQuote() {
