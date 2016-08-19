@@ -57,7 +57,7 @@ public class ProductCost implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date initDate;
     @Column(name = "end_date")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @JoinColumn(name = "part_number", referencedColumnName = "part_number")
     @ManyToOne(optional = false)

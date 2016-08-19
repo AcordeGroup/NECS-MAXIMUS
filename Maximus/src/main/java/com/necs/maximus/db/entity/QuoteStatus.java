@@ -57,7 +57,7 @@ public class QuoteStatus implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date initDate;
     @Column(name = "end_date")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @JoinColumn(name = "id_quote", referencedColumnName = "id_quote")
     @ManyToOne(optional = false)

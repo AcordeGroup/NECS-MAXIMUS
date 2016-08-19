@@ -28,23 +28,15 @@ public class ManageConverter implements Converter {
         return this.ejbFacade.find(getKey(value));
     }
 
-    com.necs.maximus.db.entity.ManagePK getKey(String value) {
-        com.necs.maximus.db.entity.ManagePK key;
-        String values[] = value.split(SEPARATOR_ESCAPED);
-        key = new com.necs.maximus.db.entity.ManagePK();
-        key.setIdQuote(Integer.parseInt(values[0]));
-        key.setIdAgent(values[1]);
-        key.setNotes(values[2]);
+    Integer getKey(String value) {
+        Integer key;
+        key = Integer.valueOf(value);
         return key;
     }
 
-    String getStringKey(com.necs.maximus.db.entity.ManagePK value) {
+    String getStringKey(Integer value) {
         StringBuffer sb = new StringBuffer();
-        sb.append(value.getIdQuote());
-        sb.append(SEPARATOR);
-        sb.append(value.getIdAgent());
-        sb.append(SEPARATOR);
-        sb.append(value.getNotes());
+        sb.append(value);
         return sb.toString();
     }
 
