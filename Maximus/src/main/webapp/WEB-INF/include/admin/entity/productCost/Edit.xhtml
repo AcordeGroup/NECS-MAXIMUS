@@ -35,7 +35,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditProductCostLabel_endDate}" for="endDate" />
                         <h:panelGroup>
-                            <p:calendar id="endDate" pattern="HH:mm:ss" value="#{productCostController.selected.endDate}" title="#{maximusBundle.EditProductCostTitle_endDate}"  showOn="button"/>
+                            <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{productCostController.selected.endDate}" title="#{maximusBundle.EditProductCostTitle_endDate}"  showOn="button"/>
                             <p:tooltip for="endDate" value="#{productCostController.getComponentMessages('endDate', maximusBundle.EditProductCostHelpText_endDate)}"/>
                         </h:panelGroup>
 

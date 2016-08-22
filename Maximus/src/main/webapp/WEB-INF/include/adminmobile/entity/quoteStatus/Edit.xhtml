@@ -48,7 +48,7 @@
                         <pm:field>
                             <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_endDate}" for="endDate" />
                             <h:panelGroup>
-                                <p:calendar id="endDate" pattern="HH:mm:ss" value="#{quoteStatusController.selected.endDate}" title="#{maximusBundle.EditQuoteStatusTitle_endDate}"  showOn="button"/>
+                                <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{quoteStatusController.selected.endDate}" title="#{maximusBundle.EditQuoteStatusTitle_endDate}"  showOn="button"/>
                                 <p:tooltip for="endDate" value="#{quoteStatusController.getComponentMessages('endDate', maximusBundle.EditQuoteStatusHelpText_endDate)}"/>
                             </h:panelGroup>
                         </pm:field>
