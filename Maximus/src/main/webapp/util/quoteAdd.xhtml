@@ -12,7 +12,7 @@
         </ui:define>
         <ui:define name="menu">
             <!-- Menu here. Also a layout and a way to log a user out -->
-            <ui:include src="/sales/appmenu.xhtml"/>
+            <ui:include src="#{createQuoteController.appMenu()}" />
         </ui:define>
         <ui:define name="body">
             <h:form id="form">

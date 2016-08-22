@@ -308,6 +308,24 @@ public abstract class AbstractController<T> implements Serializable {
         }
         return index;
     }
+    
+      public String appMenu() {
+        String menu = null;
+        switch (AgentType.valueOf(getUserManagedBean().getType())) {
+
+            case Administrator:
+                menu = "/WEB-INF/include/admin/appmenu.xhtml";
+                break;
+
+            case Sales:
+                menu = "/sales/appmenu.xhtml";
+                break;
+            case Purchasing:
+                menu = "/purchasing/appmenu.xhtml";
+                break;
+        }
+        return menu;
+    }
 
     public String typeAgent() {
         return getUserManagedBean().getType();

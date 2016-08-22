@@ -12,11 +12,11 @@
         </ui:define>
         <ui:define name="menu">
             <!-- Menu here. Also a layout and a way to log a user out -->
-            <ui:include src="/sales/appmenu.xhtml"/>
+             <ui:include src="#{createQuoteController.appMenu()}" />
         </ui:define>
         <ui:define name="body">
             <h:form id="form">
-                <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest">
+                <p:panel header="#{maximusBundle.edit_request_label}" id="panelRequest">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                     <h:panelGrid columns="2" style="width: 100%; vertical-align: top;" >
                         <h:panelGrid columns="2" style="text-align: left">

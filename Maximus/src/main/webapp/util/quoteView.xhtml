@@ -12,11 +12,11 @@
         </ui:define>
         <ui:define name="menu">
             <!-- Menu here. Also a layout and a way to log a user out -->
-            <ui:include src="/sales/appmenu.xhtml"/>
+            <ui:include src="#{createQuoteController.appMenu()}" />
         </ui:define>
         <ui:define name="body">
             <h:form>
-                <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest" style="width: 100%">
+                <p:panel header="#{maximusBundle.request_label}" id="panelRequest" style="width: 100%">
                     <table style="width: 100%; vertical-align: top; text-align: right;"> 
                         <tr>
                             <td style="width: 90%">
@@ -148,13 +148,13 @@
                                 <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
                             </h:outputText>
                         </p:column>
-                        
+
                         <p:column style="width : 90px" rendered="#{viewQuoteController.mostrarVendor}">
                             <f:facet name="header">
                                 <h:outputText value="Vendor"/>
                             </f:facet>
                             <h:outputText  value="#{item.idVendor.companyName == null ? 'N/A' : item.idVendor.companyName}"/>
-                                
+
                         </p:column>
                         <p:column style="width : 90px" rendered="#{viewQuoteController.quote.includeShippingCost == 1 and (viewQuoteController.mostrarShippingCostPerItem)}">
                             <f:facet name="header">
@@ -237,7 +237,7 @@
                                     </p:column>
 
                                 </p:row>
-                               
+
                             </p:panelGrid>
 
 
