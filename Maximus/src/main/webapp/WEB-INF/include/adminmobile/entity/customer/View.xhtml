@@ -7,48 +7,38 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pm="http://primefaces.org/mobile">
 
-    <pm:page id="CustomerViewPage" lazy="true">
-        <pm:header title="#{maximusBundle.ViewCustomerTitle}">
+    <pm:page id="CompanyViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewCompanyTitle}">
             <h:form>
-                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CustomerListPage')}"/>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CompanyListPage')}"/>
             </h:form>
         </pm:header>
 
         <pm:content>
 
-            <h:form id="CustomerViewForm">
+            <h:form id="CompanyViewForm">
 
                 <h:panelGroup id="display">
                     <p:outputPanel rendered="#{customerController.selected != null}">
 
                         <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_idCustomer}"/>
-                            <h:outputText value="#{customerController.selected.idCustomer}" title="#{maximusBundle.ViewCustomerTitle_idCustomer}"/>
+                            <h:outputText value="#{maximusBundle.ViewCompanyLabel_companyName}"/>
+                            <h:outputText value="#{customerController.selected.companyName}" title="#{maximusBundle.ViewCompanyTitle_companyName}"/>
                         </pm:field>
 
                         <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryContact}"/>
-                            <h:outputText value="#{customerController.selected.primaryContact}" title="#{maximusBundle.ViewCustomerTitle_primaryContact}"/>
+                            <h:outputText value="#{maximusBundle.ViewCompanyLabel_companyAddress}"/>
+                            <h:outputText value="#{customerController.selected.companyAddress}" title="#{maximusBundle.ViewCompanyTitle_companyAddress}"/>
                         </pm:field>
 
                         <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryPhoneNumber}"/>
-                            <h:outputText value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.ViewCustomerTitle_primaryPhoneNumber}"/>
+                            <h:outputText value="#{maximusBundle.ViewCompanyLabel_phoneNumber}"/>
+                            <h:outputText value="#{customerController.selected.phoneNumber}" title="#{maximusBundle.ViewCompanyTitle_phoneNumber}"/>
                         </pm:field>
 
                         <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryEmail}"/>
-                            <h:outputText value="#{customerController.selected.primaryEmail}" title="#{maximusBundle.ViewCustomerTitle_primaryEmail}"/>
-                        </pm:field>
-
-                        <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_type}"/>
-                            <h:outputText value="#{customerController.selected.type}" title="#{maximusBundle.ViewCustomerTitle_type}"/>
-                        </pm:field>
-
-                        <pm:field>
-                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_companyName}"/>
-                            <h:outputText value="#{customerController.selected.companyName.companyName}"/>
+                            <h:outputText value="#{maximusBundle.ViewCompanyLabel_website}"/>
+                            <h:outputText value="#{customerController.selected.website}" title="#{maximusBundle.ViewCompanyTitle_website}"/>
                         </pm:field>
                     </p:outputPanel>
                 </h:panelGroup>

@@ -9,14 +9,13 @@
     <h:form id="CustomerListForm">
 
         <p:panel header="#{maximusBundle.ListCustomerTitle}">
-            <p:contextMenu id="CustomerDataTableContextMenu" for="datalist">  
+            <p:contextMenu id="CompanyDataTableContextMenu" for="datalist">  
                 <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('CustomerListForm:createButton').click();" icon="ui-icon-plus"/>
                 <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('CustomerListForm:viewButton').click();" icon="ui-icon-search"/>
                 <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('CustomerListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('CustomerListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
-                <p:menuitem value="#{maximusBundle.CustomerMenuItem_quoteList}" icon="ui-icon-search"  action="#{customerController.navigateQuoteList}" disabled="#{empty customerController.selected.quoteList}" ajax="false"/>  
-                <p:menuitem value="#{maximusBundle.CustomerMenuItem_companyName}" icon="ui-icon-search"  actionListener="#{customerController.prepareCompanyName}" update=":CompanyViewForm" oncomplete="PF('CompanyViewDialog').show()" disabled="#{empty customerController.selected.companyName}"/>  
+                <p:menuitem value="#{maximusBundle.CompanyMenuItem_customerList}" icon="ui-icon-search"  action="#{customerController.navigateContactList}" disabled="#{empty customerController.selected.contactList}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{customerController.lazyItems}"
@@ -33,68 +32,52 @@
                 
                          value="HASH{customerController.items}"
                          lazy="false"
-                         rowKey="HASH{item.idCustomer}"
+                         rowKey="HASH{item.companyName}"
                 -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{customerController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{customerController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{customerController.resetParents}"/>
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}">
+                <p:column sortBy="#{item.companyName}" filterBy="#{item.companyName}">
                     <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_idCustomer}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_companyName}"/>
                     </f:facet>
-                    <h:outputText value="#{item.idCustomer}"/>
+                    <h:outputText value="#{item.companyName}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryContact}" filterBy="#{item.primaryContact}">
+                <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}">
                     <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryContact}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_companyAddress}"/>
                     </f:facet>
-                    <h:outputText value="#{item.primaryContact}"/>
+                    <h:outputText value="#{item.companyAddress}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryPhoneNumber}" filterBy="#{item.primaryPhoneNumber}">
+                <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}">
                     <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryPhoneNumber}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_phoneNumber}"/>
                     </f:facet>
-                    <h:outputText value="#{item.primaryPhoneNumber}"/>
+                    <h:outputText value="#{item.phoneNumber}"/>
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryEmail}" filterBy="#{item.primaryEmail}">
+                <p:column sortBy="#{item.website}" filterBy="#{item.website}">
                     <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryEmail}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
                     </f:facet>
-                    <h:outputText value="#{item.primaryEmail}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_type}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.type}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.companyName.companyName}" filterBy="#{item.companyName.companyName}">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_companyName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.companyName.companyName}"/>
+                    <h:outputText value="#{item.website}"/>
                 </p:column>
 
 
             </p:dataTable>
             <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{customerController.navigateToDashboard()}" />
             <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{customerController.prepareCreate}" update=":CustomerCreateForm" oncomplete="PF('CustomerCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":CustomerViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty customerController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":CustomerEditForm" oncomplete="PF('CustomerEditDialog').show()" disabled="#{empty customerController.selected}"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":CompanyViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty customerController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":CompanyEditForm" oncomplete="PF('CustomerEditDialog').show()" disabled="#{empty customerController.selected}"/>
             <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{customerController.delete}" update=":growl,datalist" disabled="#{empty customerController.selected}">
                 <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
             </p:commandButton>

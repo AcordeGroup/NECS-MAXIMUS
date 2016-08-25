@@ -2,7 +2,10 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.security.services.PasswordService;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -20,9 +23,16 @@ public class AgentController extends AbstractController<Agent> {
 
     private boolean createAgent = false;
 
+    private List<String> types;
+
     public AgentController() {
         // Inform the Abstract parent controller of the concrete Agent Entity
         super(Agent.class);
+    }
+
+    @PostConstruct
+    public void init() {
+        types = AgentType.getListValues();
     }
 
     /**
@@ -86,4 +96,26 @@ public class AgentController extends AbstractController<Agent> {
         this.createAgent = createAgent;
     }
 
+    public MobilePageController getMobilePageController() {
+        return mobilePageController;
+    }
+
+    public void setMobilePageController(MobilePageController mobilePageController) {
+        this.mobilePageController = mobilePageController;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    public List<String> validateAgent(String typeAgent) {
+        if (typeAgent.equals(AgentType.Purchasing.getType())) {
+            types.remove(AgentType.Administrator.getType());
+        }
+        return types;
+    }
 }

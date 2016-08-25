@@ -73,9 +73,9 @@ public class Quote implements Serializable {
     @JoinColumn(name = "id_agent", referencedColumnName = "id_agent")
     @ManyToOne(optional = false)
     private Agent idAgent;
-    @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
+    @JoinColumn(name = "id_contact", referencedColumnName = "id_contact")
     @ManyToOne(optional = false)
-    private Customer idCustomer;
+    private Contact idContact;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "quote")
     private List<Has> hasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idQuote")
@@ -121,12 +121,12 @@ public class Quote implements Serializable {
         this.idAgent = idAgent;
     }
 
-    public Customer getIdCustomer() {
-        return idCustomer;
+    public Contact getIdCustomer() {
+        return idContact;
     }
 
-    public void setIdCustomer(Customer idCustomer) {
-        this.idCustomer = idCustomer;
+    public void setIdCustomer(Contact idContact) {
+        this.idContact = idContact;
     }
 
     public String getContact() {

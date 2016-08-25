@@ -6,7 +6,7 @@
 package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.entity.Agent;
-import com.necs.maximus.db.entity.Customer;
+import com.necs.maximus.db.entity.Contact;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.Product;
@@ -14,7 +14,7 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
-import com.necs.maximus.db.facade.CustomerFacade;
+import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
@@ -54,7 +54,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     @EJB
     private QuoteFacade quoteFacade;
     @EJB
-    private CustomerFacade customerFacade;
+    private ContactFacade customerFacade;
     @EJB
     private ProductFacade productFacade;
     @EJB
@@ -62,7 +62,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     @EJB
     private HasFacade hasFacade;
 
-    private Customer customerSelected;
+    private Contact customerSelected;
     private Agent agent;
 
     private String shippingTo;
@@ -81,7 +81,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private boolean observationField;
     private String observation;
 
-    private List<Customer> customerList;
+    private List<Contact> customerList;
     private List<Has> partListHas;
     private List<Product> partList;
     private List<Product> selectedPart;
@@ -99,7 +99,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
-        customerList = (List<Customer>) customerFacade.findAll();
+        customerList = (List<Contact>) customerFacade.findAll();
     }
 
     public String createNewRequest() {
@@ -290,19 +290,19 @@ public class CreateQuoteController extends AbstractController<Quote> {
         }
     }
 
-    public List<Customer> getCustomerList() {
+    public List<Contact> getCustomerList() {
         return customerList;
     }
 
-    public void setCustomerList(List<Customer> customerList) {
+    public void setCustomerList(List<Contact> customerList) {
         this.customerList = customerList;
     }
 
-    public Customer getCustomerSelected() {
+    public Contact getCustomerSelected() {
         return customerSelected;
     }
 
-    public void setCustomerSelected(Customer customerSelected) {
+    public void setCustomerSelected(Contact customerSelected) {
         this.customerSelected = customerSelected;
     }
 

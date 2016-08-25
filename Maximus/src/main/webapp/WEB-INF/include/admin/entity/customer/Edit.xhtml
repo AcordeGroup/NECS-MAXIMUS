@@ -9,54 +9,34 @@
     <ui:composition>
         <p:dialog id="CustomerEditDlg" widgetVar="CustomerEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.EditCustomerTitle}" closeOnEscape="true">
 
-            <h:form id="CustomerEditForm">
+            <h:form id="CompanyEditForm">
 
-                <h:panelGroup id="display" style="text-align: left;">
+                <h:panelGroup id="display" style="text-align: left">
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
 
 
-                        <h:outputLabel value="#{maximusBundle.EditCustomerLabel_idCustomer}" for="idCustomer" />
+                        <h:outputLabel value="#{maximusBundle.EditCompanyLabel_companyName}" for="companyName" />
                         <h:panelGroup>
-                            <h:outputText id="idCustomer" value="#{customerController.selected.idCustomer}" />
-                            <p:tooltip for="idCustomer" value="#{customerController.getComponentMessages('idCustomer', maximusBundle.EditCustomerHelpText_idCustomer)}"/>
+                            <h:outputText id="companyName" value="#{customerController.selected.companyName}" />
+                            <p:tooltip for="companyName" value="#{customerController.getComponentMessages('companyName', maximusBundle.EditCompanyHelpText_companyName)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.EditCustomerLabel_primaryContact}" for="primaryContact" />
+                        <p:outputLabel value="#{maximusBundle.EditCompanyLabel_companyAddress}" for="companyAddress" />
                         <h:panelGroup>
-                            <p:inputText id="primaryContact" value="#{customerController.selected.primaryContact}" title="#{maximusBundle.EditCustomerTitle_primaryContact}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_primaryContact}" size="45" maxlength="45"/>
-                            <p:tooltip for="primaryContact" value="#{customerController.getComponentMessages('primaryContact', maximusBundle.EditCustomerHelpText_primaryContact)}"/>
+                            <p:inputText id="companyAddress" value="#{customerController.selected.companyAddress}" title="#{maximusBundle.EditCompanyTitle_companyAddress}" required="true" requiredMessage="#{maximusBundle.EditCompanyRequiredMessage_companyAddress}" size="100" maxlength="100"/>
+                            <p:tooltip for="companyAddress" value="#{customerController.getComponentMessages('companyAddress', maximusBundle.EditCompanyHelpText_companyAddress)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.EditCustomerLabel_primaryPhoneNumber}" for="primaryPhoneNumber" />
+                        <p:outputLabel value="#{maximusBundle.EditCompanyLabel_phoneNumber}" for="phoneNumber" />
                         <h:panelGroup>
-                            <p:inputText id="primaryPhoneNumber" value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.EditCustomerTitle_primaryPhoneNumber}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_primaryPhoneNumber}" size="40" maxlength="40"/>
-                            <p:tooltip for="primaryPhoneNumber" value="#{customerController.getComponentMessages('primaryPhoneNumber', maximusBundle.EditCustomerHelpText_primaryPhoneNumber)}"/>
+                            <p:inputText id="phoneNumber" value="#{customerController.selected.phoneNumber}" title="#{maximusBundle.EditCompanyTitle_phoneNumber}" required="true" requiredMessage="#{maximusBundle.EditCompanyRequiredMessage_phoneNumber}" size="20" maxlength="20"/>
+                            <p:tooltip for="phoneNumber" value="#{customerController.getComponentMessages('phoneNumber', maximusBundle.EditCompanyHelpText_phoneNumber)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.EditCustomerLabel_primaryEmail}" for="primaryEmail" />
+                        <p:outputLabel value="#{maximusBundle.EditCompanyLabel_website}" for="website" />
                         <h:panelGroup>
-                            <p:inputText id="primaryEmail" value="#{customerController.selected.primaryEmail}" title="#{maximusBundle.EditCustomerTitle_primaryEmail}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_primaryEmail}" size="40" maxlength="40"/>
-                            <p:tooltip for="primaryEmail" value="#{customerController.getComponentMessages('primaryEmail', maximusBundle.EditCustomerHelpText_primaryEmail)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.EditCustomerLabel_type}" for="type" />
-                        <h:panelGroup>
-                            <p:inputText id="type" value="#{customerController.selected.type}" title="#{maximusBundle.EditCustomerTitle_type}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_type}" size="40" maxlength="40"/>
-                            <p:tooltip for="type" value="#{customerController.getComponentMessages('type', maximusBundle.EditCustomerHelpText_type)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.EditCustomerLabel_companyName}" for="companyName" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="companyName" value="#{customerController.selected.companyName}" required="true" requiredMessage="#{maximusBundle.EditCustomerRequiredMessage_companyName}" converter="companyConverter">
-                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{companyController.items}"
-                                               var="companyNameItem"
-                                               itemValue="#{companyNameItem}"
-                                               itemLabel="#{companyNameItem.companyName.toString()}"
-                                               />
-
-                            </p:selectOneMenu>
-                            <p:tooltip for="companyName" value="#{customerController.getComponentMessages('companyName', maximusBundle.EditCustomerHelpText_companyName)}"/>
+                            <p:inputText id="website" value="#{customerController.selected.website}" title="#{maximusBundle.EditCompanyTitle_website}" size="45" maxlength="45"/>
+                            <p:tooltip for="website" value="#{customerController.getComponentMessages('website', maximusBundle.EditCompanyHelpText_website)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{customerController.save}" value="#{maximusBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomerEditDialog'));">

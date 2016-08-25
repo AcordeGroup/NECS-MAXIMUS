@@ -12,48 +12,44 @@
 
             <h:form id="CustomerCreateForm">
 
-                <h:panelGroup id="display" rendered="#{customerController.selected != null}">
-                    <p:panelGrid columns="2" columnClasses="column" style="text-align: left;">
+                <h:panelGroup id="display" rendered="#{customerController.selected != null}" style="text-align: left">
+                    <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryContact}" for="primaryContact" />
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_customer}" for="customer" />
                         <h:panelGroup>
-                            <p:inputText id="primaryContact" value="#{customerController.selected.primaryContact}" title="#{maximusBundle.CreateCustomerTitle_primaryContact}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryContact}" size="30" maxlength="30"/>
-                            <p:tooltip for="primaryContact" value="#{customerController.getComponentMessages('primaryContact', maximusBundle.CreateCustomerHelpText_primaryContact)}"/>
+                            <p:inputText id="customer" value="#{customerController.selected.idCustomer}" title="#{maximusBundle.CreateCompanyTitle_customer}" size="40" maxlength="40"/>
+                            <p:tooltip for="customer" value="#{customerController.getComponentMessages('customer', maximusBundle.CreateCompanyHelpText_customer)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_companyName}" for="companyName" />
+                        <h:panelGroup>
+                            <p:inputText id="companyName" value="#{customerController.selected.companyName}" title="#{maximusBundle.CreateCompanyTitle_companyName}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_companyName}" size="40" maxlength="40"/>
+                            <p:tooltip for="companyName" value="#{customerController.getComponentMessages('companyName', maximusBundle.CreateCompanyHelpText_companyName)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryPhoneNumber}" for="primaryPhoneNumber" />
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_companyAddress}" for="companyAddress" />
                         <h:panelGroup>
-                            <p:inputText id="primaryPhoneNumber" value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.CreateCustomerTitle_primaryPhoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryPhoneNumber}" size="30" maxlength="30"/>
-                            <p:tooltip for="primaryPhoneNumber" value="#{customerController.getComponentMessages('primaryPhoneNumber', maximusBundle.CreateCustomerHelpText_primaryPhoneNumber)}"/>
+                            <p:inputTextarea id="companyAddress" value="#{customerController.selected.companyAddress}" title="#{maximusBundle.CreateCompanyTitle_companyAddress}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_companyAddress}" style="width: 310px;" maxlength="100"/>
+                            <p:tooltip for="companyAddress" value="#{customerController.getComponentMessages('companyAddress', maximusBundle.CreateCompanyHelpText_companyAddress)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryEmail}" for="primaryEmail" />
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_phoneNumber}" for="phoneNumber" />
                         <h:panelGroup>
-                            <p:inputText id="primaryEmail" value="#{customerController.selected.primaryEmail}" title="#{maximusBundle.CreateCustomerTitle_primaryEmail}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryEmail}" size="30" maxlength="30"/>
-                            <p:tooltip for="primaryEmail" value="#{customerController.getComponentMessages('primaryEmail', maximusBundle.CreateCustomerHelpText_primaryEmail)}"/>
+                            <p:inputText id="phoneNumber" value="#{customerController.selected.phoneNumber}" title="#{maximusBundle.CreateCompanyTitle_phoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateCompanyRequiredMessage_phoneNumber}" size="40" maxlength="40"/>
+                            <p:tooltip for="phoneNumber" value="#{customerController.getComponentMessages('phoneNumber', maximusBundle.CreateCompanyHelpText_phoneNumber)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_type}" for="type" />
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_website}" for="website" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{customerController.selected.type}" title="#{maximusBundle.CreateCustomerTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_type}" size="30" maxlength="30"/>
-                            <p:tooltip for="type" value="#{customerController.getComponentMessages('type', maximusBundle.CreateCustomerHelpText_type)}"/>
+                            <p:inputText id="website" value="#{customerController.selected.website}" title="#{maximusBundle.CreateCompanyTitle_website}" size="40" maxlength="40"/>
+                            <p:tooltip for="website" value="#{customerController.getComponentMessages('website', maximusBundle.CreateCompanyHelpText_website)}"/>
                         </h:panelGroup>
-
-                        <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_companyName}" for="companyName" />
+                        <p:outputLabel value="#{maximusBundle.CreateCompanyLabel_country}" for="country" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="companyName" value="#{customerController.selected.companyName}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_companyName}" converter="companyConverter" style="width: 245px;">
-                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{companyController.items}"
-                                               var="companyNameItem"
-                                               itemValue="#{companyNameItem}"
-                                               itemLabel="#{companyNameItem.companyName.toString()}"
-                                               />
-
-                            </p:selectOneMenu>
-                            <p:tooltip for="companyName" value="#{customerController.getComponentMessages('companyName', maximusBundle.CreateCustomerHelpText_companyName)}"/>
+                            <p:inputText id="country" value="#{customerController.selected.country}" title="#{maximusBundle.CreateCompanyTitle_country}" size="40" maxlength="40"/>
+                            <p:tooltip for="country" value="#{customerController.getComponentMessages('country', maximusBundle.CreateCompanyHelpText_country)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{maximusBundle.Save}" update="display,#{customerController.createSales ? '' : ':CustomerListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
+                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{maximusBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 

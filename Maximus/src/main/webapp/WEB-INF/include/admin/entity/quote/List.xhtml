@@ -16,7 +16,7 @@
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('QuoteListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_idAgent}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdAgent}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty quoteController.selected.idAgent}"/>  
-                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idCustomer}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdCustomer}" update=":CustomerViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty quoteController.selected.idCustomer}"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idCustomer}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdCustomer}" update=":CustomerViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty quoteController.selected.idCustomer}"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_hasList}" icon="ui-icon-search"  action="#{quoteController.navigateHasList}" disabled="#{empty quoteController.selected.hasList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteNoteList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteNoteList}" disabled="#{empty quoteController.selected.quoteNoteList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteStatusList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteStatusList}" disabled="#{empty quoteController.selected.quoteStatusList}" ajax="false"/>  

@@ -35,7 +35,15 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateAgentLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText disabled="#{agentController.createAgent}" id="type" value="#{agentController.selected.type = 'Sales'}" title="#{maximusBundle.CreateAgentTitle_type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}" size="30" maxlength="30"/>
+                            <p:selectOneMenu id="type" value="#{agentController.selected.type}" required="true" requiredMessage="#{maximusBundle.CreateAgentRequiredMessage_type}"  style="width: 245px;">
+                                <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{agentController.validateAgent(agentController.typeAgent())}"
+                                               var="typeItem"
+                                               itemValue="#{typeItem}"
+                                               itemLabel="#{typeItem}"
+                                               />
+
+                            </p:selectOneMenu>
                             <p:tooltip for="type" value="#{agentController.getComponentMessages('type', maximusBundle.CreateAgentHelpText_type)}"/>
                         </h:panelGroup>
 

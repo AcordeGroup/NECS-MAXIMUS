@@ -5,6 +5,9 @@
  */
 package com.necs.maximus.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Carlos Moh
@@ -28,6 +31,25 @@ public enum AgentType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static List<String> getListValues() {
+        List<String> list = new ArrayList<>();
+
+        for (AgentType value : AgentType.values()) {
+            list.add(value.getType());
+        }
+        return list;
+    }
+
+    public static AgentType getAgentByType(String typeAgent) {
+        AgentType typeA = null;
+        for (AgentType type : AgentType.values()) {
+            if (type.getType().equals(typeAgent)) {
+                typeA = type;
+            }
+        }
+        return typeA;
     }
 
 }

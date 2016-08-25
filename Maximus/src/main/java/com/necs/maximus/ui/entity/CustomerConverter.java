@@ -11,7 +11,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@FacesConverter(value = "customerConverter")
+@FacesConverter(value = "companyConverter")
 public class CustomerConverter implements Converter {
 
     @Inject
@@ -25,13 +25,13 @@ public class CustomerConverter implements Converter {
         return this.ejbFacade.find(getKey(value));
     }
 
-    java.lang.Integer getKey(String value) {
-        java.lang.Integer key;
-        key = Integer.valueOf(value);
+    java.lang.String getKey(String value) {
+        java.lang.String key;
+        key = value;
         return key;
     }
 
-    String getStringKey(java.lang.Integer value) {
+    String getStringKey(java.lang.String value) {
         StringBuffer sb = new StringBuffer();
         sb.append(value);
         return sb.toString();
@@ -45,7 +45,7 @@ public class CustomerConverter implements Converter {
         }
         if (object instanceof Customer) {
             Customer o = (Customer) object;
-            return getStringKey(o.getIdCustomer());
+            return getStringKey(o.getCompanyName());
         } else {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Customer.class.getName()});
             return null;

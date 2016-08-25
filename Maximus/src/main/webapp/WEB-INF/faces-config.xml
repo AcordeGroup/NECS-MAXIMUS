@@ -148,7 +148,7 @@
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>/admin/company/index.xhtml</from-view-id>
+        <from-view-id>/admin/customer/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>indexPurchasing</from-outcome>
             <to-view-id>/purchasing/index.xhtml</to-view-id>
@@ -163,7 +163,7 @@
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>/admin/customer/index.xhtml</from-view-id>
+        <from-view-id>/admin/contact/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>indexPurchasing</from-outcome>
             <to-view-id>/purchasing/index.xhtml</to-view-id>

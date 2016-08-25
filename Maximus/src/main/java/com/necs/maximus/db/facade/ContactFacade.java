@@ -6,7 +6,7 @@
 
 package com.necs.maximus.db.facade;
 
-import com.necs.maximus.db.entity.Company;
+import com.necs.maximus.db.entity.Contact;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author Carlos Moh
  */
 @Stateless
-public class CompanyFacade extends AbstractFacade<Company> {
+public class ContactFacade extends AbstractFacade<Contact> {
 
     @PersistenceContext(unitName = "com.necs_Maximus_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -26,8 +26,8 @@ public class CompanyFacade extends AbstractFacade<Company> {
         return em;
     }
 
-    public CompanyFacade() {
-        super(Company.class);
+    public ContactFacade() {
+        super(Contact.class);
     }
 
 }

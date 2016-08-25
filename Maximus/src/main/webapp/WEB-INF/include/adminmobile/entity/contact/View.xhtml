@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CustomerViewPage" lazy="true">
+        <pm:header title="#{maximusBundle.ViewCustomerTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CustomerListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CustomerViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{contactController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_idCustomer}"/>
+                            <h:outputText value="#{contactController.selected.idCustomer}" title="#{maximusBundle.ViewCustomerTitle_idCustomer}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryContact}"/>
+                            <h:outputText value="#{contactController.selected.primaryContact}" title="#{maximusBundle.ViewCustomerTitle_primaryContact}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryPhoneNumber}"/>
+                            <h:outputText value="#{contactController.selected.primaryPhoneNumber}" title="#{maximusBundle.ViewCustomerTitle_primaryPhoneNumber}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryEmail}"/>
+                            <h:outputText value="#{contactController.selected.primaryEmail}" title="#{maximusBundle.ViewCustomerTitle_primaryEmail}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_type}"/>
+                            <h:outputText value="#{contactController.selected.type}" title="#{maximusBundle.ViewCustomerTitle_type}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{maximusBundle.ViewCustomerLabel_companyName}"/>
+                            <h:outputText value="#{contactController.selected.companyName.companyName}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

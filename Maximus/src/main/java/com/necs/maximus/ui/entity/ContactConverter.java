@@ -1,7 +1,7 @@
 package com.necs.maximus.ui.entity;
 
-import com.necs.maximus.db.entity.Company;
-import com.necs.maximus.db.facade.CompanyFacade;
+import com.necs.maximus.db.entity.Contact;
+import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,11 +11,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@FacesConverter(value = "companyConverter")
-public class CompanyConverter implements Converter {
+@FacesConverter(value = "customerConverter")
+public class ContactConverter implements Converter {
 
     @Inject
-    private CompanyFacade ejbFacade;
+    private ContactFacade ejbFacade;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -25,13 +25,13 @@ public class CompanyConverter implements Converter {
         return this.ejbFacade.find(getKey(value));
     }
 
-    java.lang.String getKey(String value) {
-        java.lang.String key;
-        key = value;
+    java.lang.Integer getKey(String value) {
+        java.lang.Integer key;
+        key = Integer.valueOf(value);
         return key;
     }
 
-    String getStringKey(java.lang.String value) {
+    String getStringKey(java.lang.Integer value) {
         StringBuffer sb = new StringBuffer();
         sb.append(value);
         return sb.toString();
@@ -43,11 +43,11 @@ public class CompanyConverter implements Converter {
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof Company) {
-            Company o = (Company) object;
-            return getStringKey(o.getCompanyName());
+        if (object instanceof Contact) {
+            Contact o = (Contact) object;
+            return getStringKey(o.getIdContact());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Company.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Contact.class.getName()});
             return null;
         }
     }

@@ -10,28 +10,22 @@
 
         <p:dialog id="CustomerViewDlg" widgetVar="CustomerViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewCustomerTitle}" closeOnEscape="true">
 
-            <h:form id="CustomerViewForm">
+            <h:form id="CompanyViewForm">
 
-                <h:panelGroup id="display" style="text-align: left;">
+                <h:panelGroup id="display" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
 
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_idCustomer}"/>
-                        <h:outputText value="#{customerController.selected.idCustomer}" title="#{maximusBundle.ViewCustomerTitle_idCustomer}"/>
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_companyName}"/>
+                        <h:outputText value="#{customerController.selected.companyName}" title="#{maximusBundle.ViewCompanyTitle_companyName}"/>
 
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryContact}"/>
-                        <h:outputText value="#{customerController.selected.primaryContact}" title="#{maximusBundle.ViewCustomerTitle_primaryContact}"/>
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_companyAddress}"/>
+                        <h:outputText value="#{customerController.selected.companyAddress}" title="#{maximusBundle.ViewCompanyTitle_companyAddress}"/>
 
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryPhoneNumber}"/>
-                        <h:outputText value="#{customerController.selected.primaryPhoneNumber}" title="#{maximusBundle.ViewCustomerTitle_primaryPhoneNumber}"/>
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_phoneNumber}"/>
+                        <h:outputText value="#{customerController.selected.phoneNumber}" title="#{maximusBundle.ViewCompanyTitle_phoneNumber}"/>
 
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryEmail}"/>
-                        <h:outputText value="#{customerController.selected.primaryEmail}" title="#{maximusBundle.ViewCustomerTitle_primaryEmail}"/>
-
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_type}"/>
-                        <h:outputText value="#{customerController.selected.type}" title="#{maximusBundle.ViewCustomerTitle_type}"/>
-
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_companyName}"/>
-                        <h:outputText value="#{customerController.selected.companyName.companyName}"/>
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_website}"/>
+                        <h:outputText value="#{customerController.selected.website}" title="#{maximusBundle.ViewCompanyTitle_website}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{maximusBundle.Close}" onclick="PF('CustomerViewDialog').hide()"/>
                 </h:panelGroup>

@@ -8,11 +8,11 @@
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:pm="http://primefaces.org/mobile">
 
-    <pm:page id="CustomerListPage">
-        <pm:header title="#{maximusBundle.ListCustomerTitle}">
+    <pm:page id="CompanyListPage">
+        <pm:header title="#{maximusBundle.ListCompanyTitle}">
             <h:form>
                 <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{myBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/adminmobile/index')}"/>
-                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{maximusBundle.Create}" update=":CustomerCreatePage:CustomerCreateForm" actionListener="#{customerController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:CustomerCreatePage')}">
+                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{maximusBundle.Create}" update=":CompanyCreatePage:CustomerCreateForm" actionListener="#{customerController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:CompanyCreatePage')}">
                     <f:actionListener binding="#{currentPageListener}"/>
                 </p:commandButton>
             </h:form>
@@ -31,48 +31,38 @@
                             var="item">
 
                     <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle}"/>
                     </f:facet>
 
-                    <p:commandLink update=":CustomerEditPage:CustomerEditForm" action="pm:CustomerEditPage">
+                    <p:commandLink update=":CompanyEditPage:CompanyEditForm" action="pm:CompanyEditPage">
                         <p>
 
 
 
-                            <h:outputText value="#{item.idCustomer}"/>
+                            <h:outputText value="#{item.companyName}"/>
 
 
 
                             ,&nbsp;
-                            <h:outputText value="#{item.primaryContact}"/>
+                            <h:outputText value="#{item.companyAddress}"/>
 
 
 
                             ,&nbsp;
-                            <h:outputText value="#{item.primaryPhoneNumber}"/>
+                            <h:outputText value="#{item.phoneNumber}"/>
 
 
 
                             ,&nbsp;
-                            <h:outputText value="#{item.primaryEmail}"/>
+                            <h:outputText value="#{item.website}"/>
 
-
-
-                            ,&nbsp;
-                            <h:outputText value="#{item.type}"/>
-
-
-
-
-                            ,&nbsp;
-                            <h:outputText value="#{item.companyName.companyName}"/>
 
                         </p>
                         <f:setPropertyActionListener value="#{item}" target="#{customerController.selected}" />
                     </p:commandLink>
 
                     <f:facet name="footer">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle}"/>
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle}"/>
                     </f:facet>
 
                 </p:dataList>
