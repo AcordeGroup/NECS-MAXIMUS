@@ -16,7 +16,7 @@
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ContactListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.CustomerMenuItem_quoteList}" icon="ui-icon-search"  action="#{contactController.navigateQuoteList}" disabled="#{empty contactController.selected.quoteList}" ajax="false"/>  
-                <p:menuitem value="#{maximusBundle.CustomerMenuItem_companyName}" icon="ui-icon-search"  actionListener="#{contactController.prepareCompanyName}" update=":CompanyViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty contactController.selected.companyName}"/>  
+                <p:menuitem value="#{maximusBundle.CustomerMenuItem_customer}" icon="ui-icon-search"  actionListener="#{contactController.prepareCustomerName}" update=":CompanyViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty contactController.selected.companyName}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{contactController.lazyItems}"

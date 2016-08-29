@@ -28,6 +28,7 @@ import com.necs.maximus.enums.OperationType;
 import com.necs.maximus.enums.StatusType;
 import com.necs.maximus.ui.beans.util.MailBean;
 import com.necs.maximus.ui.beans.util.MailUtil;
+import com.necs.maximus.ui.beans.util.MobilePageController;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,6 +54,8 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
@@ -61,6 +64,14 @@ import org.primefaces.model.StreamedContent;
 @Named(value = "quoteController")
 @ViewScoped
 public class QuoteController extends AbstractController<Quote> {
+
+    @Inject
+    private ContactController idContactController;
+
+    @Inject
+    private AgentController idAgentController;
+    @Inject
+    private MobilePageController mobilePageController;
 
     @EJB
     private QuoteStatusFacade quoteStatusFacade;
@@ -356,7 +367,7 @@ public class QuoteController extends AbstractController<Quote> {
                     13, // tamaño
                     Font.BOLD, // estilo
                     BaseColor.BLACK);
-            
+
             Font fontFooter = FontFactory.getFont("Times New Roman", // fuente
                     7, // tamaño
                     Font.NORMAL, // estilo
@@ -371,7 +382,7 @@ public class QuoteController extends AbstractController<Quote> {
             PdfPTable tablaFooter = new PdfPTable(1);
             tablaFooter.setTotalWidth(523);
             tablaFooter.setHorizontalAlignment(Element.ALIGN_CENTER);
-            
+
             tablaFooter.addCell(createCell(bundle.getString("footer"), null, null, fontFooter, null, Element.ALIGN_CENTER, null, PdfPCell.NO_BORDER, null));
 
             FooterTable event = new FooterTable(tablaFooter);
@@ -402,7 +413,7 @@ public class QuoteController extends AbstractController<Quote> {
             tablaSalesQuoteInter.addCell(createCell(bundle.getString("sale_quote").concat(" N°"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
             tablaSalesQuoteInter.addCell(createCell(quote.getIdQuote().toString(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaSalesQuoteInter.addCell(createCell(bundle.getString("CustomerHeading").concat(" N°"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaSalesQuoteInter.addCell(createCell(quote.getIdCustomer().getCompanyName().getCompanyName(), null, null, fontDefaultBlue, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaSalesQuoteInter.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefaultBlue, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             //suma text sales quote
             PdfPCell cellSalesQuote = new PdfPCell();
@@ -762,6 +773,52 @@ public class QuoteController extends AbstractController<Quote> {
         public void onEndPage(PdfWriter writer, Document document) {
             footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
         }
+    }
+
+    public void prepareIdCustomer(ActionEvent event) {
+        if (this.getSelected() != null && idContactController.getSelected() == null) {
+            idContactController.setSelected(this.getSelected().getIdContact());
+        }
+    }
+
+    public void prepareIdAgent(ActionEvent event) {
+        if (this.getSelected() != null && idContactController.getSelected() == null) {
+            idAgentController.setSelected(this.getSelected().getIdAgent());
+        }
+    }
+
+    /**
+     * Sets the "items" attribute with a collection of Has entities that are
+     * retrieved from Product?cap_first and returns the navigation outcome.
+     *
+     * @return navigation outcome for Has page
+     */
+    public String navigateHasList() {
+        if (this.getSelected() != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Has_items", this.getSelected().getHasList());
+        }
+        return this.mobilePageController.getMobilePagesPrefix() + "/admin/has/index";
+    }
+
+    public String navigateQuoteNoteList() {
+        if (this.getSelected() != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Quote_Note_items", this.getSelected().getQuoteNoteList());
+        }
+        return this.mobilePageController.getMobilePagesPrefix() + "/admin/quoteNote/index";
+    }
+
+    public String navigateQuoteStatusList() {
+        if (this.getSelected() != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Quote_Status_items", this.getSelected().getQuoteStatusList());
+        }
+        return this.mobilePageController.getMobilePagesPrefix() + "/admin/quoteStatus/index";
+    }
+
+    public String navigateManageList() {
+        if (this.getSelected() != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Manage_items", this.getSelected().getManageList());
+        }
+        return this.mobilePageController.getMobilePagesPrefix() + "/admin/manage/index";
     }
 
     public List<Quote> getFilteredQuote() {

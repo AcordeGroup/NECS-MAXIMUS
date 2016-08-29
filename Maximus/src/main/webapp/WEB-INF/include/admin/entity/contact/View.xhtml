@@ -8,15 +8,15 @@
 
     <ui:composition>
 
-        <p:dialog id="ContactViewDlg" widgetVar="ContactViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewCustomerTitle}" closeOnEscape="true">
+        <p:dialog id="ContactViewDlg" widgetVar="ContactViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{maximusBundle.ViewContactTitle}" closeOnEscape="true">
 
             <h:form id="CustomerViewForm">
 
                 <h:panelGroup id="display" style="text-align: left;">
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{contactController.selected != null}">
 
-                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_idCustomer}"/>
-                        <h:outputText value="#{contactController.selected.idCustomer}" title="#{maximusBundle.ViewCustomerTitle_idCustomer}"/>
+                        <h:outputText value="#{maximusBundle.ViewCustomerLabel_idContact}"/>
+                        <h:outputText value="#{contactController.selected.idContact}" title="#{maximusBundle.ViewCustomerTitle_idContact}"/>
 
                         <h:outputText value="#{maximusBundle.ViewCustomerLabel_primaryContact}"/>
                         <h:outputText value="#{contactController.selected.primaryContact}" title="#{maximusBundle.ViewCustomerTitle_primaryContact}"/>

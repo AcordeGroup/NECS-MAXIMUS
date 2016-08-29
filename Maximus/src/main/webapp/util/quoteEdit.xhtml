@@ -21,7 +21,7 @@
                     <h:panelGrid columns="2" style="width: 100%; vertical-align: top;" >
                         <h:panelGrid columns="2" style="text-align: left">
                             <h:outputText value="#{maximusBundle.CustomerHeading} *" />
-                            <h:selectOneMenu id="customer" value="#{editQuoteController.quote.idCustomer}" converter="customerConverter" style="width:255px;">
+                            <h:selectOneMenu id="customer" value="#{editQuoteController.quote.idContact}" converter="customerConverter" style="width:255px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{editQuoteController.customerList}"
                                                var="item"
@@ -39,17 +39,17 @@
                             </div>
                         </h:panelGrid>
                     </h:panelGrid>
-                    <p:outputPanel   rendered="#{editQuoteController.quote.idCustomer != null}">
+                    <p:outputPanel   rendered="#{editQuoteController.quote.idContact != null}">
                         <h:panelGrid columns="2" style="text-align: left">
 
                             <h:panelGrid columns="2" style="text-align: left">
                                 <h:outputText value="#{maximusBundle.label_address}" />
-                                <p:inputText value="#{editQuoteController.quote.idCustomer.companyName.companyAddress}" disabled="true" style="margin-left: 15px; width:250px;"/>
+                                <p:inputText value="#{editQuoteController.quote.idContact.companyName.companyAddress}" disabled="true" style="margin-left: 15px; width:250px;"/>
 
 
 
                                 <h:outputText value="#{maximusBundle.label_country}" />
-                                <p:inputText value="#{editQuoteController.quote.idCustomer.companyName.country}" disabled="true" style="margin-left: 15px; width:250px;" />
+                                <p:inputText value="#{editQuoteController.quote.idContact.companyName.country}" disabled="true" style="margin-left: 15px; width:250px;" />
 
 
 
@@ -60,7 +60,7 @@
                                 <p:inputText value="#{editQuoteController.quote.email}" style="margin-left: 15px; width:250px;" />
 
                             </h:panelGrid>
-                            <h:panelGrid columns="2" style="text-align: left; vertical-align: top;" rendered="#{editQuoteController.quote.idCustomer != null}">
+                            <h:panelGrid columns="2" style="text-align: left; vertical-align: top;" rendered="#{editQuoteController.quote.idContact != null}">
                                 <h:outputText value="#{maximusBundle.label_shipping_to}"  style="margin-left: 10px; vertical-align: top;" />
                                 <p:inputTextarea value="#{editQuoteController.quote.shipping_to}"  style="width:300px; margin-left: 10px; "/>
                                 <h:outputText value="#{maximusBundle.label_include_shipping}"  style="margin-left: 10px;"  />

@@ -61,7 +61,7 @@
                             <p:tooltip for="companyName" value="#{contactController.getComponentMessages('companyName', maximusBundle.CreateCustomerHelpText_companyName)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{contactController.saveNew}" value="#{maximusBundle.Save}" update="display,#{contactController.createSales ? '' : ':ContactListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('ContactCreateDialog'));">
+                    <p:commandButton actionListener="#{contactController.saveNew}" value="#{maximusBundle.Save}" update="display,#{contactController.createContact ? '' : ':ContactListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('ContactCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 

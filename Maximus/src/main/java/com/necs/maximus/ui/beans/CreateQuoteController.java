@@ -114,7 +114,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 Quote newQuote = new Quote();
                 newQuote.setCreationDate(new Date());
                 newQuote.setIdAgent(agent);
-                newQuote.setIdCustomer(customerSelected);
+                newQuote.setIdContact(customerSelected);
                 newQuote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
                 newQuote.setShipping_cost(shippingCost == null ? null : BigDecimal.valueOf(shippingCost));
                 newQuote.setShipping_to(shippingTo);

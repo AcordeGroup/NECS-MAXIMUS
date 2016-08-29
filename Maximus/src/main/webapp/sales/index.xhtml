@@ -18,8 +18,8 @@
             <p:panel header="#{maximusBundle.label_sales_dashboard}" id="salesDashboard" >
                 <h:form id="formSales" >
                     <h:panelGrid columns="3" id="panelButton">
-                        <p:commandButton value="#{maximusBundle.create_new_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createSalesTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
-                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{contactController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.create_new_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createContactTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createCustomerTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
@@ -57,18 +57,18 @@
                                 <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idContact.idContact}" filterBy="#{item.idContact.idContact}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idContact.idContact}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idContact.companyName.companyName}" filterBy="#{item.idContact.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idContact.companyName.companyName}"/>
                             </p:column>
                             <p:column  style="width : 110px">
                                 <f:facet name="header">
@@ -158,18 +158,18 @@
                                 <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idContact.idContact}" filterBy="#{item.idContact.idContact}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idContact.idContact}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idContact.companyName.companyName}" filterBy="#{item.idContact.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idContact.companyName.companyName}"/>
                             </p:column>
 
                             <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" filterStyle="width:80px" style="width : 100px">

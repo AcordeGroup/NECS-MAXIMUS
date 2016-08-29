@@ -121,13 +121,15 @@ public class Quote implements Serializable {
         this.idAgent = idAgent;
     }
 
-    public Contact getIdCustomer() {
+    public Contact getIdContact() {
         return idContact;
     }
 
-    public void setIdCustomer(Contact idContact) {
+    public void setIdContact(Contact idContact) {
         this.idContact = idContact;
     }
+
+   
 
     public String getContact() {
         return contact;

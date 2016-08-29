@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
@@ -49,7 +48,7 @@
                             <p:tooltip for="country" value="#{customerController.getComponentMessages('country', maximusBundle.CreateCompanyHelpText_country)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{maximusBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
+                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{maximusBundle.Save}" update="display,#{customerController.createCustomer ? '' : ':CustomerListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 

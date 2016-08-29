@@ -221,7 +221,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public boolean validateField() {
-        if (quote.getIdCustomer() == null || quote.getIdCustomer().equals(bundle.getString("SelectOneMessage"))) {
+        if (quote.getIdContact() == null || quote.getIdContact().equals(bundle.getString("SelectOneMessage"))) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_customer"), ""));
             return false;
         }

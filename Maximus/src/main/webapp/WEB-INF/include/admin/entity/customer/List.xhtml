@@ -15,7 +15,7 @@
                 <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('CustomerListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('CustomerListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
-                <p:menuitem value="#{maximusBundle.CompanyMenuItem_customerList}" icon="ui-icon-search"  action="#{customerController.navigateContactList}" disabled="#{empty customerController.selected.contactList}" ajax="false"/>  
+                <p:menuitem value="#{maximusBundle.CompanyMenuItem_contactList}" icon="ui-icon-search"  action="#{customerController.navigateContactList}" disabled="#{empty customerController.selected.contactList}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{customerController.lazyItems}"
@@ -40,6 +40,13 @@
                 <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_idCustomer}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCustomer}"/>
+                </p:column>
 
                 <p:column sortBy="#{item.companyName}" filterBy="#{item.companyName}">
                     <f:facet name="header">
@@ -70,6 +77,13 @@
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
                     </f:facet>
                     <h:outputText value="#{item.website}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.country}" filterBy="#{item.country}">
+                    <f:facet name="header">
+                        <h:outputText value="#{maximusBundle.ListCompanyTitle_country}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.country}"/>
                 </p:column>
 
 

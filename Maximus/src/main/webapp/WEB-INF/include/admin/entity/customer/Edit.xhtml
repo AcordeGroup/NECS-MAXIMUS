@@ -38,6 +38,12 @@
                             <p:inputText id="website" value="#{customerController.selected.website}" title="#{maximusBundle.EditCompanyTitle_website}" size="45" maxlength="45"/>
                             <p:tooltip for="website" value="#{customerController.getComponentMessages('website', maximusBundle.EditCompanyHelpText_website)}"/>
                         </h:panelGroup>
+                        
+                        <p:outputLabel value="#{maximusBundle.EditCompanyLabel_country}" for="country" />
+                        <h:panelGroup>
+                            <p:inputText id="country" value="#{customerController.selected.country}" title="#{maximusBundle.EditCompanyTitle_country}" size="45" maxlength="45"/>
+                            <p:tooltip for="country" value="#{customerController.getComponentMessages('country', maximusBundle.EditCompanyHelpText_country)}"/>
+                        </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{customerController.save}" value="#{maximusBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomerEditDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>

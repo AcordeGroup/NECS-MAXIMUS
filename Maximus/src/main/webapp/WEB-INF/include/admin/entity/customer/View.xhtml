@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
@@ -14,6 +13,8 @@
 
                 <h:panelGroup id="display" style="text-align: left">
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_idCustomer}"/>
+                        <h:outputText value="#{customerController.selected.idCustomer}" title="#{maximusBundle.ViewCompanyTitle_idCustomer}"/>
 
                         <h:outputText value="#{maximusBundle.ViewCompanyLabel_companyName}"/>
                         <h:outputText value="#{customerController.selected.companyName}" title="#{maximusBundle.ViewCompanyTitle_companyName}"/>
@@ -26,6 +27,9 @@
 
                         <h:outputText value="#{maximusBundle.ViewCompanyLabel_website}"/>
                         <h:outputText value="#{customerController.selected.website}" title="#{maximusBundle.ViewCompanyTitle_website}"/>
+
+                        <h:outputText value="#{maximusBundle.ViewCompanyLabel_country}"/>
+                        <h:outputText value="#{customerController.selected.country}" title="#{maximusBundle.ViewCompanyTitle_country}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{maximusBundle.Close}" onclick="PF('CustomerViewDialog').hide()"/>
                 </h:panelGroup>

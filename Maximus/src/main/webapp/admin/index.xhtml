@@ -21,8 +21,8 @@
                         <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{vendorController.prepareCreate}" id="buttonVendor"  update=":VendorCreateForm" onclick="#{vendorController.createVendorTrue()}" oncomplete="PF('VendorCreateDialog').show()" />
                         <p:commandButton value="#{maximusBundle.new_agent_button}" actionListener="#{agentController.prepareCreate}" id="buttonAgent"  update=":AgentCreateForm" onclick="#{agentController.createAgentTrue()}" oncomplete="PF('AgentCreateDialog').show()" />
                         <p:commandButton value="#{maximusBundle.enter_new_part_button}" actionListener="#{productController.prepareCreate}" id="buttonNewPart"  update=":ProductCreateForm" onclick="#{productController.createPartTrue()}" oncomplete="PF('ProductCreateDialog').show()"/>
-                        <p:commandButton value="#{maximusBundle.create_new_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createSalesTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
-                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{contactController.createSalesTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.create_new_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createContactTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createCustomerTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>
@@ -65,18 +65,18 @@
                                 <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 95px">
+                            <p:column sortBy="#{item.idContact.idContact}" filterBy="#{item.idContact.idContact}" filterStyle="width:80px" style="width : 95px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idContact.idContact}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idContact.companyName.companyName}" filterBy="#{item.idContact.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idContact.companyName.companyName}"/>
                             </p:column>
 
                             <p:column  style="width : 100px">
@@ -176,18 +176,18 @@
                                 <h:outputText value="#{item.idQuote}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.idCustomer}" filterBy="#{item.idCustomer.idCustomer}" filterStyle="width:80px" style="width : 100px">
+                            <p:column sortBy="#{item.idContact.idContact}" filterBy="#{item.idContact.idContact}" filterStyle="width:80px" style="width : 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer #"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.idCustomer}"/>
+                                <h:outputText value="#{item.idContact.idContact}"/>
                             </p:column>
 
-                            <p:column sortBy="#{item.idCustomer.companyName.companyName}" filterBy="#{item.idCustomer.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
+                            <p:column sortBy="#{item.idContact.companyName.companyName}" filterBy="#{item.idContact.companyName.companyName}" filterStyle="width:80px" style="width : 130px">
                                 <f:facet name="header">
                                     <h:outputText value="Customer Name"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idCustomer.companyName.companyName}"/>
+                                <h:outputText value="#{item.idContact.companyName.companyName}"/>
                             </p:column>
 
                             <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" filterStyle="width:80px" style="width : 100px">

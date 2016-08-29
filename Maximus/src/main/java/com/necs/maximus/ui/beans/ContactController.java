@@ -22,7 +22,7 @@ public class ContactController extends AbstractController<Contact> {
 
     private List<String> types;
 
-    private boolean createSales = false;
+    private boolean createContact = false;
 
     public ContactController() {
         // Inform the Abstract parent controller of the concrete Contact Entity
@@ -66,17 +66,19 @@ public class ContactController extends AbstractController<Contact> {
         }
     }
 
-    public void createSalesTrue() {
-        createSales = true;
+    public void createContactTrue() {
+        createContact = true;
     }
 
-    public boolean isCreateSales() {
-        return createSales;
+    public boolean isCreateContact() {
+        return createContact;
     }
 
-    public void setCreateSales(boolean createSales) {
-        this.createSales = createSales;
+    public void setCreateContact(boolean createContact) {
+        this.createContact = createContact;
     }
+
+   
 
     public List<String> getTypes() {
         return types;
