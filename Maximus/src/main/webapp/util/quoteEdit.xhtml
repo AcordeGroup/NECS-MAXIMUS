@@ -165,16 +165,16 @@
                                 <f:facet name="header">
                                     <h:outputText value="Vendor"/>
                                 </f:facet>
-                                <p:selectOneMenu id="vendor" value="#{item.idVendor}" converter="vendorConverter" panelStyle="width:180px;"
+                                <p:selectOneMenu id="vendor" value="#{item.idVendor}" converter="vendorConverter" panelStyle="width:220px;"
                                                  effect="fade" var="t" style="width:115px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}" itemValue=""/>
                                     <f:selectItems value="#{editQuoteController.vendorList}" 
                                                    var="vendor" 
                                                    itemLabel="#{vendor.companyName}" 
                                                    itemValue="#{vendor}" />
-                                    <p:column style="width:10%">
+<!--                                    <p:column style="width:10%">
                                         <h:outputText styleClass="ui-theme ui-theme-#{t.companyName}" />
-                                    </p:column>
+                                    </p:column>-->
                                     <p:column>
                                         <h:outputText value="#{t.companyName}" />
                                     </p:column>

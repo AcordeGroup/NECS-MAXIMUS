@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,10 +45,11 @@ public class Vendor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "id_vendor")
-    private Integer idVendor;
+    private String idVendor;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 40)
@@ -107,11 +106,11 @@ public class Vendor implements Serializable {
     public Vendor() {
     }
 
-    public Vendor(Integer idVendor) {
+    public Vendor(String idVendor) {
         this.idVendor = idVendor;
     }
 
-    public Vendor(Integer idVendor, String companyName, String address, String city, String state, String country, String zip, String firstName, String lastName, String phoneNumber) {
+    public Vendor(String idVendor, String companyName, String address, String city, String state, String country, String zip, String firstName, String lastName, String phoneNumber) {
         this.idVendor = idVendor;
         this.companyName = companyName;
         this.address = address;
@@ -124,11 +123,11 @@ public class Vendor implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getIdVendor() {
+    public String getIdVendor() {
         return idVendor;
     }
 
-    public void setIdVendor(Integer idVendor) {
+    public void setIdVendor(String idVendor) {
         this.idVendor = idVendor;
     }
 

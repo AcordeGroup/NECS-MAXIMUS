@@ -43,13 +43,13 @@ public class VendorConverter implements Converter {
         return this.vendorFacade.find(getKey(value));
     }
 
-    java.lang.Integer getKey(String value) {
-        java.lang.Integer key;
-        key = Integer.valueOf(value);
+    java.lang.String getKey(String value) {
+        java.lang.String key;
+        key = value;
         return key;
     }
 
-    String getStringKey(java.lang.Integer value) {
+    String getStringKey(java.lang.String value) {
         StringBuffer sb = new StringBuffer();
         sb.append(value);
         return sb.toString();
