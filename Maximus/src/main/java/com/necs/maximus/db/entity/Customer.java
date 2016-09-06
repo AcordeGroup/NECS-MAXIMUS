@@ -45,15 +45,15 @@ public class Customer implements Serializable {
     private String companyName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 200)
     @Column(name = "company_address")
     private String companyAddress;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 85)
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Size(max = 45)
+    @Size(max = 55)
     @Column(name = "website")
     private String website;
     @Column(name = "country")
