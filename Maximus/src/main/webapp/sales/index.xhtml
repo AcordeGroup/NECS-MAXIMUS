@@ -16,10 +16,11 @@
         </ui:define>
         <ui:define name="body" >
             <p:panel header="#{maximusBundle.label_sales_dashboard}" id="salesDashboard" >
+                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 <h:form id="formSales" >
                     <h:panelGrid columns="3" id="panelButton">
-                        <p:commandButton value="#{maximusBundle.create_new_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createContactTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
-                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreate}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createCustomerTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.add_contact}" actionListener="#{contactController.prepareCreate}" id="buttonContact"  update=":ContactCreateForm" onclick="#{contactController.createContactTrue()}" oncomplete="PF('ContactCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.create_new_customer}" actionListener="#{customerController.prepareCreateCustomerContact()}" id="buttonCustomer"  update=":CustomerCreateForm" onclick="#{customerController.createCustomerTrue()}" oncomplete="PF('CustomerCreateDialog').show()"/>
                         <p:commandButton value="#{maximusBundle.create_new_request}" action="request" id="buttonRequest" ajax="false"/>
                     </h:panelGrid>
                     <p:spacer/>

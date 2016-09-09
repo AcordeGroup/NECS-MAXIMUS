@@ -16,6 +16,7 @@
         </ui:define>
         <ui:define name="body">
             <p:panel header="#{maximusBundle.label_purchasing_dashboard}" id="purchasingDashboard" >
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 <h:form id="formPurchasing">
                     <h:panelGrid columns="2" id="panelButton">
                         <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{vendorController.prepareCreate}" id="buttonVendor"  update=":VendorCreateForm" onclick="#{vendorController.createVendorTrue()}" oncomplete="PF('VendorCreateDialog').show()" />

@@ -7,6 +7,7 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Contact;
+import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.Product;
@@ -14,7 +15,7 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
-import com.necs.maximus.db.facade.ContactFacade;
+import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
@@ -54,7 +55,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     @EJB
     private QuoteFacade quoteFacade;
     @EJB
-    private ContactFacade customerFacade;
+    private CustomerFacade customerFacade;
     @EJB
     private ProductFacade productFacade;
     @EJB
@@ -62,7 +63,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
     @EJB
     private HasFacade hasFacade;
 
-    private Contact customerSelected;
+    private Customer customerSelected;
+    private Contact contactSelected;
     private Agent agent;
 
     private String shippingTo;
@@ -81,7 +83,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private boolean observationField;
     private String observation;
 
-    private List<Contact> customerList;
+    private List<Customer> customerList;
+    private List<Contact> contactList;
     private List<Has> partListHas;
     private List<Product> partList;
     private List<Product> selectedPart;
@@ -99,7 +102,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
-        customerList = (List<Contact>) customerFacade.findAll();
+        customerList = (List<Customer>) customerFacade.findAll();
     }
 
     public String createNewRequest() {
@@ -114,12 +117,12 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 Quote newQuote = new Quote();
                 newQuote.setCreationDate(new Date());
                 newQuote.setIdAgent(agent);
-                newQuote.setIdContact(customerSelected);
+                newQuote.setIdContact(contactSelected);
                 newQuote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
                 newQuote.setShipping_cost(shippingCost == null ? null : BigDecimal.valueOf(shippingCost));
                 newQuote.setShipping_to(shippingTo);
-                newQuote.setContact(customerSelected.getPrimaryContact());
-                newQuote.setEmail(customerSelected.getPrimaryEmail());
+                newQuote.setContact(contactSelected.getPrimaryContact());
+                newQuote.setEmail(contactSelected.getPrimaryEmail());
 
                 quoteFacade.create(newQuote);
 
@@ -169,6 +172,10 @@ public class CreateQuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_customer")));
             return false;
         }
+         if (contactSelected == null || contactSelected.equals(bundle.getString("SelectOneMessage"))) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_contact")));
+            return false;
+        }
         if (shippingTo == null || shippingTo.equals("")) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("shipping_address_not_null")));
             return false;
@@ -212,7 +219,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         }
 
         partList = productFacade.findAllByFilter(parametros);
-    } 
+    }
 
     public void addPart() {
         if (partListHas == null) {
@@ -290,19 +297,27 @@ public class CreateQuoteController extends AbstractController<Quote> {
         }
     }
 
-    public List<Contact> getCustomerList() {
+    public List<Customer> getCustomerList() {
         return customerList;
     }
 
-    public void setCustomerList(List<Contact> customerList) {
+    public void setCustomerList(List<Customer> customerList) {
         this.customerList = customerList;
     }
 
-    public Contact getCustomerSelected() {
+    public List<Contact> getContactList() {
+        return contactList;
+    }
+
+    public void setContactList(List<Contact> contactList) {
+        this.contactList = contactList;
+    }
+
+    public Customer getCustomerSelected() {
         return customerSelected;
     }
 
-    public void setCustomerSelected(Contact customerSelected) {
+    public void setCustomerSelected(Customer customerSelected) {
         this.customerSelected = customerSelected;
     }
 
@@ -448,6 +463,29 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    public Contact getContactSelected() {
+        return contactSelected;
+    }
+
+    public void setContactSelected(Contact contactSelected) {
+        this.contactSelected = contactSelected;
+    }
+
+    public void onCustomerChange() {
+        if (customerSelected != null && !customerSelected.equals("")) {
+            inicializedContact();
+            contactList = customerSelected.getContactList();
+        } else {
+            contactList = new ArrayList<>();
+        }
+    }
+
+    public void inicializedContact() {
+        if (contactSelected != null) {
+            contactSelected = null;
+        }
     }
 
 }

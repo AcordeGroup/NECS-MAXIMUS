@@ -2,10 +2,16 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Customer;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 @Named(value = "customerController")
 @ViewScoped
@@ -13,8 +19,14 @@ public class CustomerController extends AbstractController<Customer> {
 
     @Inject
     private MobilePageController mobilePageController;
+    @Inject
+    private ContactController contactController;
 
     private boolean createCustomer = false;
+
+    private final FacesContext facesContext = FacesContext.getCurrentInstance();
+    private final Locale locale = facesContext.getViewRoot().getLocale();
+    protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
 
     public CustomerController() {
         // Inform the Abstract parent controller of the concrete Customer Entity
@@ -33,7 +45,7 @@ public class CustomerController extends AbstractController<Customer> {
         }
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/contact/index";
     }
-    
+
     public void createCustomerTrue() {
         createCustomer = true;
     }
@@ -45,7 +57,42 @@ public class CustomerController extends AbstractController<Customer> {
     public void setCreateCustomer(boolean createCustomer) {
         this.createCustomer = createCustomer;
     }
-    
-    
 
+    public void prepareCreateCustomerContact() {
+        contactController.prepareCreate(null);
+        this.prepareCreate(null);
+    }
+
+    public void saveCustomerContact() {
+        try {
+            this.saveNew(null);
+            if (contactController.getSelected() != null) {
+                contactController.getSelected().setCompanyName(this.getSelected());
+                contactController.saveNew(null);
+            }
+        } catch (Exception e) {
+            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("error_persist")));
+            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public boolean checkMatches(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        String carName = value.toString().toUpperCase();
+        filterText = filterText.toUpperCase();
+
+        if (carName.contains(filterText)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

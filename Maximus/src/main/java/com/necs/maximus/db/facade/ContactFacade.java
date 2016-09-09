@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.facade;
 
 import com.necs.maximus.db.entity.Contact;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +29,17 @@ public class ContactFacade extends AbstractFacade<Contact> {
 
     public ContactFacade() {
         super(Contact.class);
+    }
+
+    public List<Contact> findContactsByCompanyName(String companyName) {
+
+        Query query = em.createQuery("select c from contact c "
+                + "where c.companyName.companyName =: companyName");
+
+        query.setParameter("companyName", companyName);
+
+        return query.getResultList();
+
     }
 
 }

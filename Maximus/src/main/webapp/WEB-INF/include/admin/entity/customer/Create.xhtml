@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
@@ -48,11 +49,54 @@
                             <p:tooltip for="country" value="#{customerController.getComponentMessages('country', maximusBundle.CreateCompanyHelpText_country)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{maximusBundle.Save}" update="display,#{customerController.createCustomer ? '' : ':CustomerListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
+
+                    <p:spacer />
+                    <p:separator />
+                    <p:spacer />
+                    <p:panel id="basic" header="CONTACT INFORMATION"  style="margin-bottom:20px; text-align: left; " >
+                        <h:panelGroup id="displayContact" rendered="#{contactController.selected != null}">
+                            <p:panelGrid columns="2" columnClasses="column" style="text-align: left;">
+
+                                <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryContact}" for="primaryContact" />
+                                <h:panelGroup>
+                                    <p:inputText id="primaryContact" value="#{contactController.selected.primaryContact}" title="#{maximusBundle.CreateCustomerTitle_primaryContact}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryContact}" size="30" maxlength="30"/>
+                                    <p:tooltip for="primaryContact" value="#{contactController.getComponentMessages('primaryContact', maximusBundle.CreateCustomerHelpText_primaryContact)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryPhoneNumber}" for="primaryPhoneNumber" />
+                                <h:panelGroup>
+                                    <p:inputText id="primaryPhoneNumber" value="#{contactController.selected.primaryPhoneNumber}" title="#{maximusBundle.CreateCustomerTitle_primaryPhoneNumber}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryPhoneNumber}" size="30" maxlength="30"/>
+                                    <p:tooltip for="primaryPhoneNumber" value="#{contactController.getComponentMessages('primaryPhoneNumber', maximusBundle.CreateCustomerHelpText_primaryPhoneNumber)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_primaryEmail}" for="primaryEmail" />
+                                <h:panelGroup>
+                                    <p:inputText id="primaryEmail" value="#{contactController.selected.primaryEmail}" title="#{maximusBundle.CreateCustomerTitle_primaryEmail}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_primaryEmail}" size="30" maxlength="30"/>
+                                    <p:tooltip for="primaryEmail" value="#{contactController.getComponentMessages('primaryEmail', maximusBundle.CreateCustomerHelpText_primaryEmail)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_type}" for="type" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="type" value="#{contactController.selected.type}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_type}" style="width: 245px;">
+                                        <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{contactController.types}"
+                                                       var="typeItem"
+                                                       itemValue="#{typeItem}"
+                                                       itemLabel="#{typeItem}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="type" value="#{contactController.getComponentMessages('type', maximusBundle.CreateCustomerHelpText_type)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </h:panelGroup>
+                    </p:panel>
+
+                    <p:commandButton actionListener="#{customerController.saveCustomerContact()}" value="#{maximusBundle.Save}" update="display,displayContact,#{customerController.createCustomer ? '' : ':CustomerListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
-                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('CustomerCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('CustomerCreateDialog').hide()" update="display,displayContact" process="@this" immediate="true" resetValues="true"/>
                 </h:panelGroup>
 
             </h:form>

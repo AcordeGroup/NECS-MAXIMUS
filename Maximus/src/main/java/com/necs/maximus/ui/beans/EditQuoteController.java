@@ -7,6 +7,7 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Contact;
+import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.IsSubstitute;
@@ -18,6 +19,7 @@ import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.entity.Vendor;
 import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.ContactFacade;
+import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.IsSubstituteFacade;
 import com.necs.maximus.db.facade.ManageFacade;
@@ -67,7 +69,9 @@ public class EditQuoteController extends AbstractController<Quote> {
     @EJB
     private QuoteFacade quoteFacade;
     @EJB
-    private ContactFacade customerFacade;
+    private CustomerFacade customerFacade;
+    @EJB
+    private ContactFacade contactFacade;
     @EJB
     private VendorFacade vendorFacade;
     @EJB
@@ -103,7 +107,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     private String selectionSustitute;
     private boolean makeSubstitute;
 
-    private List<Contact> customerList;
+    private List<Customer> customerList;
+    private List<Contact> contactList;
     private List<Has> partListHas;
     private List<Product> partList;
     private List<Product> selectedPart;
@@ -125,7 +130,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         HashMap param = new HashMap();
         param.put("idAgent", getUserManagedBean().getAgentId());
         partListHas = new ArrayList<>();
-        customerList = (List<Contact>) customerFacade.findAll();
+        customerList = (List<Customer>) customerFacade.findAll();
         vendorList = (List<Vendor>) vendorFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
 
@@ -133,6 +138,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         if (quoteId != null) {
             quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
             if (null != quote) {
+                contactList = quote.getIdContact().getCompanyName().getContactList();//contactFacade.findContactsByCompanyName(quote.getIdContact().getCompanyName().getCompanyName());
                 quoteListNote = quoteNoteFacade.findQuoteNoteByIdQuote(quote);
                 includeShipping = ShippingCostType.getEnumByIdType(quote.getIncludeShippingCost()).getType();
                 partListHas.addAll(quote.getHasList());
@@ -175,6 +181,8 @@ public class EditQuoteController extends AbstractController<Quote> {
                     quote.getHasList().add(hasNew);
                 }
                 quote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
+                quote.setContact(quote.getIdContact().getPrimaryContact());
+                quote.setEmail(quote.getIdContact().getPrimaryEmail());
                 quoteFacade.edit(quote);
 
                 if (operation.equals(OperationType.DONE.getOperationName())) {
@@ -221,8 +229,16 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public boolean validateField() {
-        if (quote.getIdContact() == null || quote.getIdContact().equals(bundle.getString("SelectOneMessage"))) {
+        if (quote.getIdContact().getCompanyName() == null || quote.getIdContact().getCompanyName().getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_customer"), ""));
+            return false;
+        }
+        if (quote.getIdContact().getPrimaryContact() == null || quote.getIdContact().getPrimaryContact().equals("")) {
+             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_contact_not_null"), ""));
+            return false;
+        }
+        if (quote.getIdContact().getPrimaryEmail() == null || quote.getIdContact().getPrimaryEmail().equals("")) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_email_not_null"), ""));
             return false;
         }
         if (quote.getShipping_to() == null || quote.getShipping_to().equals("")) {
@@ -230,15 +246,15 @@ public class EditQuoteController extends AbstractController<Quote> {
             return false;
         }
 
-        if (quote.getContact() == null || quote.getContact().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_contact_not_null"), ""));
-            return false;
-        }
-
-        if (quote.getEmail() == null || quote.getEmail().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_email_not_null"), ""));
-            return false;
-        }
+//        if (quote.getContact() == null || quote.getContact().equals("")) {
+//            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_contact_not_null"), ""));
+//            return false;
+//        }
+//
+//        if (quote.getEmail() == null || quote.getEmail().equals("")) {
+//            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_email_not_null"), ""));
+//            return false;
+//        }
 
         if (partListHas == null || partListHas.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("add_part_quote"), ""));
@@ -652,11 +668,11 @@ public class EditQuoteController extends AbstractController<Quote> {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
 
-    public List<Contact> getCustomerList() {
+    public List<Customer> getCustomerList() {
         return customerList;
     }
 
-    public void setCustomerList(List<Contact> customerList) {
+    public void setCustomerList(List<Customer> customerList) {
         this.customerList = customerList;
     }
 
@@ -859,5 +875,24 @@ public class EditQuoteController extends AbstractController<Quote> {
     public void setVendorSelected(Vendor vendorSelected) {
         this.vendorSelected = vendorSelected;
     }
+
+    public List<Contact> getContactList() {
+        return contactList;
+    }
+
+    public void setContactList(List<Contact> contactList) {
+        this.contactList = contactList;
+    }
+    
+     public void onCustomerChange() {
+        if (quote.getIdContact().getCompanyName() != null && !quote.getIdContact().getCompanyName() .equals("")) {
+            
+            contactList = quote.getIdContact().getCompanyName().getContactList();
+        } else {
+            contactList = new ArrayList<>();
+        }
+    }
+
+  
 
 }

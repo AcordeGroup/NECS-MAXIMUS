@@ -18,41 +18,77 @@
             <h:form id="form">
                 <p:panel header="#{maximusBundle.new_request_label}" id="panelRequest">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-                    <h:panelGrid columns="2" style="text-align: left">
-                        <h:outputText value="#{maximusBundle.CustomerHeading} *" />
-                        <h:selectOneMenu id="customer" value="#{createQuoteController.customerSelected}" converter="customerConverter" style="width:255px;">
-                            <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{createQuoteController.customerList}"
-                                           var="item"
-                                           itemValue="#{item}"
-                                           itemLabel="#{item.companyName.companyName}"
-                                           />
-                            <p:ajax update="panelRequest" /> 
-                        </h:selectOneMenu>
+                    <h:panelGrid columns="2" style="text-align: left; vertical-align: top !important; margin:0px 0px 0px 0px !important;">
+                        <p:outputPanel  id="panelCombos" autoUpdate="true">
+                            <h:panelGrid columns="1" style="text-align: left;  vertical-align: top !important; margin:0px 0px 0px 0px !important;">
 
-                    </h:panelGrid>
-                    <p:outputPanel   rendered="#{createQuoteController.customerSelected != null}">
-                        <h:panelGrid columns="2" style="text-align: left">
+                                <h:panelGrid columns="2" style="text-align: left;  vertical-align: top !important; margin:0px 0px 0px 0px !important;">
+                                    <h:outputText value="#{maximusBundle.CustomerHeading} *" />
+                                    <h:selectOneMenu id="customer" value="#{createQuoteController.customerSelected}" converter="customerConverter" style="width:255px;">
+                                        <p:ajax listener="#{createQuoteController.onCustomerChange()}" update="contact,contactInfo,customerInfo,panelRequest" />
+                                        <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{createQuoteController.customerList}"
+                                                       var="item"
+                                                       itemValue="#{item}"
+                                                       itemLabel="#{item.companyName}"
+                                                       />
+                                    </h:selectOneMenu>
+                                </h:panelGrid>
+                                <h:panelGrid id="customerInfo"  columns="2" style="text-align: left;  vertical-align: top !important; margin:0px 0px 0px 0px !important;"  rendered="#{createQuoteController.customerSelected != null}">
+                                    <h:outputText value="#{maximusBundle.label_address}" />
+                                    <p:inputText value="#{createQuoteController.customerSelected.companyAddress}" disabled="true" style="margin-left: 17px; width: 250px;" />
 
-                            <h:panelGrid columns="2" style="text-align: left">
-                                <h:outputText value="#{maximusBundle.label_address}" />
-                                <p:inputText value="#{createQuoteController.customerSelected.companyName.companyAddress}" disabled="true" style="margin-left: 15px; width: 250px;" />
+                                    <h:outputText value="#{maximusBundle.label_country}" />
+                                    <p:inputText value="#{createQuoteController.customerSelected.country}" disabled="true" style="margin-left: 17px; width: 250px;" />
+                                </h:panelGrid>
+                                <h:panelGrid id="contact"  columns="2" style="text-align: left;   vertical-align: top !important; margin:0px 0px 0px 0px !important;"  rendered="#{createQuoteController.customerSelected != null}">
 
+                                    <h:outputText value="#{maximusBundle.ContactHeading} *" />
+                                    <h:selectOneMenu   value="#{createQuoteController.contactSelected}" converter="contactConverter" style="width:255px; margin-left: 13px;">
+                                        <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{createQuoteController.contactList}"
+                                                       var="item"
+                                                       itemValue="#{item}"
+                                                       itemLabel="#{item.primaryContact}"
+                                                       />
+                                        <p:ajax update="panelRequest" /> 
+                                    </h:selectOneMenu>
 
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="text-align: left; vertical-align: top !important; margin:0px 0px 0px 0px !important;" rendered="#{ createQuoteController.contactSelected != null}">
 
-                                <h:outputText value="#{maximusBundle.label_country}" />
-                                <p:inputText value="#{createQuoteController.customerSelected.companyName.country}" disabled="true" style="margin-left: 15px; width: 250px;" />
+                                    <h:outputText value="#{maximusBundle.label_contact_primary}" />
+                                    <p:inputText value="#{createQuoteController.contactSelected.primaryContact}" style="margin-left: 6px; width: 250px;"/>
 
+                                    <h:outputText value="#{maximusBundle.label_email}" />
+                                    <p:inputText value="#{createQuoteController.contactSelected.primaryEmail}" style="margin-left: 6px; width: 250px;" />
 
-
-                                <h:outputText value="#{maximusBundle.label_contact}" />
-                                <p:inputText value="#{createQuoteController.customerSelected.primaryContact}" style="margin-left: 15px; width: 250px;"/>
-
-                                <h:outputText value="#{maximusBundle.label_email}" />
-                                <p:inputText value="#{createQuoteController.customerSelected.primaryEmail}" style="margin-left: 15px; width: 250px;" />
+                                </h:panelGrid>
 
                             </h:panelGrid>
-                            <h:panelGrid columns="2" style="text-align: left; vertical-align: top;" rendered="#{createQuoteController.customerSelected != null}">
+                        </p:outputPanel>
+                        <h:panelGrid columns="1" style="text-align: initial;   vertical-align: top !important; margin:0px 0px 0px 0px !important;">
+                            <h:panelGrid columns="1" style="text-align: left;  vertical-align: top !important; margin:0px 0px 0px 0px !important;">
+                                <p:commandButton value="#{maximusBundle.new_customer}" 
+                                                 actionListener="#{customerController.prepareCreateCustomerContact()}" 
+                                                 id="buttonCustomer"  
+                                                 update=":CustomerCreateForm" 
+                                                 onclick="#{customerController.createCustomerTrue()}" 
+                                                 oncomplete="PF('CustomerCreateDialog').show()"
+                                                 style="height: 25px; vertical-align: middle; margin: 0 0 0 13px !important; width: 130px;" process="@this"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" style="text-align: left;  vertical-align: top !important; margin:0px 0px 0px 0px !important;">
+                                <p:commandButton value="#{maximusBundle.add_contact}" 
+                                                 actionListener="#{contactController.prepareCreate}" 
+                                                 id="buttonContact"  
+                                                 update=":ContactCreateForm" 
+                                                 onclick="#{contactController.createContactTrue()}" 
+                                                 oncomplete="PF('ContactCreateDialog').show()"
+                                                 style="height: 25px; vertical-align: middle; margin: 0 0 0 13px !important; width: 130px;"
+                                                 process="@this"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="text-align: left;   vertical-align: top !important; margin:0px 0px 0px 0px !important;" rendered="#{createQuoteController.customerSelected != null}">
                                 <h:outputText value="#{maximusBundle.label_shipping_to}"  style="margin-left: 10px; vertical-align: top;" />
                                 <p:inputTextarea value="#{createQuoteController.shippingTo}"  style="width:300px; margin-left: 10px; "/>
                                 <h:outputText value="#{maximusBundle.label_include_shipping}"  style="margin-left: 10px;"  />
@@ -64,7 +100,17 @@
                                 </h:selectOneMenu>
 
                             </h:panelGrid>
+
+
                         </h:panelGrid>
+
+
+                    </h:panelGrid>
+
+
+
+                    <p:outputPanel  id="contactInfo" rendered="#{createQuoteController.customerSelected != null}">
+
                         <p:spacer />
                         <p:separator />
                         <p:outputPanel style="text-align: right; width: 100% ">
@@ -151,6 +197,7 @@
 
                 <p:commandButton value="#{maximusBundle.Cancel}" action="#{createQuoteController.typeAgent()}" id="buttonCancel" ajax="true" process="@this"/>
                 <p:commandButton value="#{maximusBundle.Save}" action="#{createQuoteController.createNewRequest()}" id="buttonSave" ajax="false"/>
+                <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
             </h:form>
 
             <p:dialog header="Basic Dialog"  widgetVar="dialogPart"  id="dialogPart" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
@@ -296,6 +343,9 @@
                 </h:form>
             </p:dialog>
 
+            <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
+
+            <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
         </ui:define>
 
     </ui:composition>

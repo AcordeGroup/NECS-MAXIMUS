@@ -254,6 +254,16 @@ input[type="submit"]:hover, button[type="submit"]:hover, button:hover {
     
 }
 
+.ovaloQuote{
+    color: white;
+    position: absolute;
+    padding: 0;
+    top: 0;
+    text-align: center;
+    border-radius: 15px;
+    
+}
+
 .buttonCondition{
     
     width: 80px !important;

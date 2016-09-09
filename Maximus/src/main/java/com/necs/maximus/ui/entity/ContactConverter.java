@@ -11,7 +11,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@FacesConverter(value = "customerConverter")
+@FacesConverter(value = "contactConverter")
 public class ContactConverter implements Converter {
 
     @Inject
