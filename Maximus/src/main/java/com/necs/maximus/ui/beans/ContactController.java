@@ -23,6 +23,7 @@ public class ContactController extends AbstractController<Contact> {
     private List<String> types;
 
     private boolean createContact = false;
+    private String formUpdated;
 
     public ContactController() {
         // Inform the Abstract parent controller of the concrete Contact Entity
@@ -66,7 +67,8 @@ public class ContactController extends AbstractController<Contact> {
         }
     }
 
-    public void createContactTrue() {
+    public void createContactTrue(String formUpdatedParam) {
+        formUpdated = formUpdatedParam;
         createContact = true;
     }
 
@@ -78,14 +80,20 @@ public class ContactController extends AbstractController<Contact> {
         this.createContact = createContact;
     }
 
-   
-
     public List<String> getTypes() {
         return types;
     }
 
     public void setTypes(List<String> types) {
         this.types = types;
+    }
+
+    public String getFormUpdated() {
+        return formUpdated;
+    }
+
+    public void setFormUpdated(String formUpdated) {
+        this.formUpdated = formUpdated;
     }
 
 }

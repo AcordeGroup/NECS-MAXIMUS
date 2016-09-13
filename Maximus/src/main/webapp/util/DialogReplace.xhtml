@@ -56,7 +56,7 @@
                                      value="#{editQuoteController.partList}"
                                      var="item"
                                      paginator="true"
-                                     rows="10"
+                                     rows="7"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,15"
                                      emptyMessage="#{maximusBundle.no_search_result}"
@@ -64,7 +64,7 @@
                                      selection="#{editQuoteController.selectedPartSubtitute}"
                                      rowKey="#{item.partNumber}"
                                      scrollable="true"
-                                     scrollHeight="300"
+                                     scrollHeight="250"
                                      >
 
                             <p:column selectionMode="single" style="width:10px;text-align:center"/>

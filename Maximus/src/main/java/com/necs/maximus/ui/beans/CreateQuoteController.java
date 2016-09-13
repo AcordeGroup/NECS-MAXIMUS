@@ -15,6 +15,7 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
+import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.ProductFacade;
@@ -56,6 +57,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private QuoteFacade quoteFacade;
     @EJB
     private CustomerFacade customerFacade;
+    @EJB
+    private ContactFacade contactFacade;
     @EJB
     private ProductFacade productFacade;
     @EJB
@@ -172,7 +175,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_customer")));
             return false;
         }
-         if (contactSelected == null || contactSelected.equals(bundle.getString("SelectOneMessage"))) {
+        if (contactSelected == null || contactSelected.equals(bundle.getString("SelectOneMessage"))) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_contact")));
             return false;
         }
@@ -298,6 +301,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     }
 
     public List<Customer> getCustomerList() {
+        init();
         return customerList;
     }
 
@@ -306,6 +310,9 @@ public class CreateQuoteController extends AbstractController<Quote> {
     }
 
     public List<Contact> getContactList() {
+        if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
+            contactList = contactFacade.findContactsByCompanyName(customerSelected.getCompanyName());
+        }
         return contactList;
     }
 
@@ -474,7 +481,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     }
 
     public void onCustomerChange() {
-        if (customerSelected != null && !customerSelected.equals("")) {
+        if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
             inicializedContact();
             contactList = customerSelected.getContactList();
         } else {

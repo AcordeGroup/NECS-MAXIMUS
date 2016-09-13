@@ -93,6 +93,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     private Product productCreado;
     private Quote quote;
     private Vendor vendorSelected;
+    private Contact contactSelected;
+    private Customer customerSelected;
 
     private String note;
     private String includeShipping;
@@ -138,6 +140,8 @@ public class EditQuoteController extends AbstractController<Quote> {
         if (quoteId != null) {
             quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
             if (null != quote) {
+                contactSelected = quote.getIdContact();
+                customerSelected = quote.getIdContact().getCompanyName();
                 contactList = quote.getIdContact().getCompanyName().getContactList();//contactFacade.findContactsByCompanyName(quote.getIdContact().getCompanyName().getCompanyName());
                 quoteListNote = quoteNoteFacade.findQuoteNoteByIdQuote(quote);
                 includeShipping = ShippingCostType.getEnumByIdType(quote.getIncludeShippingCost()).getType();
@@ -181,8 +185,9 @@ public class EditQuoteController extends AbstractController<Quote> {
                     quote.getHasList().add(hasNew);
                 }
                 quote.setIncludeShippingCost(ShippingCostType.getEnumByType(includeShipping).getIdType());
-                quote.setContact(quote.getIdContact().getPrimaryContact());
-                quote.setEmail(quote.getIdContact().getPrimaryEmail());
+                quote.setContact(contactSelected.getPrimaryContact());
+                quote.setEmail(contactSelected.getPrimaryEmail());
+                quote.setIdContact(contactSelected);
                 quoteFacade.edit(quote);
 
                 if (operation.equals(OperationType.DONE.getOperationName())) {
@@ -229,15 +234,19 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public boolean validateField() {
-        if (quote.getIdContact().getCompanyName() == null || quote.getIdContact().getCompanyName().getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
+        if (customerSelected == null || customerSelected.getCompanyName().equals("")) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_customer"), ""));
             return false;
         }
-        if (quote.getIdContact().getPrimaryContact() == null || quote.getIdContact().getPrimaryContact().equals("")) {
-             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_contact_not_null"), ""));
+        if (contactSelected == null || contactSelected.equals(bundle.getString("SelectOneMessage"))) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_contact")));
             return false;
         }
-        if (quote.getIdContact().getPrimaryEmail() == null || quote.getIdContact().getPrimaryEmail().equals("")) {
+        if (contactSelected.getPrimaryContact() == null || contactSelected.getPrimaryContact().equals("")) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_contact_not_null"), ""));
+            return false;
+        }
+        if (contactSelected.getPrimaryEmail() == null || contactSelected.getPrimaryEmail().equals("")) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_email_not_null"), ""));
             return false;
         }
@@ -255,7 +264,6 @@ public class EditQuoteController extends AbstractController<Quote> {
 //            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("shipping_email_not_null"), ""));
 //            return false;
 //        }
-
         if (partListHas == null || partListHas.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("add_part_quote"), ""));
             return false;
@@ -668,7 +676,23 @@ public class EditQuoteController extends AbstractController<Quote> {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
 
+    public void onCustomerChange() {
+        if (customerSelected != null && !customerSelected.getCompanyName().equals("")) {
+            inicializedContact();
+            contactList = customerSelected.getContactList();
+        } else {
+            contactList = new ArrayList<>();
+        }
+    }
+
+    public void inicializedContact() {
+        if (contactSelected != null) {
+            contactSelected = null;
+        }
+    }
+
     public List<Customer> getCustomerList() {
+        customerList = (List<Customer>) customerFacade.findAll();
         return customerList;
     }
 
@@ -877,22 +901,30 @@ public class EditQuoteController extends AbstractController<Quote> {
     }
 
     public List<Contact> getContactList() {
+        if (customerSelected != null && !customerSelected.getCompanyName().equals("")) {
+            contactList = contactFacade.findContactsByCompanyName(customerSelected.getCompanyName());
+        }
         return contactList;
     }
 
     public void setContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
-    
-     public void onCustomerChange() {
-        if (quote.getIdContact().getCompanyName() != null && !quote.getIdContact().getCompanyName() .equals("")) {
-            
-            contactList = quote.getIdContact().getCompanyName().getContactList();
-        } else {
-            contactList = new ArrayList<>();
-        }
+
+    public Contact getContactSelected() {
+        return contactSelected;
     }
 
-  
+    public void setContactSelected(Contact contactSelected) {
+        this.contactSelected = contactSelected;
+    }
+
+    public Customer getCustomerSelected() {
+        return customerSelected;
+    }
+
+    public void setCustomerSelected(Customer customerSelected) {
+        this.customerSelected = customerSelected;
+    }
 
 }

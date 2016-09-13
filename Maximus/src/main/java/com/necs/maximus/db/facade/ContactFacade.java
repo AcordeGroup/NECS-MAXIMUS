@@ -33,8 +33,8 @@ public class ContactFacade extends AbstractFacade<Contact> {
 
     public List<Contact> findContactsByCompanyName(String companyName) {
 
-        Query query = em.createQuery("select c from contact c "
-                + "where c.companyName.companyName =: companyName");
+        Query query = em.createQuery("SELECT c FROM Contact c  "
+                + "WHERE c.companyName.companyName = :companyName");
 
         query.setParameter("companyName", companyName);
 

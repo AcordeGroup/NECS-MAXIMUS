@@ -92,11 +92,11 @@
                         </h:panelGroup>
                     </p:panel>
 
-                    <p:commandButton actionListener="#{customerController.saveCustomerContact()}" value="#{maximusBundle.Save}" update="display,displayContact,#{customerController.createCustomer ? '' : ':CustomerListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
+                    <p:commandButton actionListener="#{customerController.saveCustomerContact()}" value="#{maximusBundle.Save}" update="display,displayContact,#{customerController.createCustomer ? '' : ':CustomerListForm:datalist,:growl,'},#{customerController.formUpdated}" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
                         <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
 
-                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('CustomerCreateDialog').hide()" update="display,displayContact" process="@this" immediate="true" resetValues="true"/>
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('CustomerCreateDialog').hide()" update="display,displayContact,#{customerController.formUpdated}" process="@this" immediate="true" resetValues="true"/>
                 </h:panelGroup>
 
             </h:form>

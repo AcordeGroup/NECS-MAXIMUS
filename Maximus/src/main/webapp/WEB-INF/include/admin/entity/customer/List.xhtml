@@ -25,7 +25,8 @@
                          rows="10"
                          rowsPerPageTemplate="10,20,30,40,50"
                          selectionMode="single"
-                         selection="#{customerController.selected}">
+                         selection="#{customerController.selected}"
+                         filteredValue="#{customerController.customerList}">
                 <!--
                          To disable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -41,14 +42,14 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}">
+                <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_idCustomer}"/>
                     </f:facet>
                     <h:outputText value="#{item.idCustomer}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.companyName}" filterBy="#{item.companyName}" filterFunction="#{customerController.checkMatches}">
+                <p:column  filterBy="#{item.companyName}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_companyName}"/>
                     </f:facet>
@@ -56,7 +57,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}">
+                <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_companyAddress}"/>
                     </f:facet>
@@ -64,7 +65,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}">
+                <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_phoneNumber}"/>
                     </f:facet>
@@ -72,14 +73,14 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.website}" filterBy="#{item.website}">
+                <p:column sortBy="#{item.website}" filterBy="#{item.website}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
                     </f:facet>
                     <h:outputText value="#{item.website}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.country}" filterBy="#{item.country}">
+                <p:column sortBy="#{item.country}" filterBy="#{item.country}" filterMatchMode="contains">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCompanyTitle_country}"/>
                     </f:facet>
@@ -89,7 +90,7 @@
 
             </p:dataTable>
             <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{customerController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{customerController.prepareCreate}" update=":CustomerCreateForm" oncomplete="PF('CustomerCreateDialog').show()"/>
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{customerController.prepareCreateCustomerContact()}" update=":CustomerCreateForm" oncomplete="PF('CustomerCreateDialog').show()"/>
             <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":CompanyViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty customerController.selected}"/>
             <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":CompanyEditForm" oncomplete="PF('CustomerEditDialog').show()" disabled="#{empty customerController.selected}"/>
             <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{customerController.delete}" update=":growl,datalist" disabled="#{empty customerController.selected}">

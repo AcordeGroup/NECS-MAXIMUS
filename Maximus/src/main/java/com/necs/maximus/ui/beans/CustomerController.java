@@ -2,6 +2,7 @@ package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.ui.beans.util.MobilePageController;
 import com.necs.maximus.db.entity.Customer;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +24,10 @@ public class CustomerController extends AbstractController<Customer> {
     private ContactController contactController;
 
     private boolean createCustomer = false;
+
+    private String formUpdated;
+
+    private List<Customer> customerList;
 
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
     private final Locale locale = facesContext.getViewRoot().getLocale();
@@ -46,7 +51,8 @@ public class CustomerController extends AbstractController<Customer> {
         return this.mobilePageController.getMobilePagesPrefix() + "/admin/contact/index";
     }
 
-    public void createCustomerTrue() {
+    public void createCustomerTrue(String formUpdateParam) {
+        formUpdated = formUpdateParam;
         createCustomer = true;
     }
 
@@ -95,4 +101,21 @@ public class CustomerController extends AbstractController<Customer> {
             return false;
         }
     }
+
+    public List<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
+    }
+
+    public String getFormUpdated() {
+        return formUpdated;
+    }
+
+    public void setFormUpdated(String formUpdated) {
+        this.formUpdated = formUpdated;
+    }
+
 }
