@@ -17,6 +17,19 @@
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.IsSubstituteMenuItem_product}" icon="ui-icon-search"  actionListener="#{isSubstituteController.prepareProduct}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty isSubstituteController.selected.partNumberBase}"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":IsSubstituteViewForm" oncomplete="PF('IsSubstituteViewDialog').show()" disabled="#{empty isSubstituteController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":IsSubstituteEditForm" oncomplete="PF('IsSubstituteEditDialog').show()" disabled="#{empty isSubstituteController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{isSubstituteController.delete}" update=":growl,datalist" disabled="#{empty isSubstituteController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{isSubstituteController.navigateToDashboard()}"/>
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{isSubstituteController.prepareCreate}" update=":IsSubstituteCreateForm" oncomplete="PF('IsSubstituteCreateDialog').show()"/>
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{isSubstituteController.lazyItems}"
                          lazy="true"
@@ -41,7 +54,7 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{isSubstituteController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('IsSubstituteListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.partNumberBase.partNumber}" filterBy="#{item.partNumberBase.partNumber}">
+                <p:column sortBy="#{item.partNumberBase.partNumber}" filterBy="#{item.partNumberBase.partNumber}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
                     </f:facet>
@@ -49,7 +62,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.partNumberSubstitute.partNumber}" filterBy="#{item.partNumberSubstitute.partNumber}">
+                <p:column sortBy="#{item.partNumberSubstitute.partNumber}" filterBy="#{item.partNumberSubstitute.partNumber}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
                     </f:facet>
@@ -57,7 +70,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.partNumberSubstitute.description}" filterBy="#{item.partNumberSubstitute.description}">
+                <p:column sortBy="#{item.partNumberSubstitute.description}" filterBy="#{item.partNumberSubstitute.description}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_product}"/>
                     </f:facet>
@@ -66,13 +79,7 @@
 
 
             </p:dataTable>
-            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{isSubstituteController.navigateToDashboard()}"/>
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{isSubstituteController.prepareCreate}" update=":IsSubstituteCreateForm" oncomplete="PF('IsSubstituteCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":IsSubstituteViewForm" oncomplete="PF('IsSubstituteViewDialog').show()" disabled="#{empty isSubstituteController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":IsSubstituteEditForm" oncomplete="PF('IsSubstituteEditDialog').show()" disabled="#{empty isSubstituteController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{isSubstituteController.delete}" update=":growl,datalist" disabled="#{empty isSubstituteController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

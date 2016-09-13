@@ -18,6 +18,21 @@
                 <p:menuitem value="#{maximusBundle.AgentMenuItem_quoteList}" icon="ui-icon-search"  action="#{agentController.navigateQuoteList}" disabled="#{empty agentController.selected.quoteList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.AgentMenuItem_manageList}" icon="ui-icon-search"  action="#{agentController.navigateManageList}" disabled="#{empty agentController.selected.manageList}" ajax="false"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty agentController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":AgentEditForm" oncomplete="PF('AgentEditDialog').show()" disabled="#{empty agentController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{agentController.delete}" update=":growl,datalist" disabled="#{empty agentController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{agentController.navigateToDashboard()}" />
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{agentController.prepareCreate}" update=":AgentCreateForm" oncomplete="PF('AgentCreateDialog').show()"/>
+
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{agentController.lazyItems}"
                          lazy="true"
@@ -42,7 +57,7 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('AgentListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idAgent}" filterBy="#{item.idAgent}">
+                <p:column sortBy="#{item.idAgent}" filterBy="#{item.idAgent}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_idAgent}"/>
                     </f:facet>
@@ -50,7 +65,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.name}" filterBy="#{item.name}">
+                <p:column sortBy="#{item.name}" filterBy="#{item.name}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_name}"/>
                     </f:facet>
@@ -58,7 +73,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}">
+                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_lastName}"/>
                     </f:facet>
@@ -66,7 +81,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
+                <p:column sortBy="#{item.type}" filterBy="#{item.type}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_type}"/>
                     </f:facet>
@@ -74,7 +89,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                <p:column sortBy="#{item.email}" filterBy="#{item.email}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_email}"/>
                     </f:facet>
@@ -82,7 +97,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.passwordVal}" filterBy="#{item.passwordVal}">
+                <p:column sortBy="#{item.passwordVal}" filterBy="#{item.passwordVal}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListAgentTitle_passwordVal}"/>
                     </f:facet>
@@ -91,13 +106,7 @@
 
 
             </p:dataTable>
-            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{agentController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{agentController.prepareCreate}" update=":AgentCreateForm" oncomplete="PF('AgentCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty agentController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":AgentEditForm" oncomplete="PF('AgentEditDialog').show()" disabled="#{empty agentController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{agentController.delete}" update=":growl,datalist" disabled="#{empty agentController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

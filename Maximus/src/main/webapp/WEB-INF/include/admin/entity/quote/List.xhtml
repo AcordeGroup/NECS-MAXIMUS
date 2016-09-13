@@ -16,12 +16,25 @@
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('QuoteListForm:deleteButton').click();" icon="ui-icon-trash"/>-->
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_idAgent}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdAgent}" update=":AgentViewForm" oncomplete="PF('AgentViewDialog').show()" disabled="#{empty quoteController.selected.idAgent}"/>  
-                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idCustomer}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdCustomer}" update=":CustomerViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty quoteController.selected.idContact}"/>  
+                <p:menuitem value="#{maximusBundle.QuoteMenuItem_idCustomer}" icon="ui-icon-search"  actionListener="#{quoteController.prepareIdCustomer}" update=":ContactViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty quoteController.selected.idContact}"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_hasList}" icon="ui-icon-search"  action="#{quoteController.navigateHasList}" disabled="#{empty quoteController.selected.hasList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteNoteList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteNoteList}" disabled="#{empty quoteController.selected.quoteNoteList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_quoteStatusList}" icon="ui-icon-search"  action="#{quoteController.navigateQuoteStatusList}" disabled="#{empty quoteController.selected.quoteStatusList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.QuoteMenuItem_manageList}" icon="ui-icon-search"  action="#{quoteController.navigateManageList}" disabled="#{empty quoteController.selected.manageList}" ajax="false"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty quoteController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":QuoteEditForm" oncomplete="PF('QuoteEditDialog').show()" disabled="#{empty quoteController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{quoteController.delete}" update=":growl,datalist" disabled="#{empty quoteController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"   icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{quoteController.navigateToDashboard()}" />
+                        <p:commandButton id="createButton"     style="visibility: hidden;"   icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{quoteController.prepareCreate}" update=":QuoteCreateForm" oncomplete="PF('QuoteCreateDialog').show()"/>
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{quoteController.lazyItems}"
                          lazy="true"
@@ -46,14 +59,14 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{quoteController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('QuoteListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}">
+                <p:column sortBy="#{item.idQuote}" filterBy="#{item.idQuote}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListQuoteTitle_idQuote}"/>
                     </f:facet>
                     <h:outputText value="#{item.idQuote}"/>
                 </p:column>
 
-                <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}">
+                <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListQuoteTitle_creationDate}"/>
                     </f:facet>
@@ -63,7 +76,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}">
+                <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListQuoteTitle_idAgent}"/>
                     </f:facet>
@@ -71,7 +84,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.idContact.companyName}" filterBy="#{item.idContact.companyName}">
+                <p:column sortBy="#{item.idContact.companyName}" filterBy="#{item.idContact.companyName}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListQuoteTitle_idCustomer}"/>
                     </f:facet>
@@ -80,13 +93,7 @@
 
 
             </p:dataTable>
-            <p:commandButton id="homeButton"   icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{quoteController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"     style="visibility: hidden;"   icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{quoteController.prepareCreate}" update=":QuoteCreateForm" oncomplete="PF('QuoteCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty quoteController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":QuoteEditForm" oncomplete="PF('QuoteEditDialog').show()" disabled="#{empty quoteController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{quoteController.delete}" update=":growl,datalist" disabled="#{empty quoteController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

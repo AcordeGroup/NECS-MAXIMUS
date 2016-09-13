@@ -18,6 +18,20 @@
                 <p:menuitem value="#{maximusBundle.HasMenuItem_product}" icon="ui-icon-search"  actionListener="#{hasController.prepareProduct}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty hasController.selected.product}"/>  
                 <p:menuitem value="#{maximusBundle.HasMenuItem_quote}" icon="ui-icon-search"  actionListener="#{hasController.prepareQuote}" update=":QuoteViewForm" oncomplete="PF('QuoteViewDialog').show()" disabled="#{empty hasController.selected.quote}"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":HasViewForm" oncomplete="PF('HasViewDialog').show()" disabled="#{empty hasController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":HasEditForm" oncomplete="PF('HasEditDialog').show()" disabled="#{empty hasController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{hasController.delete}" update=":growl,datalist" disabled="#{empty hasController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{hasController.navigateToDashboard()}" />
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{hasController.prepareCreate}" update=":HasCreateForm" oncomplete="PF('HasCreateDialog').show()"/>
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{hasController.lazyItems}"
                          lazy="true"
@@ -42,7 +56,7 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{hasController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('HasListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.hasPK.idQuote}" filterBy="#{item.hasPK.idQuote}">
+                <p:column sortBy="#{item.hasPK.idQuote}" filterBy="#{item.hasPK.idQuote}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_idQuote}"/>
                     </f:facet>
@@ -50,7 +64,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.hasPK.partNumber}" filterBy="#{item.hasPK.partNumber}">
+                <p:column sortBy="#{item.hasPK.partNumber}" filterBy="#{item.hasPK.partNumber}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_partNumber}"/>
                     </f:facet>
@@ -58,7 +72,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.customerTargetPrice}" filterBy="#{item.customerTargetPrice}">
+                <p:column sortBy="#{item.customerTargetPrice}" filterBy="#{item.customerTargetPrice}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_customerTargetPrice}"/>
                     </f:facet>
@@ -66,7 +80,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.qtyRequested}" filterBy="#{item.qtyRequested}">
+                <p:column sortBy="#{item.qtyRequested}" filterBy="#{item.qtyRequested}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_qtyRequested}"/>
                     </f:facet>
@@ -74,7 +88,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.suggestedSalesPrice}" filterBy="#{item.suggestedSalesPrice}">
+                <p:column sortBy="#{item.suggestedSalesPrice}" filterBy="#{item.suggestedSalesPrice}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_suggestedSalesPrice}"/>
                     </f:facet>
@@ -82,7 +96,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.qtyFound}" filterBy="#{item.qtyFound}">
+                <p:column sortBy="#{item.qtyFound}" filterBy="#{item.qtyFound}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListHasTitle_qtyFound}"/>
                     </f:facet>
@@ -107,13 +121,7 @@
                 -->
 
             </p:dataTable>
-            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{hasController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{hasController.prepareCreate}" update=":HasCreateForm" oncomplete="PF('HasCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":HasViewForm" oncomplete="PF('HasViewDialog').show()" disabled="#{empty hasController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":HasEditForm" oncomplete="PF('HasEditDialog').show()" disabled="#{empty hasController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{hasController.delete}" update=":growl,datalist" disabled="#{empty hasController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

@@ -12,7 +12,7 @@
         <pm:header title="#{maximusBundle.ListCompanyTitle}">
             <h:form>
                 <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{myBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/adminmobile/index')}"/>
-                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{maximusBundle.Create}" update=":CompanyCreatePage:CustomerCreateForm" actionListener="#{customerController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:CompanyCreatePage')}">
+                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{maximusBundle.Create}" update=":CustomerCreatePage:CustomerCreateForm" actionListener="#{customerController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:CustomerCreatePage')}">
                     <f:actionListener binding="#{currentPageListener}"/>
                 </p:commandButton>
             </h:form>
@@ -34,7 +34,7 @@
                         <h:outputText value="#{maximusBundle.ListCompanyTitle}"/>
                     </f:facet>
 
-                    <p:commandLink update=":CompanyEditPage:CompanyEditForm" action="pm:CompanyEditPage">
+                    <p:commandLink update=":CustomerEditPage:CustomerEditForm" action="pm:CustomerEditPage">
                         <p>
 
 

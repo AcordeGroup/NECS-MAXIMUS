@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pm="http://primefaces.org/mobile">
 
-    <pm:page id="CompanyEditPage" lazy="true">
+    <pm:page id="CustomerEditPage" lazy="true">
         <pm:header title="#{maximusBundle.EditCompanyTitle}">
             <h:form>
                 <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{maximusBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CompanyListPage')}"/>
@@ -16,7 +16,7 @@
 
         <pm:content>
 
-            <h:form id="CompanyEditForm">
+            <h:form id="CustomerEditForm">
 
                 <h:panelGroup id="display">
                     <p:outputPanel rendered="#{customerController.selected != null}">

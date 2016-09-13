@@ -16,8 +16,22 @@
                 <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ContactListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{maximusBundle.CustomerMenuItem_quoteList}" icon="ui-icon-search"  action="#{contactController.navigateQuoteList}" disabled="#{empty contactController.selected.quoteList}" ajax="false"/>  
-                <p:menuitem value="#{maximusBundle.CustomerMenuItem_customer}" icon="ui-icon-search"  actionListener="#{contactController.prepareCustomerName}" update=":CompanyViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty contactController.selected.companyName}"/>  
+                <p:menuitem value="#{maximusBundle.CustomerMenuItem_customer}" icon="ui-icon-search"  actionListener="#{contactController.prepareCustomerName}" update=":ContactViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty contactController.selected.companyName}"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ContactViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty contactController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ContactEditForm" oncomplete="PF('ContactEditDialog').show()" disabled="#{empty contactController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{contactController.delete}" update=":growl,datalist" disabled="#{empty contactController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{contactController.navigateToDashboard()}" />
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{contactController.prepareCreate}" update=":ContactCreateForm" oncomplete="PF('ContactCreateDialog').show()"/>
+
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{contactController.lazyItems}"
                          lazy="true"
@@ -42,7 +56,7 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{contactController.resetParents}"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('ContactListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idContact}" filterBy="#{item.idContact}">
+                <p:column sortBy="#{item.idContact}" filterBy="#{item.idContact}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListContactTitle_idContact}"/>
                     </f:facet>
@@ -50,7 +64,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryContact}" filterBy="#{item.primaryContact}">
+                <p:column sortBy="#{item.primaryContact}" filterBy="#{item.primaryContact}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryContact}"/>
                     </f:facet>
@@ -58,7 +72,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryPhoneNumber}" filterBy="#{item.primaryPhoneNumber}">
+                <p:column sortBy="#{item.primaryPhoneNumber}" filterBy="#{item.primaryPhoneNumber}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryPhoneNumber}"/>
                     </f:facet>
@@ -66,7 +80,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.primaryEmail}" filterBy="#{item.primaryEmail}">
+                <p:column sortBy="#{item.primaryEmail}" filterBy="#{item.primaryEmail}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryEmail}"/>
                     </f:facet>
@@ -74,7 +88,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
+                <p:column sortBy="#{item.type}" filterBy="#{item.type}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCustomerTitle_type}"/>
                     </f:facet>
@@ -82,7 +96,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.companyName.companyName}" filterBy="#{item.companyName.companyName}">
+                <p:column sortBy="#{item.companyName.companyName}" filterBy="#{item.companyName.companyName}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListCustomerTitle_companyName}"/>
                     </f:facet>
@@ -91,13 +105,7 @@
 
 
             </p:dataTable>
-            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{contactController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{contactController.prepareCreate}" update=":ContactCreateForm" oncomplete="PF('ContactCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":CustomerViewForm" oncomplete="PF('ContactViewDialog').show()" disabled="#{empty contactController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":CustomerEditForm" oncomplete="PF('ContactEditDialog').show()" disabled="#{empty contactController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{contactController.delete}" update=":growl,datalist" disabled="#{empty contactController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

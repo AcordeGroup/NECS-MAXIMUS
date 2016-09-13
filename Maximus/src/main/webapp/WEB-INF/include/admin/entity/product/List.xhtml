@@ -19,6 +19,19 @@
                 <p:menuitem value="#{maximusBundle.ProductMenuItem_hasList}" icon="ui-icon-search"  action="#{productController.navigateHasList}" disabled="#{empty productController.selected.hasList}" ajax="false"/>  
                 <p:menuitem value="#{maximusBundle.ProductMenuItem_productCostList}" icon="ui-icon-search"  action="#{productController.navigateProductCostList}" disabled="#{empty productController.selected.productCostList}" ajax="false"/>  
             </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty productController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ProductEditForm" oncomplete="PF('ProductEditDialog').show()" disabled="#{empty productController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{productController.delete}" update=":growl,datalist" disabled="#{empty productController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{productController.navigateToDashboard()}" />
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productController.prepareCreate}" update=":ProductCreateForm" oncomplete="PF('ProductCreateDialog').show()"/>
+                    </td>
+                </tr>
+            </table>
             <p:dataTable id="datalist"
                          value="#{productController.lazyItems}"
                          lazy="true"
@@ -43,7 +56,7 @@
                 <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                 <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.partNumber}" filterBy="#{item.partNumber}">
+                <p:column sortBy="#{item.partNumber}" filterBy="#{item.partNumber}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_partNumber}"/>
                     </f:facet>
@@ -51,7 +64,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.manufacture}" filterBy="#{item.manufacture}">
+                <p:column sortBy="#{item.manufacture}" filterBy="#{item.manufacture}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_manufacture}"/>
                     </f:facet>
@@ -59,7 +72,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.description}" filterBy="#{item.description}">
+                <p:column sortBy="#{item.description}" filterBy="#{item.description}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_description}"/>
                     </f:facet>
@@ -67,7 +80,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}">
+                <p:column sortBy="#{item.type}" filterBy="#{item.type}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_type}"/>
                     </f:facet>
@@ -75,7 +88,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.notes}" filterBy="#{item.notes}">
+                <p:column sortBy="#{item.notes}" filterBy="#{item.notes}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_notes}"/>
                     </f:facet>
@@ -83,7 +96,7 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.retailPrice}" filterBy="#{item.retailPrice}">
+                <p:column sortBy="#{item.retailPrice}" filterBy="#{item.retailPrice}" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="#{maximusBundle.ListProductTitle_retailPrice}"/>
                     </f:facet>
@@ -108,13 +121,7 @@
                 -->
 
             </p:dataTable>
-            <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{productController.navigateToDashboard()}" />
-            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productController.prepareCreate}" update=":ProductCreateForm" oncomplete="PF('ProductCreateDialog').show()"/>
-            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty productController.selected}"/>
-            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ProductEditForm" oncomplete="PF('ProductEditDialog').show()" disabled="#{empty productController.selected}"/>
-            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{productController.delete}" update=":growl,datalist" disabled="#{empty productController.selected}">
-                <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
-            </p:commandButton>
+
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
