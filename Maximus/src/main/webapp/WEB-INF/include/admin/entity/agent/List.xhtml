@@ -33,80 +33,81 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{agentController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{agentController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{agentController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.idAgent}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{agentController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{agentController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{agentController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.idAgent}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AgentListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AgentDataTableContextMenu"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('AgentListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idAgent}" filterBy="#{item.idAgent}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_idAgent}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idAgent}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.name}" filterBy="#{item.name}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_name}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.name}"/>
-                </p:column>
+                    <p:column sortBy="#{item.idAgent}" filterBy="#{item.idAgent}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_idAgent}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idAgent}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_lastName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.lastName}"/>
-                </p:column>
+                    <p:column sortBy="#{item.name}" filterBy="#{item.name}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_name}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_type}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.type}"/>
-                </p:column>
+                    <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_lastName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lastName}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.email}" filterBy="#{item.email}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_email}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.email}"/>
-                </p:column>
+                    <p:column sortBy="#{item.type}" filterBy="#{item.type}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_type}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.type}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.passwordVal}" filterBy="#{item.passwordVal}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListAgentTitle_passwordVal}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.passwordVal}"/>
-                </p:column>
+                    <p:column sortBy="#{item.email}" filterBy="#{item.email}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_email}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>
 
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.passwordVal}" filterBy="#{item.passwordVal}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListAgentTitle_passwordVal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.passwordVal}"/>
+                    </p:column>
 
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

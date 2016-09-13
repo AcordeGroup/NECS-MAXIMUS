@@ -32,73 +32,74 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{manageController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{manageController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{manageController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.managePK}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{manageController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{manageController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{manageController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.managePK}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{manageController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ManageListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ManageDataTableContextMenu" listener="#{manageController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{manageController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('ManageListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idQuote}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idQuote.idQuote}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idAgent.idAgent}" filterBy="#{item.idAgent.idAgent}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idAgent}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idAgent.idAgent}"/>
-                </p:column>
-
-                <p:column sortBy="#{item.assignmentDate}" filterBy="#{item.assignmentDate}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListManageTitle_assignmentDate}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.assignmentDate}">
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:outputText>
-                </p:column>
-
-                <p:column sortBy="#{item.deallocationDate}" filterBy="#{item.deallocationDate}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListManageTitle_deallocationDate}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.deallocationDate}">
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:outputText>
-                </p:column>
+                    <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idQuote}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idQuote.idQuote}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListManageTitle_agent}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idAgent.name}"/>
-                </p:column>
+                    <p:column sortBy="#{item.idAgent.idAgent}" filterBy="#{item.idAgent.idAgent}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListManageTitle_managePK_idAgent}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idAgent.idAgent}"/>
+                    </p:column>
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.assignmentDate}" filterBy="#{item.assignmentDate}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListManageTitle_assignmentDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.assignmentDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
 
+                    <p:column sortBy="#{item.deallocationDate}" filterBy="#{item.deallocationDate}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListManageTitle_deallocationDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deallocationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.idAgent.name}" filterBy="#{item.idAgent.name}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListManageTitle_agent}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idAgent.name}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:outputPanel>
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
     </h:form>

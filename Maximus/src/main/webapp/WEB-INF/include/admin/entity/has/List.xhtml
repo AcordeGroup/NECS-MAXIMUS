@@ -32,96 +32,97 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{hasController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{hasController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{hasController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.hasPK}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{hasController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{hasController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{hasController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.hasPK}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HasDataTableContextMenu" listener="#{hasController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HasDataTableContextMenu" listener="#{hasController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{hasController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('HasListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HasDataTableContextMenu" listener="#{hasController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HasDataTableContextMenu" listener="#{hasController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{hasController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('HasListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.hasPK.idQuote}" filterBy="#{item.hasPK.idQuote}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_idQuote}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.hasPK.idQuote}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.hasPK.partNumber}" filterBy="#{item.hasPK.partNumber}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_partNumber}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.hasPK.partNumber}"/>
-                </p:column>
+                    <p:column sortBy="#{item.hasPK.idQuote}" filterBy="#{item.hasPK.idQuote}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_idQuote}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hasPK.idQuote}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.customerTargetPrice}" filterBy="#{item.customerTargetPrice}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_customerTargetPrice}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.customerTargetPrice}"/>
-                </p:column>
+                    <p:column sortBy="#{item.hasPK.partNumber}" filterBy="#{item.hasPK.partNumber}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_partNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hasPK.partNumber}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.qtyRequested}" filterBy="#{item.qtyRequested}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_qtyRequested}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.qtyRequested}"/>
-                </p:column>
+                    <p:column sortBy="#{item.customerTargetPrice}" filterBy="#{item.customerTargetPrice}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_customerTargetPrice}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.customerTargetPrice}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.suggestedSalesPrice}" filterBy="#{item.suggestedSalesPrice}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_suggestedSalesPrice}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.suggestedSalesPrice}"/>
-                </p:column>
+                    <p:column sortBy="#{item.qtyRequested}" filterBy="#{item.qtyRequested}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_qtyRequested}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.qtyRequested}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.qtyFound}" filterBy="#{item.qtyFound}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListHasTitle_qtyFound}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.qtyFound}"/>
-                </p:column>
+                    <p:column sortBy="#{item.suggestedSalesPrice}" filterBy="#{item.suggestedSalesPrice}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_suggestedSalesPrice}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.suggestedSalesPrice}"/>
+                    </p:column>
 
-                <!--
-                                    <p:column sortBy="#{item.product.description}" filterBy="#{item.product.description}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{maximusBundle.ListHasTitle_product}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.product.description}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.quote.idQuote}" filterBy="#{item.quote.idQuote}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{maximusBundle.ListHasTitle_quote}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.quote.idQuote}"/>
-                                    </p:column>
-                -->
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.qtyFound}" filterBy="#{item.qtyFound}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListHasTitle_qtyFound}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.qtyFound}"/>
+                    </p:column>
 
+                    <!--
+                                        <p:column sortBy="#{item.product.description}" filterBy="#{item.product.description}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{maximusBundle.ListHasTitle_product}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.product.description}"/>
+                                        </p:column>
+                    -->
+                    <!--
+                                        <p:column sortBy="#{item.quote.idQuote}" filterBy="#{item.quote.idQuote}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{maximusBundle.ListHasTitle_quote}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.quote.idQuote}"/>
+                                        </p:column>
+                    -->
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

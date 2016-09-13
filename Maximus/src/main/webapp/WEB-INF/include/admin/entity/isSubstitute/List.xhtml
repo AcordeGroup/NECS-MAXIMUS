@@ -30,56 +30,57 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{isSubstituteController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{isSubstituteController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{isSubstituteController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.isSubstitutePK}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{isSubstituteController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{isSubstituteController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{isSubstituteController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.isSubstitutePK}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IsSubstituteDataTableContextMenu" listener="#{isSubstituteController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IsSubstituteDataTableContextMenu" listener="#{isSubstituteController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{isSubstituteController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('IsSubstituteListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IsSubstituteDataTableContextMenu" listener="#{isSubstituteController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IsSubstituteDataTableContextMenu" listener="#{isSubstituteController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{isSubstituteController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('IsSubstituteListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.partNumberBase.partNumber}" filterBy="#{item.partNumberBase.partNumber}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.partNumberBase.partNumber}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.partNumberSubstitute.partNumber}" filterBy="#{item.partNumberSubstitute.partNumber}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.partNumberSubstitute.partNumber}"/>
-                </p:column>
+                    <p:column sortBy="#{item.partNumberBase.partNumber}" filterBy="#{item.partNumberBase.partNumber}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber1}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberBase.partNumber}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.partNumberSubstitute.description}" filterBy="#{item.partNumberSubstitute.description}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_product}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.partNumberSubstitute.description}"/>
-                </p:column>
+                    <p:column sortBy="#{item.partNumberSubstitute.partNumber}" filterBy="#{item.partNumberSubstitute.partNumber}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_isSubstitutePK_partNumber2}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.partNumber}"/>
+                    </p:column>
 
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.partNumberSubstitute.description}" filterBy="#{item.partNumberSubstitute.description}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListIsSubstituteTitle_product}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.description}"/>
+                    </p:column>
 
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

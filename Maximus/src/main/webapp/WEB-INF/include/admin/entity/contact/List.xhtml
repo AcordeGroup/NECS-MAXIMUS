@@ -32,80 +32,81 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{contactController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{contactController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{contactController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.idCustomer}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{contactController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{contactController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{contactController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.idCustomer}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{contactController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{contactController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{contactController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ContactListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{contactController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomerDataTableContextMenu" listener="#{contactController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{contactController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('ContactListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idContact}" filterBy="#{item.idContact}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListContactTitle_idContact}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idContact}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.primaryContact}" filterBy="#{item.primaryContact}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryContact}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.primaryContact}"/>
-                </p:column>
+                    <p:column sortBy="#{item.idContact}" filterBy="#{item.idContact}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListContactTitle_idContact}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idContact}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.primaryPhoneNumber}" filterBy="#{item.primaryPhoneNumber}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryPhoneNumber}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.primaryPhoneNumber}"/>
-                </p:column>
+                    <p:column sortBy="#{item.primaryContact}" filterBy="#{item.primaryContact}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryContact}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.primaryContact}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.primaryEmail}" filterBy="#{item.primaryEmail}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryEmail}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.primaryEmail}"/>
-                </p:column>
+                    <p:column sortBy="#{item.primaryPhoneNumber}" filterBy="#{item.primaryPhoneNumber}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryPhoneNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.primaryPhoneNumber}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.type}" filterBy="#{item.type}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_type}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.type}"/>
-                </p:column>
+                    <p:column sortBy="#{item.primaryEmail}" filterBy="#{item.primaryEmail}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCustomerTitle_primaryEmail}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.primaryEmail}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.companyName.companyName}" filterBy="#{item.companyName.companyName}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCustomerTitle_companyName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.companyName.companyName}"/>
-                </p:column>
+                    <p:column sortBy="#{item.type}" filterBy="#{item.type}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCustomerTitle_type}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.type}"/>
+                    </p:column>
 
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.companyName.companyName}" filterBy="#{item.companyName.companyName}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCustomerTitle_companyName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.companyName.companyName}"/>
+                    </p:column>
 
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

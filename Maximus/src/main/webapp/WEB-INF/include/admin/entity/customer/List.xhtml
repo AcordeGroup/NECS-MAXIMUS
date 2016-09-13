@@ -31,79 +31,80 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{customerController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{customerController.selected}"
-                         filteredValue="#{customerController.customerList}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{customerController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.companyName}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{customerController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{customerController.selected}"
+                             filteredValue="#{customerController.customerList}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{customerController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.companyName}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompanyDataTableContextMenu"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}" filterMatchMode="contains"  style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_idCustomer}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idCustomer}" />
-                </p:column>
+                    <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_idCustomer}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCustomer}" />
+                    </p:column>
 
-                <p:column  filterBy="#{item.companyName}" filterMatchMode="contains" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_companyName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.companyName}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}" filterMatchMode="contains" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_companyAddress}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.companyAddress}"/>
-                </p:column>
+                    <p:column  filterBy="#{item.companyName}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_companyName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.companyName}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterMatchMode="contains" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_phoneNumber}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.phoneNumber}"/>
-                </p:column>
+                    <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_companyAddress}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.companyAddress}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.website}" filterBy="#{item.website}" filterMatchMode="contains" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.website}"/>
-                </p:column>
-
-                <p:column sortBy="#{item.country}" filterBy="#{item.country}" filterMatchMode="contains" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListCompanyTitle_country}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.country}"/>
-                </p:column>
+                    <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_phoneNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phoneNumber}"/>
+                    </p:column>
 
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.website}" filterBy="#{item.website}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.website}"/>
+                    </p:column>
 
+                    <p:column sortBy="#{item.country}" filterBy="#{item.country}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListCompanyTitle_country}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.country}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

@@ -31,66 +31,67 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist"
-                         value="#{quoteNoteController.lazyItems}"
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single"
-                         selection="#{quoteNoteController.selected}">
-                <!--
-                         To disable Lazy Loading, please copy/replace the following lines above,
-                         and be sure to replace the word HASH with the # symbol:
-                
-                         value="HASH{quoteNoteController.items}"
-                         lazy="false"
-                         rowKey="HASH{item.idQuoteNote}"
-                -->
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{quoteNoteController.lazyItems}"
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{quoteNoteController.selected}">
+                    <!--
+                             To disable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{quoteNoteController.items}"
+                             lazy="false"
+                             rowKey="HASH{item.idQuoteNote}"
+                    -->
 
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{quoteNoteController.resetParents}"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('QuoteNoteListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:QuoteNoteDataTableContextMenu" listener="#{quoteNoteController.resetParents}"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{quoteNoteController.resetParents}"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('QuoteNoteListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idQuoteNote}" filterBy="#{item.idQuoteNote}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuoteNote}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idQuoteNote}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.note}" filterBy="#{item.note}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_note}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.note}"/>
-                </p:column>
+                    <p:column sortBy="#{item.idQuoteNote}" filterBy="#{item.idQuoteNote}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuoteNote}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idQuoteNote}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_creationDate}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.creationDate}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </p:column>
+                    <p:column sortBy="#{item.note}" filterBy="#{item.note}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_note}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.note}"/>
+                    </p:column>
 
 
-                <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" style="text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuote}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idQuote.idQuote}"/>
-                </p:column>
+                    <p:column sortBy="#{item.creationDate}" filterBy="#{item.creationDate}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_creationDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.creationDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
 
 
-            </p:dataTable>
+                    <p:column sortBy="#{item.idQuote.idQuote}" filterBy="#{item.idQuote.idQuote}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListQuoteNoteTitle_idQuote}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idQuote.idQuote}"/>
+                    </p:column>
 
+
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>

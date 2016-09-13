@@ -31,84 +31,86 @@
                     </td>
                 </tr>
             </table>
-            <p:dataTable id="datalist" 
-                         value="#{vendorController.lazyItems}" 
-                         lazy="true"
-                         var="item"
-                         paginator="true"
-                         rows="10"
-                         rowsPerPageTemplate="10,20,30,40,50"
-                         selectionMode="single" 
-                         selection="#{vendorController.selected}"
-                         rowKey="#{item.idVendor}"
-                         >
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist" 
+                             value="#{vendorController.lazyItems}" 
+                             lazy="true"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single" 
+                             selection="#{vendorController.selected}"
+                             rowKey="#{item.idVendor}"
+                             >
 
-                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendorDataTableContextMenu"/>
-                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendorDataTableContextMenu"/>
-                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
-                <p:ajax event="rowDblselect" onsuccess="document.getElementById('VendorListForm:viewButton').click();"/>
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendorDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendorDataTableContextMenu"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('VendorListForm:viewButton').click();"/>
 
-                <p:column sortBy="#{item.idVendor}" filterBy="#{item.idVendor}" filterStyle="width:80px" style="width: 90px; text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_idVendor}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idVendor}"/>
-                </p:column>
-                <p:column sortBy="#{item.companyName}" filterBy="#{item.companyName}" filterStyle="width:80px" style="text-align: left;" >
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_companyName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.companyName}"/>
-                </p:column>
-<!--                <p:column sortBy="#{item.address}" filterBy="#{item.address}" filterStyle="width:80px" >
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_address}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.address}"/>
-                </p:column>-->
-                <p:column sortBy="#{item.city}" filterBy="#{item.city}" filterStyle="width:80px" style="text-align: left;">
-                    <f:facet name="header" >
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_city}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.city}"/>
-                </p:column>
-                <p:column sortBy="#{item.state}" filterBy="#{item.state}" filterStyle="width:80px" style="text-align: left;"> 
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_state}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.state}"/>
-                </p:column>
-                <p:column sortBy="#{item.zip}" filterBy="#{item.zip}" filterStyle="width:80px" style="width: 90px; text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_zip}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.zip}"/>
-                </p:column>
-                <p:column sortBy="#{item.firstName}" filterBy="#{item.firstName}" filterStyle="width:80px" style="text-align: left;" >
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_firstName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.firstName}"/>
-                </p:column>
-                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}" filterStyle="width:80px" style="text-align: left;" >
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_lastName}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.lastName}"/>
-                </p:column>
-                <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterStyle="width:80px" style="text-align: left;" >
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_phoneNumber}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.phoneNumber}"/>
-                </p:column>
-                <p:column sortBy="#{item.email}" filterBy="#{item.email}" filterStyle="width:80px" style="width: 120px; text-align: left;">
-                    <f:facet name="header">
-                        <h:outputText value="#{maximusBundle.ListVendorTitle_email}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.email}"/>
-                </p:column>
-            </p:dataTable>
+                    <p:column sortBy="#{item.idVendor}" filterBy="#{item.idVendor}" filterStyle="width:80px" style="width: 90px; text-align: left;">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_idVendor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVendor}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.companyName}" filterBy="#{item.companyName}" filterStyle="width:80px"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_companyName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.companyName}"/>
+                    </p:column>
+    <!--                <p:column sortBy="#{item.address}" filterBy="#{item.address}" filterStyle="width:80px" >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_address}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.address}"/>
+                    </p:column>-->
+                    <p:column sortBy="#{item.city}" filterBy="#{item.city}" filterStyle="width:80px" >
+                        <f:facet name="header" >
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_city}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.city}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.state}" filterBy="#{item.state}" filterStyle="width:80px" > 
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_state}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.state}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.zip}" filterBy="#{item.zip}" filterStyle="width:80px" style="width: 90px; text-align: left;">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_zip}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.zip}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.firstName}" filterBy="#{item.firstName}" filterStyle="width:80px"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_firstName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.firstName}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}" filterStyle="width:80px"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_lastName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lastName}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterStyle="width:80px"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_phoneNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phoneNumber}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.email}" filterBy="#{item.email}" filterStyle="width:80px" style="width: 120px; text-align: left;">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListVendorTitle_email}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
 
         </p:panel>
         <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
