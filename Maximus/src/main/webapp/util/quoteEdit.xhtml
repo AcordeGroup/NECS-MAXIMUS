@@ -43,14 +43,14 @@
                                         </td>
                                     </tr>
                                     <h:panelGroup id="customerInfo" rendered="#{editQuoteController.customerSelected != null}">
-                                        <tr style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 0px 0px !important;"  >
+                                        <tr style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 4px 0px !important;"  >
                                             <td>  <h:outputText value="#{maximusBundle.label_address}" /></td>
-                                            <td>  <p:inputText value="#{editQuoteController.customerSelected.companyAddress}" disabled="true" style="margin: 0px 0px 0px 0px; width: 250px;" /></td>
+                                            <td>  <p:inputText value="#{editQuoteController.customerSelected.companyAddress}" disabled="true" style="margin: 0px 0px 4px 0px; width: 250px;" /></td>
                                         </tr>
 
-                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 0px 0px !important;" >
+                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 4px 0px !important;" >
                                             <td><h:outputText value="#{maximusBundle.label_country}" /></td>
-                                            <td> <p:inputText value="#{editQuoteController.customerSelected.country}" disabled="true" style="margin:  0 0 0 0 ; width: 250px;" /></td>
+                                            <td> <p:inputText value="#{editQuoteController.customerSelected.country}" disabled="true" style="margin:  0px 0px 4px 0px ; width: 250px;" /></td>
                                         </tr>
                                     </h:panelGroup>
                                     <h:panelGroup id="contact" rendered="#{editQuoteController.customerSelected != null}" >
@@ -78,19 +78,20 @@
                                         </tr>
                                     </h:panelGroup>
                                     <h:panelGroup rendered="#{editQuoteController.contactSelected != null and editQuoteController.customerSelected != null}">
-                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 0px 0px !important;" >
+                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 4px 0px !important;" >
+
                                             <td>
                                                 <h:outputText value="#{maximusBundle.label_contact_primary}" />
                                             </td>
                                             <td>
                                                 <p:inputText value="#{editQuoteController.contactSelected.primaryContact}" 
-                                                             style="margin: 0px 0px 0px 0px; width: 250px;"
+                                                             style="margin: 0px 0px 4px 0px; width: 250px;"
                                                              disabled="#{editQuoteController.typeAgent()=='Purchasing'}"/>
                                             </td>
                                         </tr>
                                     </h:panelGroup>
                                     <h:panelGroup  rendered="#{editQuoteController.contactSelected != null and editQuoteController.customerSelected != null}" >
-                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 0px 0px !important;" >
+                                        <tr  style="text-align: left; width: 100%;  vertical-align: top !important; margin:0px 0px 4px 0px !important;" >
                                             <td>
                                                 <h:outputText value="#{maximusBundle.label_email}" />
                                             </td>

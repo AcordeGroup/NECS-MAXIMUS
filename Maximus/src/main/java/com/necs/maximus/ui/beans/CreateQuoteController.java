@@ -179,6 +179,10 @@ public class CreateQuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("message_contact")));
             return false;
         }
+//        if (customerSelected.getCompanyAddress() == null || customerSelected.getCompanyAddress().equals("")) {
+//            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("shipping_address_not_null")));
+//            return false;
+//        }
         if (shippingTo == null || shippingTo.equals("")) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("shipping_address_not_null")));
             return false;
@@ -484,6 +488,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
             inicializedContact();
             contactList = customerSelected.getContactList();
+            shippingTo = customerSelected.getCompanyAddress();
         } else {
             contactList = new ArrayList<>();
         }
