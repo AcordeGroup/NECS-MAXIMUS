@@ -16,7 +16,7 @@
         </ui:define>
         <ui:define name="body">
             <p:panel header="#{maximusBundle.label_admin_dashboard}" id="adminDashboard" >
-                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 <h:form id="formAdmin">
                     <h:panelGrid columns="6" id="panelButton">
                         <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{vendorController.prepareCreate}" id="buttonVendor"  update=":VendorCreateForm" onclick="#{vendorController.createVendorTrue()}" oncomplete="PF('VendorCreateDialog').show()" />
@@ -227,14 +227,14 @@
                                     <f:param value="#{item.quoteStatusList.get(0).status}" name="statusQuote"/>
                                 </p:commandLink> 
                                 <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
-<!--                                <p:commandLink id="btnSent" 
-                                               value="#{maximusBundle.send}"
-                                               actionListener="#{quoteController.sendQuote(item)}" ajax="false"
-                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
-                                               update=":formAdmin:fieldSetClose">  
-                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
-                                </p:commandLink>-->
-<!--                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">&nbsp;|&nbsp;</h:panelGroup> -->
+                                <!--                                <p:commandLink id="btnSent" 
+                                                                               value="#{maximusBundle.send}"
+                                                                               actionListener="#{quoteController.sendQuote(item)}" ajax="false"
+                                                                               rendered="#{item.quoteStatusList.get(0).status == 'READY'}"
+                                                                               update=":formAdmin:fieldSetClose">  
+                                                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmSendMessage}" icon="ui-icon-alert"/>
+                                                                </p:commandLink>-->
+                                <!--                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'SENT'}">&nbsp;|&nbsp;</h:panelGroup> -->
                                 <p:commandLink id="btnReSent" 
                                                value="#{maximusBundle.Resend}"
                                                actionListener="#{quoteController.sendQuote(item)}"
@@ -243,6 +243,14 @@
                                                rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">  
                                     <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmReSendMessage}" icon="ui-icon-alert"/>
                                 </p:commandLink> 
+                                <h:panelGroup rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}">&nbsp;|&nbsp;</h:panelGroup> 
+                                <p:commandLink id="btnClose" 
+                                               value="#{maximusBundle.Close}"
+                                               actionListener="#{quoteController.closeQuote(item)}" ajax="false"
+                                               rendered="#{item.quoteStatusList.get(0).status == 'READY_AND_SENT'}"
+                                               update=":formSales:fieldSetOpen">  
+                                    <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmCloseMessage}" icon="ui-icon-alert"/>
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>

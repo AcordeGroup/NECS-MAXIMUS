@@ -425,29 +425,46 @@
                         <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
 
                         <p:panel header="Search Part" id="panelSearch">
+                            <table  style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;"> 
+                                <tr style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+                                    <td style="text-align: left; vertical-align: top;">
+                                        <h:panelGrid columns="2" style="text-align: left"> 
 
-                            <h:panelGrid columns="2" style="text-align: left"> 
+                                            <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
+                                            <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
+                                                            completeMethod="#{editQuoteController.complete}"
+                                                            var="part" 
+                                                            converter="productConverter"
+                                                            itemLabel="#{part.partNumber}"
+                                                            itemValue="#{part}"
+                                                            maxResults="10"/>
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
+                                            <p:inputText value="#{editQuoteController.manufacturePart}"  />
 
-                                <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
-                                <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
-                                                completeMethod="#{editQuoteController.complete}"
-                                                var="part" 
-                                                converter="productConverter"
-                                                itemLabel="#{part.partNumber}"
-                                                itemValue="#{part}"
-                                                maxResults="10"/>
-                                <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
-                                <p:inputText value="#{editQuoteController.manufacturePart}"  />
-
-                                <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
-                                <p:inputText value="#{editQuoteController.descriptionPart}" />
-
-
-                                <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
-                                <p:inputText value="#{editQuoteController.typePart}"  />
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
+                                            <p:inputText value="#{editQuoteController.descriptionPart}" />
 
 
-                            </h:panelGrid>
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
+                                            <p:inputText value="#{editQuoteController.typePart}"  />
+
+
+                                        </h:panelGrid>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+
+                                        <p:commandButton value="#{maximusBundle.new_part_button}" 
+                                                         actionListener="#{productController.prepareCreate}" 
+                                                         id="buttonNewPart"  
+                                                         update=":ProductCreateForm" 
+                                                         onclick="#{productController.createPartTrue()}" 
+                                                         oncomplete="PF('ProductCreateDialog').show()"
+                                                         style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;"
+                                                         rendered="#{editQuoteController.typeAgent()!='Sales'}"/>
+                                    </td>
+                                </tr>
+
+                            </table>
 
                         </p:panel>
 
@@ -562,7 +579,7 @@
                         <h:outputText value="#{maximusBundle.message_process_product_generic}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.search_part}"  id="buttonSearch" onclick="PF('dialogPartReplace').show()" ajax="true" oncomplete="#{editQuoteController.reset()}"/>
-                            <p:commandButton value="#{maximusBundle.enter_new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.fillDescriptionGeneric()}" oncomplete="PF('ProductCreateDialog').show()">
+                            <p:commandButton value="#{maximusBundle.enter_new_part_button}"  id="buttonNewPart"  update=":ProductCreateFormInterno" actionListener="#{editQuoteController.fillDescriptionGeneric()}" oncomplete="PF('ProductCreateDialogInterno').show()">
 
                             </p:commandButton>
                         </h:panelGrid>
@@ -588,8 +605,8 @@
                         <h:outputText value="#{maximusBundle.message_product_created}" style="font-weight: bold;" />
                         <h:outputText value="#{maximusBundle.message_replace_generic_created}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPart').hide(); PF('dialogProccessGeneric').hide(); PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialog').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialog').hide(); PF('dialogProccessGeneric').hide();" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPart').hide(); PF('dialogProccessGeneric').hide(); PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialogInterno').hide();"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialogInterno').hide(); PF('dialogProccessGeneric').hide();" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
@@ -601,16 +618,16 @@
                         <h:outputText value="#{maximusBundle.message_product_created}" style="font-weight: bold;" />
                         <h:outputText value="#{maximusBundle.message_replace_created}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialog').hide(); PF('dialogSubstitute').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialog').hide();" update=":form, :formDialogSubstitute" actionListener="#{editQuoteController.inicializedObject()}"/>
+                            <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialogInterno').hide(); PF('dialogSubstitute').hide();"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialogInterno').hide();" update=":form, :formDialogSubstitute" actionListener="#{editQuoteController.inicializedObject()}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="ProductCreateDlg" widgetVar="ProductCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateProductTitle}" closeOnEscape="true">
+            <p:dialog id="ProductCreateDlgInterno" widgetVar="ProductCreateDialogInterno" modal="true" resizable="false" appendTo="@(body)" header="#{maximusBundle.CreateProductTitle}" closeOnEscape="true">
 
-                <h:form id="ProductCreateForm" >
+                <h:form id="ProductCreateFormInterno" >
                     <!--                    <p:messages  showDetail="true" autoUpdate="true" closable="true"/>-->
                     <p:panelGrid columns="2" columnClasses="column">
 
@@ -662,9 +679,9 @@
                             <p:tooltip for="price" value="#{editQuoteController.proController.getComponentMessages('price', maximusBundle.CreateProductHelpText_price)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{editQuoteController.crearProductSustitute(editQuoteController.productGeneric != null)}" value="#{maximusBundle.Save}" ajax="true" update=":ProductCreateForm"/>
+                    <p:commandButton actionListener="#{editQuoteController.crearProductSustitute(editQuoteController.productGeneric != null)}" value="#{maximusBundle.Save}" ajax="true" update=":ProductCreateFormInterno"/>
 
-                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('ProductCreateDialog').hide(), PF('dialogProccessGeneric').hide()"  process="@this" immediate="true" resetValues="true" />
+                    <p:commandButton value="#{maximusBundle.Cancel}" oncomplete="PF('ProductCreateDialogInterno').hide(), PF('dialogProccessGeneric').hide()"  process="@this" immediate="true" resetValues="true" />
 
                 </h:form>
 
@@ -687,6 +704,7 @@
             <ui:include src="/util/DialogReplace.xhtml"/> 
             <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
 
+            <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
             <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
         </ui:define>
 

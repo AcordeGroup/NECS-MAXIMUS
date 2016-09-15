@@ -413,7 +413,7 @@ public class QuoteController extends AbstractController<Quote> {
             tablaSalesQuoteInter.addCell(createCell(bundle.getString("sale_quote").concat(" N°"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
             tablaSalesQuoteInter.addCell(createCell(quote.getIdQuote().toString(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaSalesQuoteInter.addCell(createCell(bundle.getString("CustomerHeading").concat(" N°"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaSalesQuoteInter.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefaultBlue, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaSalesQuoteInter.addCell(createCell(quote.getIdContact().getCompanyName().getIdCustomer(), null, null, fontDefaultBlue, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             //suma text sales quote
             PdfPCell cellSalesQuote = new PdfPCell();
@@ -495,13 +495,13 @@ public class QuoteController extends AbstractController<Quote> {
             tablePart2.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart2.addCell(createCell("", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
-            PdfPTable tablePart3 = new PdfPTable(6);
-            tablePart3.setWidths(new int[]{13, 13, 5, 35, 17, 17});
+            PdfPTable tablePart3 = new PdfPTable(5);
+            tablePart3.setWidths(new int[]{14, 14, 36, 18, 18});
             tablePart3.setWidthPercentage(100);
             //suma tercer encabezado 
             tablePart3.addCell(createCell(bundle.getString("order_quantity"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart3.addCell(createCell(bundle.getString("approve_quantity"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
-            tablePart3.addCell(createCell(bundle.getString("tax"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
+//            tablePart3.addCell(createCell(bundle.getString("tax"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart3.addCell(createCell(bundle.getString("item_description"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart3.addCell(createCell(bundle.getString("unit_price"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablePart3.addCell(createCell(bundle.getString("extended_price"), null, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
@@ -510,7 +510,7 @@ public class QuoteController extends AbstractController<Quote> {
             for (Has has : quote.getHasList()) {
                 tablePart3.addCell(createCell(has.getQtyRequested() != null ? has.getQtyRequested().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
                 tablePart3.addCell(createCell(has.getQtyFound() != null ? has.getQtyFound().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
-                tablePart3.addCell(createCell("Y", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
+//                tablePart3.addCell(createCell("Y", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
 
                 //section table Interna que maneja informacion del description........
                 PdfPTable tablaInter = new PdfPTable(2);
@@ -579,7 +579,7 @@ public class QuoteController extends AbstractController<Quote> {
             tablaFooterInterRigth.addCell(createCell(bundle.getString("sales_tax"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100))).toString(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell(bundle.getString("order_total"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat(" ").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100)).add(total)).toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat(" ").concat("$").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100)).add(total)).toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             //suma text sales quote
             PdfPCell cellFooterInterRigth = new PdfPCell();

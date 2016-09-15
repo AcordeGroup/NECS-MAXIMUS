@@ -269,7 +269,7 @@ public class EditQuoteController extends AbstractController<Quote> {
             return false;
         } else {
             for (Has h : partListHas) {
-                if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && !typeAgent().equals("Sales")) {
                     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
                     return false;
                 }
