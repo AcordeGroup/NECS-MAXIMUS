@@ -33,8 +33,8 @@
             </table>
             <p:outputPanel style="text-align: left;">
                 <p:dataTable id="datalist"
-                             value="#{customerController.lazyItems}"
-                             lazy="true"
+                             value="#{customerController.items}"
+                             rowKey="#{item.idCustomer}"
                              var="item"
                              paginator="true"
                              rows="10"
@@ -57,14 +57,14 @@
                     <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
                     <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomerListForm:viewButton').click();"/>
 
-                    <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}" filterMatchMode="contains" >
+                    <p:column sortBy="#{item.idCustomer}" filterBy="#{item.idCustomer}"  >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_idCustomer}"/>
                         </f:facet>
                         <h:outputText value="#{item.idCustomer}" />
                     </p:column>
 
-                    <p:column  filterBy="#{item.companyName}" filterMatchMode="contains" >
+                    <p:column  filterBy="#{item.companyName}"  >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_companyName}"/>
                         </f:facet>
@@ -72,7 +72,7 @@
                     </p:column>
 
 
-                    <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}" filterMatchMode="contains" >
+                    <p:column sortBy="#{item.companyAddress}" filterBy="#{item.companyAddress}" >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_companyAddress}"/>
                         </f:facet>
@@ -80,7 +80,7 @@
                     </p:column>
 
 
-                    <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}" filterMatchMode="contains" >
+                    <p:column sortBy="#{item.phoneNumber}" filterBy="#{item.phoneNumber}"  >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_phoneNumber}"/>
                         </f:facet>
@@ -88,14 +88,14 @@
                     </p:column>
 
 
-                    <p:column sortBy="#{item.website}" filterBy="#{item.website}" filterMatchMode="contains">
+                    <p:column sortBy="#{item.website}" filterBy="#{item.website}" >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_website}"/>
                         </f:facet>
                         <h:outputText value="#{item.website}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.country}" filterBy="#{item.country}" filterMatchMode="contains" >
+                    <p:column sortBy="#{item.country}" filterBy="#{item.country}"  >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListCompanyTitle_country}"/>
                         </f:facet>

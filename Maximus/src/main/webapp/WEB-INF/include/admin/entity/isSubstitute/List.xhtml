@@ -32,8 +32,8 @@
             </table>
             <p:outputPanel style="text-align: left;">
                 <p:dataTable id="datalist"
-                             value="#{isSubstituteController.lazyItems}"
-                             lazy="true"
+                             value="#{isSubstituteController.items}"
+                             rowKey="#{item.partNumberBase.partNumber}"
                              var="item"
                              paginator="true"
                              rows="10"

@@ -34,8 +34,8 @@
             </table>
             <p:outputPanel style="text-align: left;">
                 <p:dataTable id="datalist"
-                             value="#{manageController.lazyItems}"
-                             lazy="true"
+                             value="#{manageController.items}"
+                             rowKey="#{item.idQuote.idQuote}"
                              var="item"
                              paginator="true"
                              rows="10"

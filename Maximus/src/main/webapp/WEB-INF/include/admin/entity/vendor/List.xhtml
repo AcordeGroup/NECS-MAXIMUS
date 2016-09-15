@@ -33,15 +33,14 @@
             </table>
             <p:outputPanel style="text-align: left;">
                 <p:dataTable id="datalist" 
-                             value="#{vendorController.lazyItems}" 
-                             lazy="true"
+                             value="#{vendorController.items}" 
+                             rowKey="#{item.idVendor}"
                              var="item"
                              paginator="true"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
                              selectionMode="single" 
                              selection="#{vendorController.selected}"
-                             rowKey="#{item.idVendor}"
                              >
 
                     <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendorDataTableContextMenu"/>
