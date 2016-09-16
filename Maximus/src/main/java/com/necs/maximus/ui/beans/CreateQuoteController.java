@@ -27,6 +27,8 @@ import com.necs.maximus.enums.StatusType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -106,6 +108,13 @@ public class CreateQuoteController extends AbstractController<Quote> {
     @PostConstruct
     public void init() {
         customerList = (List<Customer>) customerFacade.findAll();
+        Collections.sort(customerList, new Comparator<Customer>() {
+
+            @Override
+            public int compare(Customer t, Customer t1) {
+                return t.getCompanyName().compareTo(t1.getCompanyName());
+            }
+        });
     }
 
     public String createNewRequest() {

@@ -35,6 +35,8 @@ import com.necs.maximus.enums.StatusType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -133,6 +135,13 @@ public class EditQuoteController extends AbstractController<Quote> {
         param.put("idAgent", getUserManagedBean().getAgentId());
         partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
+        Collections.sort(customerList, new Comparator<Customer>() {
+
+            @Override
+            public int compare(Customer t, Customer t1) {
+                return t.getCompanyName().compareTo(t1.getCompanyName());
+            }
+        });
         vendorList = (List<Vendor>) vendorFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
 
@@ -693,6 +702,12 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public List<Customer> getCustomerList() {
         customerList = (List<Customer>) customerFacade.findAll();
+         Collections.sort(customerList, new Comparator<Customer>() {
+            @Override
+            public int compare(Customer t, Customer t1) {
+                return t.getCompanyName().compareTo(t1.getCompanyName());
+            }
+        });
         return customerList;
     }
 
