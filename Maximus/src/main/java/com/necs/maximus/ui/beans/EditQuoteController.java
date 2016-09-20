@@ -534,6 +534,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         descriptionPart = "";
         nroPart = null;
         manufacturePart = "";
+        selectedPart = null;
     }
 
     public void removePart(Has parte) {

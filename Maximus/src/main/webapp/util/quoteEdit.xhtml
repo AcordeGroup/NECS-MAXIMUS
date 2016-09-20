@@ -417,7 +417,7 @@
 
             </h:form>
 
-            <p:dialog header="Basic Dialog"  widgetVar="dialogPart"  id="dialogPart" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
+            <p:dialog header="Add Part"  widgetVar="dialogPart"  id="dialogPart" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%" >
 
                 <h:form
                     id="formDialog">
@@ -567,8 +567,8 @@
                     </p:panel>
                     <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
 
-                        <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
-                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{editQuoteController.addPart()}"  update=":form,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
+                        <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct,:formDialog" actionListener="#{editQuoteController.inicializedObject()}"/>
+                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{editQuoteController.addPart()}"  update=":form:datalistProduct,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
                     </p:outputPanel> 
                 </h:form>
             </p:dialog>
@@ -593,7 +593,7 @@
                         <h:outputText value="#{maximusBundle.message_replace_product_generic}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirm').hide(); PF('dialogPart').hide(); PF('dialogProccessGeneric').hide();PF('dialogPartReplace').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirm').hide(); " update=":form:datalistProduct"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirm').hide(); " update=":form:datalistProduct" ajax="true"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
@@ -606,7 +606,7 @@
                         <h:outputText value="#{maximusBundle.message_replace_generic_created}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPart').hide(); PF('dialogProccessGeneric').hide(); PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialogInterno').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialogInterno').hide(); PF('dialogProccessGeneric').hide();" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}" ajax="true"   oncomplete="PF('dialogPartConfirmCreate').hide(); PF('ProductCreateDialogInterno').hide(); PF('dialogProccessGeneric').hide();" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
@@ -619,7 +619,7 @@
                         <h:outputText value="#{maximusBundle.message_replace_created}" />
                         <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
                             <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('crear')}" ajax="true" update=":form:datalistProduct" oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialogInterno').hide(); PF('dialogSubstitute').hide();"/>
-                            <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialogInterno').hide();" update=":form, :formDialogSubstitute" actionListener="#{editQuoteController.inicializedObject()}"/>
+                            <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true"  oncomplete="PF('dialogPartConfirmCreateSubstitute').hide(); PF('ProductCreateDialogInterno').hide();" update=":form:datalistProduct, :formDialogSubstitute" actionListener="#{editQuoteController.inicializedObject()}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>

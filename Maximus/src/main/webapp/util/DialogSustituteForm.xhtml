@@ -159,7 +159,7 @@
                         <h:outputText value="Make substitute" style="margin-right: 5px;" />
                         <p:selectBooleanCheckbox value="#{editQuoteController.makeSubstitute}" style="margin-right: 15px;"/>
                     </h:panelGroup>
-                    <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogSubstitute').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                    <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true" oncomplete="PF('dialogSubstitute').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
                     <p:commandButton value="#{maximusBundle.replace}" id="buttonAddSustitute" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form:datalistProduct" oncomplete="PF('dialogSubstitute').initPosition()" />
                     <p:commandButton value="#{maximusBundle.add_as_note}" id="buttonAddAsNote" ajax="true" action="#{editQuoteController.AddAsNotePart()}"  update=":form:datalistProduct"  />
                 </h:panelGrid>
@@ -171,8 +171,8 @@
                 <h:panelGrid columns="1" style="text-align: center; vertical-align: middle; width: 100%;">
                     <h:outputText value="#{maximusBundle.message_replace_product}" />
                     <h:panelGrid columns="2" style="text-align: center; vertical-align: middle; width: 100%;">
-                        <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form,:formDialogSubstitute:" oncomplete="PF('dialogPartReplaceConfirm').hide(); PF('dialogSubstitute').hide();"/>
-                        <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartReplaceConfirm').hide();" update=":form,:formDialogSubstitute:" />
+                        <p:commandButton value="#{maximusBundle.accept}"  action="#{editQuoteController.sustituirProduct('sustituir')}" ajax="true" update=":form:datalistProduct,:formDialogSubstitute:" oncomplete="PF('dialogPartReplaceConfirm').hide(); PF('dialogSubstitute').hide();"/>
+                        <p:commandButton value="#{maximusBundle.Cancel}"    oncomplete="PF('dialogPartReplaceConfirm').hide();" update=":form:datalistProduct,:formDialogSubstitute:" ajax="true" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

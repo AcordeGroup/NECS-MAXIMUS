@@ -9,7 +9,7 @@
     <ui:composition>
 
 
-        <p:dialog header="Basic Dialog"  widgetVar="dialogPartReplace"  id="dialogPartReplace" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
+        <p:dialog header="Replace Part"  widgetVar="dialogPartReplace"  id="dialogPartReplace" resizable="false" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
             <h:form id="formDialogReplace">
                 <p:panel  id="panelPrincipalReplace">
                     <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
@@ -140,9 +140,9 @@
                 </p:panel>
                 <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
 
-                    <p:commandButton value="#{maximusBundle.Cancel}"  ajax="false" oncomplete="PF('dialogPartReplace').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
-                    <p:commandButton value="#{maximusBundle.replace}" id="buttonAdd" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form,:formDialogReplace" oncomplete="PF('dialogPartReplace').initPosition()" />
-                    <p:commandButton value="#{maximusBundle.notes}" id="buttonNotes" ajax="true" action="ss"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />
+                    <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true" oncomplete="PF('dialogPartReplace').hide()" update=":form:datalistProduct" actionListener="#{editQuoteController.inicializedObject()}"/>
+                    <p:commandButton value="#{maximusBundle.replace}" id="buttonAdd" ajax="true" action="#{editQuoteController.replacePart()}"  update=":form:datalistProduct,:formDialogReplace" oncomplete="PF('dialogPartReplace').initPosition()" />
+                    <!--<p:commandButton value="#{maximusBundle.notes}" id="buttonNotes" ajax="true" action="ss"  update=":form:datalistProduct" oncomplete="PF('dialogPartReplace').initPosition()" />-->
 
                 </p:outputPanel> 
             </h:form>
