@@ -274,7 +274,7 @@
                 <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
             </h:form>
 
-            <p:dialog header="Add Part"  widgetVar="dialogPart"  id="dialogPart" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%">
+            <p:dialog header="Add Part"  widgetVar="dialogPart"  id="dialogPart" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%" >
                 <h:form id="formDialog">
                     <p:panel  id="panelPrincipal">
                         <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
@@ -320,15 +320,14 @@
 
                         </p:outputPanel> 
 
-                        <p:spacer />
 
                         <p:outputPanel  rendered="#{createQuoteController.partList != null}" id="panelTable">
-                            <p:separator/>
+                          
                             <p:dataTable id="datalistPart"
                                          value="#{createQuoteController.partList}"
                                          var="item"
                                          paginator="true"
-                                         rows="7"
+                                         rows="6"
                                          rowsPerPageTemplate="5,10,15"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          emptyMessage="#{maximusBundle.no_search_result}"
@@ -336,7 +335,8 @@
                                          selection="#{createQuoteController.selectedPart}"
                                          rowKey="#{item.partNumber}"
                                          scrollable="true"
-                                         scrollHeight="250"
+                                         scrollHeight="200"
+                                         style="margin-top: 5px;" 
                                          >
                                 <p:column selectionMode="multiple" style="width:10px;text-align:center" />
                                 <p:column  style="width :90px">
@@ -403,9 +403,6 @@
                                 </p:column>
 
                             </p:dataTable>
-
-                            <p:separator/>
-
 
                         </p:outputPanel>
                     </p:panel>
