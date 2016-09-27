@@ -9,7 +9,6 @@ import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Contact;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
-import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
@@ -26,12 +25,10 @@ import com.necs.maximus.enums.ShippingCostType;
 import com.necs.maximus.enums.StatusType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -139,14 +136,14 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 quoteFacade.create(newQuote);
 
                 for (Has h : partListHas) {
-                    h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
+//                    h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
                     h.setQuote(newQuote);
                     h.setCustomerTargetPrice(h.getProduct().getPrice());
                     //h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
-                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
-                        h.setObservation(observation);
-                        //h.setQtyFound(BigDecimal.ZERO);
-                    }
+//                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+//                        h.setObservation(observation);
+//                        //h.setQtyFound(BigDecimal.ZERO);
+//                    }
                     hasFacade.create(h);
                 }
 
@@ -241,6 +238,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
+
         boolean mostrarObservationField = false;
         if (selectedPart == null || selectedPart.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
@@ -256,29 +254,16 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 setObservationField(mostrarObservationField);
                 RequestContext.getCurrentInstance().update("formDialog:panelSearch");
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("observation_field_required")));
-
+                mostrarObservationField = false;
             } else {
                 List<Has> auxPartHas = new ArrayList<>();
-                Collection<Product> listWithoutDuplicates = new HashSet<>(selectedPart);
-                for (Product pro : listWithoutDuplicates) {
-                    boolean productExist = false;
-                    if (partListHas != null && !partListHas.isEmpty()) {
-                        for (Has h : partListHas) {
-                            if (h.getProduct().getPartNumber().equals(pro.getPartNumber())) {
-                                productExist = true;
-                                break;
-                            }
-                        }
-                        if (!productExist) {
-                            Has object = new Has();
-                            object.setProduct(pro);
-                            auxPartHas.add(object);
-                        }
-                    } else {
-                        Has object = new Has();
-                        object.setProduct(pro);
-                        auxPartHas.add(object);
-                    }
+                for (Product pro : selectedPart) {
+                    Has object = new Has();
+                    object.setProduct(pro);
+                    object.setQtyFound(0);
+                    object.setQtyRequested(0);
+                    object.setObservation(observation);
+                    auxPartHas.add(object);
                 }
                 partListHas.addAll(auxPartHas);
 
@@ -296,6 +281,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
         nroPart = null;
         manufacturePart = "";
         selectedPart = null;
+        observationField = false;
+        observation = null;
     }
 
     public List<Product> complete(String query) {

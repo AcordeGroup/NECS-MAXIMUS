@@ -35,7 +35,7 @@
             <p:outputPanel style="text-align: left;">
                 <p:dataTable id="datalist"
                              value="#{hasController.items}"
-                             rowKey="#{item.hasPK.idQuote}"
+                             rowKey="#{item.quote.idQuote}"
                              var="item"
                              paginator="true"
                              rows="10"
@@ -57,19 +57,19 @@
                     <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{hasController.resetParents}"/>
                     <p:ajax event="rowDblselect" onsuccess="document.getElementById('HasListForm:viewButton').click();"/>
 
-                    <p:column sortBy="#{item.hasPK.idQuote}" filterBy="#{item.hasPK.idQuote}" >
+                    <p:column sortBy="#{item.quote.idQuote}" filterBy="#{item.quote.idQuote}" >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_idQuote}"/>
                         </f:facet>
-                        <h:outputText value="#{item.hasPK.idQuote}"/>
+                        <h:outputText value="#{item.quote.idQuote}"/>
                     </p:column>
 
 
-                    <p:column sortBy="#{item.hasPK.partNumber}" filterBy="#{item.hasPK.partNumber}" >
+                    <p:column sortBy="#{item.product.partNumber}" filterBy="#{item.product.partNumber}" >
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListHasTitle_hasPK_partNumber}"/>
                         </f:facet>
-                        <h:outputText value="#{item.hasPK.partNumber}"/>
+                        <h:outputText value="#{item.product.partNumber}"/>
                     </p:column>
 
 

@@ -261,7 +261,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                                 </f:facet>
-                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}" required="true" requiredMessage="#{maximusBundle.message_shipping_cost_for_product}" size="7"/>
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}"  size="7"/> <!-- required="true" requiredMessage="#{maximusBundle.message_shipping_cost_for_product}"-->
 
                             </p:column>
                             <p:column style="width : 90px"  rendered="#{userManagedBean.type != 'Sales'}" >

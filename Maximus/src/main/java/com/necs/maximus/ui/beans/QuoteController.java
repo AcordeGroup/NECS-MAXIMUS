@@ -432,7 +432,9 @@ public class QuoteController extends AbstractController<Quote> {
 
             //sumna encabezado bill_to..
             tablaBillTo.addCell(createCell(bundle.getString("bill_to"), 2, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
-
+            //sumna information customerName..
+            tablaBillTo.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
+            
             //sumna information bill_to..
             tablaBillTo.addCell(createCell(quote.getShipping_to(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
 
@@ -443,10 +445,12 @@ public class QuoteController extends AbstractController<Quote> {
 
             //sumna encabezado shipping_to..
             tablaShippingTo.addCell(createCell(bundle.getString("shipping_to"), 2, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
-
+             //sumna information customerName..
+            tablaShippingTo.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
             //Suma la información shipping_to
             tablaShippingTo.addCell(createCell(quote.getShipping_to(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
-
+            
+        
             PdfPTable tablaContent = new PdfPTable(2);
             tablaContent.setWidths(new int[]{1, 1});
             tablaContent.setWidthPercentage(100);

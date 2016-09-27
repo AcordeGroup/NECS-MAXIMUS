@@ -23,17 +23,6 @@ public class HasController extends AbstractController<Has> {
         super(Has.class);
     }
 
-    @Override
-    protected void setEmbeddableKeys() {
-        this.getSelected().getHasPK().setIdQuote(this.getSelected().getQuote().getIdQuote());
-        this.getSelected().getHasPK().setPartNumber(this.getSelected().getProduct().getPartNumber());
-    }
-
-    @Override
-    protected void initializeEmbeddableKey() {
-        this.getSelected().setHasPK(new com.necs.maximus.db.entity.HasPK());
-    }
-
     /**
      * Resets the "selected" attribute of any parent Entity controllers.
      */

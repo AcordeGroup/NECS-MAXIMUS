@@ -17,13 +17,13 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_hasPK_idQuote}" for="hasPK_idQuote" />
                         <h:panelGroup>
-                            <p:inputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.CreateHasTitle_hasPK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_idQuote}" size="50" maxlength="50"/>
+                            <p:inputText id="hasPK_idQuote" value="#{hasController.selected.quote.idQuote}" title="#{maximusBundle.CreateHasTitle_hasPK_idQuote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_idQuote}" size="50" maxlength="50"/>
                             <p:tooltip for="hasPK_idQuote" value="#{hasController.getComponentMessages('hasPK_idQuote', maximusBundle.CreateHasHelpText_hasPK_idQuote)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_hasPK_partNumber}" for="hasPK_partNumber" />
                         <h:panelGroup>
-                            <p:inputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_partNumber}" size="50" maxlength="50"/>
+                            <p:inputText id="hasPK_partNumber" value="#{hasController.selected.product.partNumber}" title="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_hasPK_partNumber}" size="50" maxlength="50"/>
                             <p:tooltip for="hasPK_partNumber" value="#{hasController.getComponentMessages('hasPK_partNumber', maximusBundle.CreateHasHelpText_hasPK_partNumber)}"/>
                         </h:panelGroup>
 

@@ -28,20 +28,15 @@ public class HasConverter implements Converter {
         return this.ejbFacade.find(getKey(value));
     }
 
-    com.necs.maximus.db.entity.HasPK getKey(String value) {
-        com.necs.maximus.db.entity.HasPK key;
-        String values[] = value.split(SEPARATOR_ESCAPED);
-        key = new com.necs.maximus.db.entity.HasPK();
-        key.setIdQuote(Integer.parseInt(values[0]));
-        key.setPartNumber(values[1]);
+    Integer getKey(String value) {
+        Integer key;
+        key = Integer.valueOf(value);
         return key;
     }
 
-    String getStringKey(com.necs.maximus.db.entity.HasPK value) {
+    String getStringKey(Integer value) {
         StringBuffer sb = new StringBuffer();
-        sb.append(value.getIdQuote());
-        sb.append(SEPARATOR);
-        sb.append(value.getPartNumber());
+        sb.append(value);
         return sb.toString();
     }
 
@@ -53,7 +48,7 @@ public class HasConverter implements Converter {
         }
         if (object instanceof Has) {
             Has o = (Has) object;
-            return getStringKey(o.getHasPK());
+            return getStringKey(o.getHasId());
         } else {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Has.class.getName()});
             return null;

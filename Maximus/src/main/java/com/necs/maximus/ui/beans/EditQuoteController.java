@@ -9,7 +9,6 @@ import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Contact;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
-import com.necs.maximus.db.entity.HasPK;
 import com.necs.maximus.db.entity.IsSubstitute;
 import com.necs.maximus.db.entity.Manage;
 import com.necs.maximus.db.entity.Product;
@@ -59,7 +58,7 @@ import org.primefaces.context.RequestContext;
 @Named(value = "editQuoteController")
 @ViewScoped
 public class EditQuoteController extends AbstractController<Quote> {
-
+    
     @Inject
     private ProductController proController;
     @Inject
@@ -86,7 +85,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private ManageFacade manageFacade;
     @EJB
     private IsSubstituteFacade isSubstituteFacade;
-
+    
     private Agent agent;
     private Product nroPart;
     private Product selectedPartSubtitute;
@@ -97,7 +96,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private Vendor vendorSelected;
     private Contact contactSelected;
     private Customer customerSelected;
-
+    
     private String note;
     private String includeShipping;
     private Integer totalPriceCot;
@@ -110,7 +109,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private Double suggestedSalesPrice;
     private String selectionSustitute;
     private boolean makeSubstitute;
-
+    
     private List<Customer> customerList;
     private List<Contact> contactList;
     private List<Has> partListHas;
@@ -118,17 +117,17 @@ public class EditQuoteController extends AbstractController<Quote> {
     private List<Product> selectedPart;
     private List<QuoteNote> quoteListNote;
     private List<Vendor> vendorList;
-
+    
     private static final String PRODUCT_GENERIC = "GENERIC";
     private final FacesContext facesContext = FacesContext.getCurrentInstance();
     private final Locale locale = facesContext.getViewRoot().getLocale();
     protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
-
+    
     public EditQuoteController() {
         // Inform the Abstract parent controller of the concrete Quote Entity
         super(Quote.class);
     }
-
+    
     @PostConstruct
     public void init() {
         HashMap param = new HashMap();
@@ -136,7 +135,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
         Collections.sort(customerList, new Comparator<Customer>() {
-
+            
             @Override
             public int compare(Customer t, Customer t1) {
                 return t.getCompanyName().compareTo(t1.getCompanyName());
@@ -144,7 +143,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         });
         vendorList = (List<Vendor>) vendorFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
-
+        
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
         if (quoteId != null) {
             quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
@@ -162,7 +161,7 @@ public class EditQuoteController extends AbstractController<Quote> {
             quote = quoteFacade.findQuoteByIdQuoteAndStatusActual(Integer.parseInt(quoteId));
         }
     }
-
+    
     public String editRequest(String operation) {
         try {
             if (validateField()) {
@@ -181,7 +180,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                 //add new list has in the quote
                 for (Has hasNew : partListHas) {
-                    hasNew.setHasPK(new HasPK(quote.getIdQuote(), hasNew.getProduct().getPartNumber()));
+//                    hasNew.setHasPK(new HasPK(quote.getIdQuote(), hasNew.getProduct().getPartNumber()));
                     hasNew.setQuote(quote);
                     //hasNew.setCustomerTargetPrice(hasNew.getProduct().getPrice());
                     //hasNew.setSuggestedSalesPrice(hasNew.getSuggestedSalesPrice());
@@ -198,16 +197,16 @@ public class EditQuoteController extends AbstractController<Quote> {
                 quote.setEmail(contactSelected.getPrimaryEmail());
                 quote.setIdContact(contactSelected);
                 quoteFacade.edit(quote);
-
+                
                 if (operation.equals(OperationType.DONE.getOperationName())) {
                     QuoteStatus qs = quote.getQuoteStatusList().get(0);
                     qs.setEndDate(new Date());
                     quoteStatusFacade.edit(qs);
-
+                    
                     QuoteStatus statusNew = new QuoteStatus();
                     statusNew.setIdQuote(quote);
                     statusNew.setInitDate(new Date());
-
+                    
                     statusNew.setStatus(StatusType.READY_AND_SENT.getName());
                     quoteStatusFacade.create(statusNew);
 
@@ -215,7 +214,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     quoteController.sendQuote(quote);
                     RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
                 }
-
+                
                 if (note != null && !note.equals("")) {
                     // create nota entity
                     QuoteNote nota = new QuoteNote();
@@ -225,23 +224,23 @@ public class EditQuoteController extends AbstractController<Quote> {
                     nota.setIdAgent(agent);
                     quoteNoteFacade.create(nota);
                 }
-
+                
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
                 if (!operation.equals(OperationType.DONE.getOperationName())) {
                     return getUserManagedBean().getType();
                 } else {
                     return "";
                 }
-
+                
             }
         } catch (Exception e) {
-
+            
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("error_update"), ""));
             return "";
         }
         return "";
     }
-
+    
     public boolean validateField() {
         if (customerSelected == null || customerSelected.getCompanyName().equals("")) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_customer"), ""));
@@ -283,41 +282,41 @@ public class EditQuoteController extends AbstractController<Quote> {
                     return false;
                 }
             }
-
+            
         }
-
+        
         return true;
     }
-
+    
     public void searchPart() {
         HashMap<String, String> parametros = new HashMap<>();
-
+        
         if (nroPart != null) {
             parametros.put("partNumber", nroPart.getPartNumber());
         }
-
+        
         if (typePart != null && !typePart.equals("")) {
             parametros.put("type", typePart);
         }
-
+        
         if (manufacturePart != null && !manufacturePart.equals("")) {
             parametros.put("manufacture", manufacturePart);
         }
-
+        
         if (descriptionPart != null && !descriptionPart.equals("")) {
             parametros.put("description", descriptionPart);
         }
-
+        
         partList = productFacade.findAllByFilter(parametros);
     }
-
+    
     public void addPart() {
         boolean genericSelected = false;
-
+        
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
-
+        
         if (selectedPart == null || selectedPart.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error")));
         } else {
@@ -327,66 +326,51 @@ public class EditQuoteController extends AbstractController<Quote> {
                     break;
                 }
             }
-
+            
             if (genericSelected) {
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("generic_product_select")));
-
+                
             } else {
-
                 List<Has> auxPartHas = new ArrayList<>();
-                Collection<Product> listWithoutDuplicates = new HashSet<>(selectedPart);
-                for (Product pro : listWithoutDuplicates) {
-                    boolean productExist = false;
-                    if (partListHas != null && !partListHas.isEmpty()) {
-                        for (Has h : partListHas) {
-                            if (h.getProduct().getPartNumber().equals(pro.getPartNumber())) {
-                                productExist = true;
-                                break;
-                            }
-                        }
-                        if (!productExist) {
-                            Has object = new Has();
-                            object.setProduct(pro);
-                            auxPartHas.add(object);
-                        }
-                    } else {
-                        Has object = new Has();
-                        object.setProduct(pro);
-                        auxPartHas.add(object);
-                    }
+                for (Product pro : selectedPart) {
+                    Has object = new Has();
+                    object.setProduct(pro);
+                    object.setQtyFound(0);
+                    object.setQtyRequested(0);
+                    auxPartHas.add(object);
                 }
                 partListHas.addAll(auxPartHas);
-
+                
                 RequestContext.getCurrentInstance().update("form:datalistProduct");
                 RequestContext.getCurrentInstance().execute("PF('dialogPart').hide();");
                 reset();
-
+                
             }
-
+            
         }
     }
-
+    
     public void replacePart() {
         boolean genericSelected = false;
-
+        
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
-
+        
         if (selectedPartSubtitute == null) {
             FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("replace_part_quote_error")));
         } else {
-
+            
             if (selectedPartSubtitute.getType().toUpperCase().equals(PRODUCT_GENERIC)) {
                 genericSelected = true;
-
+                
             }
-
+            
             if (genericSelected) {
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("generic_product_select")));
-
+                
             } else {
-
+                
                 boolean productExist = false;
                 if (partListHas != null && !partListHas.isEmpty()) {
                     for (Has h : partListHas) {
@@ -403,7 +387,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                         } else if (productReplace != null) {
                             RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
                         }
-
+                        
                     }
                 } else {
                     if (productGeneric != null) {
@@ -411,32 +395,32 @@ public class EditQuoteController extends AbstractController<Quote> {
                     } else if (productReplace != null) {
                         RequestContext.getCurrentInstance().execute("PF('dialogPartReplaceConfirm').show();");
                     }
-
+                    
                 }
             }
         }
     }
-
+    
     public void AddAsNotePart() {
         boolean warning = false;
         if (partListHas == null) {
             partListHas = new ArrayList<>();
         }
-
+        
         if (selectedPartSubtitute == null) {
             FacesContext.getCurrentInstance().addMessage("formDialog:messagesDialog", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote_error_note")));
         } else {
-
+            
             StringBuffer nota = new StringBuffer();
-
+            
             nota.append("It was found the below substitute for the product : ").append(productReplace != null ? productReplace.getProduct().getPartNumber() : "").append("\n\n\n").
                     append("Part : ").append(selectedPartSubtitute.getPartNumber()).append("\n").
                     append("Descaription : ").append(selectedPartSubtitute.getDescription()).append("\n").
                     append("Type: ").append(selectedPartSubtitute.getType()).append("\n").
                     append("Price: ").append(selectedPartSubtitute.getPrice());
-
+            
             note = nota.toString();
-
+            
             if (makeSubstitute) {
                 IsSubstitute sustitute;
                 if (null != selectedPartSubtitute) {
@@ -452,22 +436,22 @@ public class EditQuoteController extends AbstractController<Quote> {
                     }
                 }
             }
-
+            
             if (!warning) {
                 RequestContext.getCurrentInstance().execute("PF('dialogSubstitute').hide();");
                 RequestContext.getCurrentInstance().update("form:panelTextArea");
-
+                
                 showTextArea();
                 inicializedObject();
             }
         }
-
+        
     }
-
+    
     public void sustituirProduct(String operation) {
         Has object = new Has();
         if (partListHas != null && !partListHas.isEmpty()) {
-
+            
             if (productGeneric != null) {
                 object.setCondition(productGeneric.getCondition());
                 object.setCustomerTargetPrice(productGeneric.getCustomerTargetPrice());
@@ -497,7 +481,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     }
                 }
             }
-
+            
             if (operation.equals(OperationType.SUSTITUIR.getOperationName())) {
                 if (selectedPartSubtitute != null) {
                     object.setProduct(selectedPartSubtitute);
@@ -509,13 +493,13 @@ public class EditQuoteController extends AbstractController<Quote> {
                     object.setProduct(productCreado);
                     partListHas.add(object);
                 }
-
+                
                 RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').hide();");
                 RequestContext.getCurrentInstance().execute("PF('ProductCreateDialog').hide();");
                 RequestContext.getCurrentInstance().execute("PF('dialogProccessGeneric').hide();");
-
+                
             }
-
+            
             if (makeSubstitute) {
                 if (null != selectedPartSubtitute) {
                     IsSubstitute sustitute = new IsSubstitute();
@@ -527,7 +511,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
         inicializedObject();
     }
-
+    
     public void reset() {
         partList = null;
         typePart = "";
@@ -536,7 +520,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         manufacturePart = "";
         selectedPart = null;
     }
-
+    
     public void removePart(Has parte) {
         for (Has h : partListHas) {
             if (h.equals(parte)) {
@@ -545,52 +529,52 @@ public class EditQuoteController extends AbstractController<Quote> {
             }
         }
     }
-
+    
     public void addExtended(Has item) {
         if (item.getQtyRequested() != null && item.getCustomerTargetPrice() != null) {
             item.setExtended(item.getCustomerTargetPrice().multiply(new BigDecimal(item.getQtyRequested())));
         }
     }
-
+    
     public void changeStatusQuote(Quote quote) {
         try {
-
+            
             if (agent == null) {
                 HashMap param = new HashMap();
                 param.put("idAgent", getUserManagedBean().getAgentId());
                 agent
                         = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
             }
-
+            
             for (QuoteStatus qs : quote.getQuoteStatusList()) {
                 if ((qs.getEndDate() == null || qs.getEndDate().equals("")) && qs.getStatus().equals(StatusType.OPEN.getName())) {
                     qs.setEndDate(new Date());
                     quoteStatusFacade.edit(qs);
-
+                    
                     QuoteStatus statusNew = new QuoteStatus();
                     statusNew.setIdQuote(quote);
                     statusNew.setInitDate(new Date());
                     statusNew.setStatus(StatusType.IN_PROGRESS.getName());
                     quoteStatusFacade.create(statusNew);
-
+                    
                     Manage manege = new Manage();
                     manege.setIdAgent(agent);
                     manege.setAssignmentDate(new Date());
                     manege.setDeallocationDate(null);
                     manege.setIdQuote(quote);
-
+                    
                     manageFacade.create(manege);
                     break;
                 }
             }
-
+            
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
-
+            
         }
-
+        
     }
-
+    
     public List<Product> complete(String query) {
         List<Product> productList;
         productList = (List<Product>) productFacade.findProductByNumberProduct(query);
@@ -599,28 +583,28 @@ public class EditQuoteController extends AbstractController<Quote> {
         }
         return productList;
     }
-
+    
     public void fillPartGeneric(Has product) {
         if (product != null) {
             setProductGeneric(product);
         }
     }
-
+    
     public void fillPartReplace(Has product) {
         if (product != null) {
             setProductReplace(product);
         }
     }
-
+    
     public void crearProductSustitute(boolean isGeneric) {
         try {
-
+            
             if (proController.getSelected() != null) {
                 Product product = productFacade.findByNumberProduct(proController.getSelected().getPartNumber());
                 if (product != null) {
                     RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("message_product_exist")));
                 } else {
-
+                    
                     productFacade.create(proController.getSelected());
                     setProductCreado(proController.getSelected());
                     if (isGeneric) {
@@ -630,12 +614,12 @@ public class EditQuoteController extends AbstractController<Quote> {
                     }
                 }
             }
-
+            
         } catch (Exception e) {
         }
-
+        
     }
-
+    
     public void fillListSustitute() {
         List<Product> sustirutePartList = new ArrayList<>();
         if (productReplace != null) {
@@ -644,7 +628,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     partList = null;
                     break;
                 case "Substitute":
-
+                    
                     for (IsSubstitute sustitute : productReplace.getProduct().getIsSubstituteList()) {
                         sustirutePartList.add(sustitute.getPartNumberSubstitute());
                     }
@@ -662,10 +646,10 @@ public class EditQuoteController extends AbstractController<Quote> {
                     }
                     break;
             }
-
+            
         }
     }
-
+    
     public void inicializedObject() {
         nroPart = null;
         partList = null;
@@ -676,16 +660,16 @@ public class EditQuoteController extends AbstractController<Quote> {
         selectionSustitute = null;
         selectedPartSubtitute = null;
     }
-
+    
     public void fillDescriptionGeneric() {
         proController.prepareCreate(null);
         proController.getSelected().setDescription(productGeneric.getObservation());
     }
-
+    
     public void showTextArea() {
         RequestContext.getCurrentInstance().execute("document.getElementById('form:panelTextArea').style.display='block';");
     }
-
+    
     public void onCustomerChange() {
         if (customerSelected != null && !customerSelected.getCompanyName().equals("")) {
             inicializedContact();
@@ -694,16 +678,16 @@ public class EditQuoteController extends AbstractController<Quote> {
             contactList = new ArrayList<>();
         }
     }
-
+    
     public void inicializedContact() {
         if (contactSelected != null) {
             contactSelected = null;
         }
     }
-
+    
     public List<Customer> getCustomerList() {
         customerList = (List<Customer>) customerFacade.findAll();
-         Collections.sort(customerList, new Comparator<Customer>() {
+        Collections.sort(customerList, new Comparator<Customer>() {
             @Override
             public int compare(Customer t, Customer t1) {
                 return t.getCompanyName().compareTo(t1.getCompanyName());
@@ -711,236 +695,236 @@ public class EditQuoteController extends AbstractController<Quote> {
         });
         return customerList;
     }
-
+    
     public void setCustomerList(List<Customer> customerList) {
         this.customerList = customerList;
     }
-
+    
     public List<Has> getPartListHas() {
         return partListHas;
     }
-
+    
     public void setPartListHas(List<Has> partListHas) {
         this.partListHas = partListHas;
     }
-
+    
     public String getIncludeShipping() {
         return includeShipping;
     }
-
+    
     public void setIncludeShipping(String includeShipping) {
         this.includeShipping = includeShipping;
     }
-
+    
     public String getNote() {
         return note;
     }
-
+    
     public void setNote(String note) {
         this.note = note;
     }
-
+    
     public Integer getTotalPriceCot() {
         return totalPriceCot;
     }
-
+    
     public void setTotalPriceCot(Integer totalPriceCot) {
         this.totalPriceCot = totalPriceCot;
     }
-
+    
     public Product getNroPart() {
         return nroPart;
     }
-
+    
     public void setNroPart(Product nroPart) {
         this.nroPart = nroPart;
     }
-
+    
     public String getTypePart() {
         return typePart;
     }
-
+    
     public void setTypePart(String typePart) {
         this.typePart = typePart;
     }
-
+    
     public String getManufacturePart() {
         return manufacturePart;
     }
-
+    
     public void setManufacturePart(String manufacturePart) {
         this.manufacturePart = manufacturePart;
     }
-
+    
     public String getDescriptionPart() {
         return descriptionPart;
     }
-
+    
     public void setDescriptionPart(String descriptionPart) {
         this.descriptionPart = descriptionPart;
     }
-
+    
     public List<Product> getPartList() {
         return partList;
     }
-
+    
     public void setPartList(List<Product> partList) {
         this.partList = partList;
     }
-
+    
     public List<Product> getSelectedPart() {
         return selectedPart;
     }
-
+    
     public void setSelectedPart(List<Product> selectedPart) {
         this.selectedPart = selectedPart;
     }
-
+    
     public int getQty() {
         return qty;
     }
-
+    
     public void setQty(int qty) {
         this.qty = qty;
     }
-
+    
     public Double getTargetPrice() {
         return targetPrice;
     }
-
+    
     public void setTargetPrice(Double targetPrice) {
         this.targetPrice = targetPrice;
     }
-
+    
     public Double getShippingCost() {
         return shippingCost;
     }
-
+    
     public void setShippingCost(Double shippingCost) {
         this.shippingCost = shippingCost;
     }
-
+    
     public Double getSuggestedSalesPrice() {
         return suggestedSalesPrice;
     }
-
+    
     public void setSuggestedSalesPrice(Double suggestedSalesPrice) {
         this.suggestedSalesPrice = suggestedSalesPrice;
     }
-
+    
     public Quote getQuote() {
         return quote;
     }
-
+    
     public void setQuote(Quote quote) {
         this.quote = quote;
     }
-
+    
     public List<QuoteNote> getQuoteListNote() {
         return quoteListNote;
     }
-
+    
     public void setQuoteListNote(List<QuoteNote> quoteListNote) {
         this.quoteListNote = quoteListNote;
     }
-
+    
     public Has getProductGeneric() {
         return productGeneric;
     }
-
+    
     public void setProductGeneric(Has productGeneric) {
         this.productGeneric = productGeneric;
     }
-
+    
     public ProductController getProController() {
         return proController;
     }
-
+    
     public void setProController(ProductController proController) {
         this.proController = proController;
     }
-
+    
     public Product getProductCreado() {
         return productCreado;
     }
-
+    
     public void setProductCreado(Product productCreado) {
         this.productCreado = productCreado;
     }
-
+    
     public String getSelectionSustitute() {
         return selectionSustitute;
     }
-
+    
     public void setSelectionSustitute(String selectionSustitute) {
         this.selectionSustitute = selectionSustitute;
     }
-
+    
     public Has getProductReplace() {
         return productReplace;
     }
-
+    
     public void setProductReplace(Has productReplace) {
         this.productReplace = productReplace;
     }
-
+    
     public boolean isMakeSubstitute() {
         return makeSubstitute;
     }
-
+    
     public void setMakeSubstitute(boolean makeSubstitute) {
         this.makeSubstitute = makeSubstitute;
     }
-
+    
     public Product getSelectedPartSubtitute() {
         return selectedPartSubtitute;
     }
-
+    
     public void setSelectedPartSubtitute(Product selectedPartSubtitute) {
         this.selectedPartSubtitute = selectedPartSubtitute;
     }
-
+    
     public List<Vendor> getVendorList() {
         return vendorList;
     }
-
+    
     public void setVendorList(List<Vendor> vendorList) {
         this.vendorList = vendorList;
     }
-
+    
     public Vendor getVendorSelected() {
         return vendorSelected;
     }
-
+    
     public void setVendorSelected(Vendor vendorSelected) {
         this.vendorSelected = vendorSelected;
     }
-
+    
     public List<Contact> getContactList() {
         if (customerSelected != null && !customerSelected.getCompanyName().equals("")) {
             contactList = contactFacade.findContactsByCompanyName(customerSelected.getCompanyName());
         }
         return contactList;
     }
-
+    
     public void setContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
-
+    
     public Contact getContactSelected() {
         return contactSelected;
     }
-
+    
     public void setContactSelected(Contact contactSelected) {
         this.contactSelected = contactSelected;
     }
-
+    
     public Customer getCustomerSelected() {
         return customerSelected;
     }
-
+    
     public void setCustomerSelected(Customer customerSelected) {
         this.customerSelected = customerSelected;
     }
-
+    
 }

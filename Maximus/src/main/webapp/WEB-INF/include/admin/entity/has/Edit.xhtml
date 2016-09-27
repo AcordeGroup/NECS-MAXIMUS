@@ -17,14 +17,14 @@
 
                         <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_idQuote}" for="hasPK_idQuote" />
                         <h:panelGroup>
-                            <h:outputText id="hasPK_idQuote" value="#{hasController.selected.hasPK.idQuote}" />
+                            <h:outputText id="hasPK_idQuote" value="#{hasController.selected.quote.idQuote}" />
                             <p:tooltip for="hasPK_idQuote" value="#{hasController.getComponentMessages('hasPK_idQuote', maximusBundle.EditHasHelpText_hasPK_idQuote)}"/>
                         </h:panelGroup>
 
 
                         <h:outputLabel value="#{maximusBundle.EditHasLabel_hasPK_partNumber}" for="hasPK_partNumber" />
                         <h:panelGroup>
-                            <h:outputText id="hasPK_partNumber" value="#{hasController.selected.hasPK.partNumber}" />
+                            <h:outputText id="hasPK_partNumber" value="#{hasController.selected.product.partNumber}" />
                             <p:tooltip for="hasPK_partNumber" value="#{hasController.getComponentMessages('hasPK_partNumber', maximusBundle.EditHasHelpText_hasPK_partNumber)}"/>
                         </h:panelGroup>
 

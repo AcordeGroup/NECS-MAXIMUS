@@ -16,10 +16,10 @@
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{hasController.selected != null}">
 
                         <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_idQuote}"/>
-                        <h:outputText value="#{hasController.selected.hasPK.idQuote}" title="#{maximusBundle.ViewHasTitle_hasPK_idQuote}"/>
+                        <h:outputText value="#{hasController.selected.quote.idQuote}" title="#{maximusBundle.ViewHasTitle_hasPK_idQuote}"/>
 
                         <h:outputText value="#{maximusBundle.ViewHasLabel_hasPK_partNumber}"/>
-                        <h:outputText value="#{hasController.selected.hasPK.partNumber}" title="#{maximusBundle.ViewHasTitle_hasPK_partNumber}"/>
+                        <h:outputText value="#{hasController.selected.product.partNumber}" title="#{maximusBundle.ViewHasTitle_hasPK_partNumber}"/>
 
                         <h:outputText value="#{maximusBundle.ViewHasLabel_customerTargetPrice}"/>
                         <h:outputText value="#{hasController.selected.customerTargetPrice}" title="#{maximusBundle.ViewHasTitle_customerTargetPrice}"/>

@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -28,8 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Has.findAll", query = "SELECT h FROM Has h"),
-    @NamedQuery(name = "Has.findByIdQuote", query = "SELECT h FROM Has h WHERE h.hasPK.idQuote = :idQuote"),
-    @NamedQuery(name = "Has.findByPartNumber", query = "SELECT h FROM Has h WHERE h.hasPK.partNumber = :partNumber"),
+    @NamedQuery(name = "Has.findByIdQuote", query = "SELECT h FROM Has h WHERE h.quote.idQuote = :idQuote"),
+    @NamedQuery(name = "Has.findByPartNumber", query = "SELECT h FROM Has h WHERE h.product.partNumber = :partNumber"),
     @NamedQuery(name = "Has.findByCustomerTargetPrice", query = "SELECT h FROM Has h WHERE h.customerTargetPrice = :customerTargetPrice"),
     @NamedQuery(name = "Has.findByQtyRequested", query = "SELECT h FROM Has h WHERE h.qtyRequested = :qtyRequested"),
     @NamedQuery(name = "Has.findBySuggestedSalesPrice", query = "SELECT h FROM Has h WHERE h.suggestedSalesPrice = :suggestedSalesPrice"),
@@ -37,15 +39,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Has implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected HasPK hasPK;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "has_id")
+    private Integer hasId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "qty_requested")
+    private Integer qtyRequested;
+    @Column(name = "qty_found")
+    private Integer qtyFound;
     @Column(name = "customer_target_price")
     private BigDecimal customerTargetPrice;
     @Column(name = "suggested_sales_price")
     private BigDecimal suggestedSalesPrice;
-    @Column(name = "qty_found")
-    private BigDecimal qtyFound;
     @Column(name = "observation")
     private String observation;
     @Column(name = "condition")
@@ -54,16 +62,12 @@ public class Has implements Serializable {
     private BigDecimal extended;
     @Column(name = "shipping_cost")
     private BigDecimal shipping_cost;
-    @JoinColumn(name = "part_number", referencedColumnName = "part_number", insertable = false, updatable = false)
+    @JoinColumn(name = "part_number", referencedColumnName = "part_number")
     @ManyToOne(optional = false)
     private Product product;
-    @JoinColumn(name = "id_quote", referencedColumnName = "id_quote", insertable = false, updatable = false)
+    @JoinColumn(name = "id_quote", referencedColumnName = "id_quote")
     @ManyToOne(optional = false)
     private Quote quote;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "qty_requested")
-    private Integer qtyRequested;
     @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor")
     @ManyToOne(optional = true)
     private Vendor idVendor;
@@ -71,25 +75,13 @@ public class Has implements Serializable {
     public Has() {
     }
 
-    public Has(HasPK hasPK) {
-        this.hasPK = hasPK;
+    public Has(Integer hasId) {
+        this.hasId = hasId;
     }
 
-    public Has(HasPK hasPK, Integer qtyRequested) {
-        this.hasPK = hasPK;
+    public Has(Integer hasId, Integer qtyRequested) {
+        this.hasId = hasId;
         this.qtyRequested = qtyRequested;
-    }
-
-    public Has(int idQuote, String partNumber) {
-        this.hasPK = new HasPK(idQuote, partNumber);
-    }
-
-    public HasPK getHasPK() {
-        return hasPK;
-    }
-
-    public void setHasPK(HasPK hasPK) {
-        this.hasPK = hasPK;
     }
 
     public BigDecimal getCustomerTargetPrice() {
@@ -116,11 +108,11 @@ public class Has implements Serializable {
         this.suggestedSalesPrice = suggestedSalesPrice;
     }
 
-    public BigDecimal getQtyFound() {
+    public Integer getQtyFound() {
         return qtyFound;
     }
 
-    public void setQtyFound(BigDecimal qtyFound) {
+    public void setQtyFound(Integer qtyFound) {
         this.qtyFound = qtyFound;
     }
 
@@ -180,10 +172,18 @@ public class Has implements Serializable {
         this.idVendor = idVendor;
     }
 
+    public Integer getHasId() {
+        return hasId;
+    }
+
+    public void setHasId(Integer hasId) {
+        this.hasId = hasId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (hasPK != null ? hasPK.hashCode() : 0);
+        hash += (hasId != null ? hasId.hashCode() : 0);
         return hash;
     }
 
@@ -194,7 +194,7 @@ public class Has implements Serializable {
             return false;
         }
         Has other = (Has) object;
-        if ((this.hasPK == null && other.hasPK != null) || (this.hasPK != null && !this.hasPK.equals(other.hasPK))) {
+        if ((this.hasId == null && other.hasId != null) || (this.hasId != null && !this.hasId.equals(other.hasId))) {
             return false;
         }
         return true;
@@ -202,7 +202,7 @@ public class Has implements Serializable {
 
     @Override
     public String toString() {
-        return "com.necs.maximus.db.entity.Has[ hasPK=" + hasPK + " ]";
+        return "com.necs.maximus.db.entity.Has[ hasId=" + hasId + " ]";
     }
 
 }
