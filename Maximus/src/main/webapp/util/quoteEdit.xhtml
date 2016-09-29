@@ -188,8 +188,7 @@
                                      emptyMessage="list Empty"
                                      rendered="#{editQuoteController.partListHas != null}"
                                      >
-
-                            <p:column  style="width : 100px">
+                            <p:column  style="width : 95px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                                 </f:facet>
@@ -198,7 +197,7 @@
                                 </h:outputText>
                             </p:column>
 
-                            <p:column  style="width : 170px" >
+                            <p:column  style="width : 160px" >
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
                                 </f:facet>
@@ -206,7 +205,7 @@
                                 <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                             </p:column>
 
-                            <p:column style="width : 93px">
+                            <p:column style="width : 92px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
@@ -216,7 +215,7 @@
                                 </p:selectOneButton>
                             </p:column>
 
-                            <p:column  style="width : 50px">
+                            <p:column  style="width : 49px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.qty_label}"/>
                                 </f:facet>
@@ -225,46 +224,60 @@
                                 </p:spinner>
                             </p:column>
 
-                            <p:column  style="width : 55px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
+                            <p:column  style="width : 49px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.qty_found_label}"/>
                                 </f:facet>
                                 <p:spinner value="#{item.qtyFound}" size="2"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}"/>
                             </p:column>
 
-                            <p:column  style="width : 68px">
+                            <p:column  style="width : 63px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.target_price_label}"/>
                                 </f:facet>
-                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.customerTargetPrice}" size="7">
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.customerTargetPrice}" size="7" rendered="#{editQuoteController.typeAgent()=='Sales'}">
+                                    <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
+                                </p:inputText>
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.customerTargetPrice}" size="7" rendered="#{editQuoteController.typeAgent()!='Sales'}"/>
+
+                            </p:column>
+                            <p:column  style="width : 50px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.retail_price_label}"/>
+                                </f:facet>
+                                <h:outputText converter="javax.faces.Double"   value="#{item.product.retailPrice}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
+
+                            </p:column>
+
+                            <p:column  style="width : 63px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
+                                </f:facet>
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.suggestedSalesPrice}" size="7">
                                     <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
                                 </p:inputText>
 
                             </p:column>
 
-                            <p:column  style="width : 68px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
-                                <f:facet name="header">
-                                    <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
-                                </f:facet>
-                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.suggestedSalesPrice}" size="7"/>
-
-                            </p:column>
-
-                            <p:column style="width : 68px">
+                            <p:column style="width : 60px">
                                 <f:facet name="header">
                                     <h:outputText value="Extended"/>
                                 </f:facet>
-                                <p:inputText id="extended" converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.extended}"  size="7"/>
+                                <h:outputText id="extended" converter="javax.faces.Double"  value="#{editQuoteController.addExtendedUpdated(item)}">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                </h:outputText>
                             </p:column>
 
-                            <p:column style="width : 68px" rendered="#{editQuoteController.includeShipping == maximusBundle.Yes_price_item and userManagedBean.type != 'Sales' }">
+                            <p:column style="width : 60px" rendered="#{editQuoteController.includeShipping == maximusBundle.Yes_price_item and userManagedBean.type != 'Sales' }">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                                 </f:facet>
                                 <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}"  size="7"/> <!-- required="true" requiredMessage="#{maximusBundle.message_shipping_cost_for_product}"-->
 
                             </p:column>
-                            <p:column style="width : 90px"  rendered="#{userManagedBean.type != 'Sales'}" >
+                            <p:column style="width : 85px"  rendered="#{userManagedBean.type != 'Sales'}" >
                                 <f:facet name="header">
                                     <h:outputText value="Vendor"/>
                                 </f:facet>
@@ -275,9 +288,7 @@
                                                    var="vendor" 
                                                    itemLabel="#{vendor.companyName}" 
                                                    itemValue="#{vendor}" />
-                                    <!--                                    <p:column style="width:10%">
-                                                                            <h:outputText styleClass="ui-theme ui-theme-#{t.companyName}" />
-                                                                        </p:column>-->
+
                                     <p:column>
                                         <h:outputText value="#{t.companyName}" />
                                     </p:column>
@@ -295,7 +306,7 @@
                                     </p:column>
                                 </p:row>
                             </p:columnGroup>
-                            <p:column style="width : 70px">
+                            <p:column style="width : 50px">
                                 <f:facet name="header">
                                     <h:outputText value="action"/>
                                 </f:facet>
@@ -433,10 +444,6 @@
                                             <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
                                             <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
                                                             completeMethod="#{editQuoteController.complete}"
-                                                            var="part" 
-                                                            converter="productConverter"
-                                                            itemLabel="#{part.partNumber}"
-                                                            itemValue="#{part}"
                                                             maxResults="10"/>
                                             <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
                                             <p:inputText value="#{editQuoteController.manufacturePart}"  />
@@ -462,6 +469,14 @@
                                                          style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;"
                                                          rendered="#{editQuoteController.typeAgent()!='Sales'}"/>
                                     </td>
+                                    <td style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+                                        <p:outputPanel autoUpdate="true"  style="text-align: left; margin-left: 50px; vertical-align: middle;" rendered="#{editQuoteController.observationField}" > 
+                                            <h:panelGrid columns="2" style="text-align: left; vertical-align: top;">
+                                                <h:outputText value="#{maximusBundle.label_observations}" style="margin-right: 10px;" />
+                                                <p:inputTextarea value="#{editQuoteController.observation}"  style="width: 500px;"/>
+                                            </h:panelGrid> 
+                                        </p:outputPanel>
+                                    </td>
                                 </tr>
 
                             </table>
@@ -476,7 +491,7 @@
                         </p:outputPanel> 
 
                         <p:outputPanel  rendered="#{editQuoteController.partList != null}">
-                            
+
                             <p:dataTable id="datalistPart"
                                          var="item"
                                          value="#{editQuoteController.partList}"

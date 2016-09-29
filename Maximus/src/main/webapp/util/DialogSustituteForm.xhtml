@@ -32,10 +32,6 @@
                                     <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
                                     <p:autoComplete id="acSimpleReplace" value="#{editQuoteController.nroPart}" 
                                                     completeMethod="#{editQuoteController.complete}"
-                                                    var="partReplace" 
-                                                    converter="productConverter"
-                                                    itemLabel="#{partReplace.partNumber}"
-                                                    itemValue="#{partReplace}"
                                                     maxResults="10"/>
 
                                     <p:commandButton value="#{maximusBundle.search}" actionListener="#{editQuoteController.searchPart()}" update=":formDialogSubstitute" oncomplete="PF('dialogSubstitute').initPosition()"  style="height: 25px; vertical-align: middle; margin: 0 0 0 0 !important; width: 98px;"/>

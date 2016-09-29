@@ -183,6 +183,16 @@ public class QuoteController extends AbstractController<Quote> {
         return statusPurchasing.toString();
     }
 
+    public String getNumParts(Quote item) {
+        StringBuilder partsNumber = new StringBuilder("");
+
+        int numPart = item.getHasList().size() < 4 ? item.getHasList().size() : 4;
+        for (int i = 0; i < numPart; i++) {
+            partsNumber.append(item.getHasList().get(i).getProduct().getPartNumber() + ", ");
+        }
+        return partsNumber.toString();
+    }
+
     public String getColorDiv(String status, Date dateCreation) {
 
         StringBuilder color = new StringBuilder("");
@@ -434,7 +444,7 @@ public class QuoteController extends AbstractController<Quote> {
             tablaBillTo.addCell(createCell(bundle.getString("bill_to"), 2, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
             //sumna information customerName..
             tablaBillTo.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
-            
+
             //sumna information bill_to..
             tablaBillTo.addCell(createCell(quote.getShipping_to(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
 
@@ -445,12 +455,11 @@ public class QuoteController extends AbstractController<Quote> {
 
             //sumna encabezado shipping_to..
             tablaShippingTo.addCell(createCell(bundle.getString("shipping_to"), 2, null, fontHeader, baseColor, Element.ALIGN_CENTER, defaultPadding, null, null));
-             //sumna information customerName..
+            //sumna information customerName..
             tablaShippingTo.addCell(createCell(quote.getIdContact().getCompanyName().getCompanyName(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
             //Suma la información shipping_to
             tablaShippingTo.addCell(createCell(quote.getShipping_to(), null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
-            
-        
+
             PdfPTable tablaContent = new PdfPTable(2);
             tablaContent.setWidths(new int[]{1, 1});
             tablaContent.setWidthPercentage(100);

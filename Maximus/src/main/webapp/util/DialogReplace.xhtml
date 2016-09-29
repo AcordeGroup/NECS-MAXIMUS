@@ -21,10 +21,6 @@
                             <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
                             <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
                                             completeMethod="#{editQuoteController.complete}"
-                                            var="part" 
-                                            converter="productConverter"
-                                            itemLabel="#{part.partNumber}"
-                                            itemValue="#{part}"
                                             maxResults="10"/>
                             <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
                             <p:inputText value="#{editQuoteController.manufacturePart}"  />

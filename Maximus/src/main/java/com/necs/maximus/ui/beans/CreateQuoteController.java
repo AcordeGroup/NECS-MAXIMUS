@@ -74,7 +74,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private String includeShipping;
     private Integer totalPriceCot;
     private String condition;
-    private Product nroPart;
+    private String nroPart;
     private String typePart;
     private String manufacturePart;
     private String descriptionPart;
@@ -216,7 +216,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
         HashMap<String, String> parametros = new HashMap<>();
 
         if (nroPart != null && !nroPart.equals("")) {
-            parametros.put("partNumber", nroPart.getPartNumber());
+            parametros.put("partNumber", nroPart);
         }
 
         if (typePart != null && !typePart.equals("")) {
@@ -285,13 +285,16 @@ public class CreateQuoteController extends AbstractController<Quote> {
         observation = null;
     }
 
-    public List<Product> complete(String query) {
+    public List<String> complete(String query) {
         List<Product> productList = new ArrayList<>();
+        List<String> partNumber = new ArrayList<>();
         productList = (List<Product>) productFacade.findProductByNumberProduct(query);
-        if (productList == null || productList.isEmpty()) {
-            productList = (List<Product>) productFacade.findAll();
+        if (productList != null || !productList.isEmpty()) {
+            for (Product pro : productList) {
+                partNumber.add(pro.getPartNumber());
+            }
         }
-        return productList;
+        return partNumber;
     }
 
     public void addExtended(Has item) {
@@ -376,11 +379,11 @@ public class CreateQuoteController extends AbstractController<Quote> {
         this.condition = condition;
     }
 
-    public Product getNroPart() {
+    public String getNroPart() {
         return nroPart;
     }
 
-    public void setNroPart(Product nroPart) {
+    public void setNroPart(String nroPart) {
         this.nroPart = nroPart;
     }
 

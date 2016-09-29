@@ -200,7 +200,7 @@
                                          rendered="#{createQuoteController.partListHas != null}"
                                          >
 
-                                <p:column  style="width : 110px">
+                                <p:column  style="width : 100px">
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                                     </f:facet>
@@ -215,7 +215,7 @@
                                     <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                                 </p:column>
 
-                                <p:column style="width : 95px">
+                                <p:column style="width : 90px">
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.condition_label}"/>
                                     </f:facet>
@@ -234,7 +234,7 @@
                                     </p:spinner>
                                 </p:column>
 
-                                <p:column  style="width : 75px">
+                                <p:column  style="width : 65px">
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.target_price_label}"/>
                                     </f:facet>
@@ -243,22 +243,31 @@
                                     </p:inputText>
 
                                 </p:column>
+                                <p:column  style="width : 50px">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{maximusBundle.retail_price_label}"/>
+                                    </f:facet>
+                                    <h:outputText converter="javax.faces.Double"   value="#{item.product.retailPrice}" />
 
-                                <p:column style="width : 75px">
+                                </p:column>
+
+                                <p:column style="width : 65px">
                                     <f:facet name="header">
                                         <h:outputText value="Extended"/>
                                     </f:facet>
-                                    <p:inputText id="extended" converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.extended}"  size="10"/>
+                                    <h:outputText id="extended" converter="javax.faces.Double"  value="#{item.extended}">
+                                        <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                                    </h:outputText>
                                 </p:column>
-                                <p:column style="width : 80px">
+                                <p:column style="width : 55px">
                                     <f:facet name="header">
                                         <h:outputText value="action"/>
                                     </f:facet>
                                     <p:commandLink id="buttonRemovePart" value="#{maximusBundle.remove_button}" actionListener="#{createQuoteController.removePart(item)}" ajax="true" update=":form:datalistProduct" process="@this" />
 
                                 </p:column>
-                           </p:dataTable>
-                       </p:outputPanel>
+                            </p:dataTable>
+                        </p:outputPanel>
                         <p:spacer />
                         <p:separator />
                         <p:spacer />
@@ -286,10 +295,7 @@
                                     <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
                                     <p:autoComplete id="acSimple" value="#{createQuoteController.nroPart}" 
                                                     completeMethod="#{createQuoteController.complete}"
-                                                    var="part" 
-                                                    converter="productConverter"
-                                                    itemLabel="#{part.partNumber}"
-                                                    itemValue="#{part}"
+
                                                     maxResults="10"/>
                                     <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
                                     <p:inputText value="#{createQuoteController.manufacturePart}"  />
@@ -322,7 +328,7 @@
 
 
                         <p:outputPanel  rendered="#{createQuoteController.partList != null}" id="panelTable">
-                          
+
                             <p:dataTable id="datalistPart"
                                          value="#{createQuoteController.partList}"
                                          var="item"

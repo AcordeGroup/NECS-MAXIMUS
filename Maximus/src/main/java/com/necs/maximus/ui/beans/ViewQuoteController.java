@@ -10,6 +10,7 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
+import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.enums.ShippingCostType;
 import com.necs.maximus.enums.StatusType;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
                 if (h.getSuggestedSalesPrice() != null && h.getSuggestedSalesPrice().intValue() != 0) {
                     mostrarSuggestedSalesPrice = true;
                 }
-                if (h.getIdVendor() != null) {
+                if (h.getIdVendor() != null && !typeAgent().equals(AgentType.Sales.getType())) {
                     mostrarVendor = true;
                 }
             }
