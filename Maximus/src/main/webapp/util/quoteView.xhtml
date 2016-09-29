@@ -135,7 +135,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.retail_price_label}"/>
                             </f:facet>
-                            <h:outputText converter="javax.faces.Double"   value="#{item.product.retailPrice}" />
+                            <h:outputText converter="javax.faces.Double"   value="#{item.product.retailPrice}" >
+                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                            </h:outputText>
 
                         </p:column>
 

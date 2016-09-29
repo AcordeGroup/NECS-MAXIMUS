@@ -192,7 +192,7 @@
 
                         </p:outputPanel>
                         <p:spacer />
-                        <p:outputPanel autoUpdate="true">
+                        <p:outputPanel id="contentdatalistProduct">
                             <p:dataTable id="datalistProduct"
                                          value="#{createQuoteController.partListHas}"
                                          var="item"
@@ -415,7 +415,7 @@
                     <p:outputPanel style="text-align: left; width: 100%">
 
                         <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct,:formDialog" actionListener="#{createQuoteController.reset()}"/>
-                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{createQuoteController.addPart()}"  update=":form:datalistProduct,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
+                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{createQuoteController.addPart()}"  update=":form:contentdatalistProduct,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
                     </p:outputPanel> 
                 </h:form>
             </p:dialog>
