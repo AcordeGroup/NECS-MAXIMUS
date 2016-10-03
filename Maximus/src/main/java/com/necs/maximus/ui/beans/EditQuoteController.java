@@ -261,12 +261,15 @@ public class EditQuoteController extends AbstractController<Quote> {
         } else {
 
             for (Has h : partListHas) {
-                if (operation.equals(OperationType.DONE.getOperationName())) {
-                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && !typeAgent().equals("Sales")) {
-                        FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
-                        return false;
-                    }
-                }
+// ********* esta validacion posiblemente se implementara para la 2da fase de MAXIMUS... a peticion del cliente
+                
+//                if (operation.equals(OperationType.DONE.getOperationName())) {
+//                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && !typeAgent().equals("Sales")) {
+//                        FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
+//                        return false;
+//                    }
+//                }
+//***********************************************************************************************
 
                 if (h.getCondition() == null) {
                     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
