@@ -188,7 +188,14 @@
                         <p:spacer />
                         <p:separator />
                         <p:outputPanel style="text-align: right; width: 100% ">
-                            <p:commandButton  type="button" id="buttonAddPart" value="#{maximusBundle.add_part_button}" onclick="PF('dialogPart').show()" ajax="true" oncomplete="#{createQuoteController.reset()}" update=":formDialog"/>
+                            <p:commandButton  id="buttonAddPart"
+                                              value="#{maximusBundle.add_part_button}" 
+                                              onclick="PF('dialogPart').show();" 
+                                              ajax="true" 
+                                              oncomplete="#{createQuoteController.reset()}" 
+                                              update=":formDialog, :form:datalistProduct"
+                                              process="datalistProduct"
+                                              />
 
                         </p:outputPanel>
                         <p:spacer />
@@ -219,7 +226,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.condition_label}"/>
                                     </f:facet>
-                                    <p:selectOneButton value="#{item.condition}" required="true" requiredMessage="#{maximusBundle.message_condition_select}" style="width: 120px; height: 25px">
+                                    <p:selectOneButton value="#{item.condition}"  style="width: 120px; height: 25px">
                                         <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}"  />
                                         <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" />
                                     </p:selectOneButton>
@@ -263,7 +270,12 @@
                                     <f:facet name="header">
                                         <h:outputText value="action"/>
                                     </f:facet>
-                                    <p:commandLink id="buttonRemovePart" value="#{maximusBundle.remove_button}" actionListener="#{createQuoteController.removePart(item)}" ajax="true" update=":form:datalistProduct" process="@this" />
+                                    <p:commandLink id="buttonRemovePart" 
+                                                   value="#{maximusBundle.remove_button}" 
+                                                   actionListener="#{createQuoteController.removePart(item)}" 
+                                                   ajax="true" 
+                                                   update=":form:datalistProduct" 
+                                                   process="datalistProduct" />
 
                                 </p:column>
                             </p:dataTable>

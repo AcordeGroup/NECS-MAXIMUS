@@ -179,7 +179,13 @@
                         <p:spacer />
                         <p:separator />
                         <p:outputPanel style="text-align: right; width: 100% ">
-                            <p:commandButton  type="button" id="buttonAddPart" value="#{maximusBundle.add_part_button}" onclick="PF('dialogPart').show()" ajax="true" oncomplete="#{editQuoteController.reset()}" />
+                            <p:commandButton  
+                                              id="buttonAddPart" 
+                                              value="#{maximusBundle.add_part_button}" 
+                                              onclick="PF('dialogPart').show()" 
+                                              ajax="true" 
+                                              oncomplete="#{editQuoteController.reset()}" 
+                                              process="datalistProduct"/>
                         </p:outputPanel>
                         <p:spacer />
                         <p:dataTable id="datalistProduct"
@@ -187,6 +193,7 @@
                                      var="item"
                                      emptyMessage="list Empty"
                                      rendered="#{editQuoteController.partListHas != null}"
+                                     
                                      >
                             <p:column  style="width : 95px">
                                 <f:facet name="header">
@@ -209,7 +216,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
-                                <p:selectOneButton value="#{item.condition}" required="true" requiredMessage="#{maximusBundle.message_condition_select}" style="width: 120px; height: 25px">
+                                <p:selectOneButton value="#{item.condition}"  style="width: 120px; height: 25px">
                                     <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}" class="buttonCondition"  />
                                     <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" class="buttonCondition" />
                                 </p:selectOneButton>
@@ -251,7 +258,7 @@
 
                             </p:column>
 
-                            <p:column  style="width : 63px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}">
+                            <p:column  style="width : 63px" rendered="#{editQuoteController.userManagedBean.type != 'Sales'}" >
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.EditHasTitle_suggestedSalesPrice}"/>
                                 </f:facet>
@@ -274,7 +281,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.shipping_cost_label}"/>
                                 </f:facet>
-                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}"  size="7"/> <!-- required="true" requiredMessage="#{maximusBundle.message_shipping_cost_for_product}"-->
+                                <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{item.shipping_cost}"  size="7"/> 
 
                             </p:column>
                             <p:column style="width : 85px"  rendered="#{userManagedBean.type != 'Sales'}" >
@@ -315,7 +322,7 @@
                                                    value="#{maximusBundle.remove_button}" 
                                                    actionListener="#{editQuoteController.removePart(item)}" 
                                                    ajax="true" update=":form:datalistProduct" 
-                                                   process="@this" />
+                                                   process="datalistProduct"/>
                                 </div>
                                 <div>
                                     <p:commandLink id="btnReplace" 
@@ -323,9 +330,9 @@
                                                    oncomplete="PF('dialogSubstitute').show()" 
                                                    ajax="true"
                                                    actionListener="#{editQuoteController.fillPartReplace(item)}"
-                                                   update=":formDialogSubstitute:panelPrincipalSubstitute" 
+                                                   update=":formDialogSubstitute:panelPrincipalSubstitute, :form:datalistProduct" 
                                                    rendered="#{(userManagedBean.type != 'Sales') and (item.observation == null)}"
-                                                   process="@this"/>   
+                                                   process="datalistProduct"/>   
                                 </div>
                                 <div>
                                     <p:commandLink id="btnChange" 
@@ -333,8 +340,9 @@
                                                    oncomplete="PF('dialogProccessGeneric').show()" 
                                                    ajax="true"
                                                    actionListener="#{editQuoteController.fillPartGeneric(item)}"
+                                                   update=":form:datalistProduct" 
                                                    rendered="#{(userManagedBean.type != 'Sales') and (item.observation != null)}"
-                                                   process="@this"/> 
+                                                   process="datalistProduct"/> 
                                 </div>
                             </p:column>
                         </p:dataTable>
@@ -430,8 +438,7 @@
 
             <p:dialog header="Add Part"  widgetVar="dialogPart"  id="dialogPart" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="100%" height="100%" >
 
-                <h:form
-                    id="formDialog">
+                <h:form id="formDialog">
                     <p:panel  id="panelPrincipal">
                         <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
 
@@ -577,8 +584,18 @@
                     </p:panel>
                     <p:outputPanel style="text-align: left; width: 100%" id="panelButton">
 
-                        <p:commandButton value="#{maximusBundle.Cancel}"  ajax="true" oncomplete="PF('dialogPart').hide()" update=":form:datalistProduct,:formDialog" actionListener="#{editQuoteController.inicializedObject()}"/>
-                        <p:commandButton value="#{maximusBundle.add}" id="buttonAdd" ajax="true" action="#{editQuoteController.addPart()}"  update=":form:datalistProduct,:formDialog" oncomplete="PF('dialogPart').initPosition()" />
+                        <p:commandButton value="#{maximusBundle.Cancel}" 
+                                         ajax="true" 
+                                         oncomplete="PF('dialogPart').hide()" 
+                                         update=":form:datalistProduct,:formDialog" 
+                                         actionListener="#{editQuoteController.inicializedObject()}"/>
+                        
+                        <p:commandButton value="#{maximusBundle.add}" 
+                                         id="buttonAdd" 
+                                         ajax="true" 
+                                         action="#{editQuoteController.addPart()}"
+                                         update=":form:datalistProduct,:formDialog" 
+                                         oncomplete="PF('dialogPart').initPosition()" />
                     </p:outputPanel> 
                 </h:form>
             </p:dialog>

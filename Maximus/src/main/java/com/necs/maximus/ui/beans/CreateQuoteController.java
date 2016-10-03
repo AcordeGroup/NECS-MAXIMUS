@@ -136,14 +136,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 quoteFacade.create(newQuote);
 
                 for (Has h : partListHas) {
-//                    h.setHasPK(new HasPK(newQuote.getIdQuote(), h.getProduct().getPartNumber()));
                     h.setQuote(newQuote);
                     h.setCustomerTargetPrice(h.getProduct().getPrice());
-                    //h.setSuggestedSalesPrice(h.getSuggestedSalesPrice());
-//                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
-//                        h.setObservation(observation);
-//                        //h.setQtyFound(BigDecimal.ZERO);
-//                    }
                     hasFacade.create(h);
                 }
 
@@ -197,8 +191,14 @@ public class CreateQuoteController extends AbstractController<Quote> {
         if (partListHas == null || partListHas.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("add_part_quote")));
             return false;
+        } else {
+            for (Has h : partListHas) {
+                if (h.getCondition() == null) {
+                    FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
+                    return false;
+                }
+            }
         }
-
         return true;
     }
 

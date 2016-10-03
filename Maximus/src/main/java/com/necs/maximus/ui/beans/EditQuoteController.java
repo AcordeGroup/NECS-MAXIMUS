@@ -180,15 +180,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                 //add new list has in the quote
                 for (Has hasNew : partListHas) {
-//                    hasNew.setHasPK(new HasPK(quote.getIdQuote(), hasNew.getProduct().getPartNumber()));
                     hasNew.setQuote(quote);
-                    //hasNew.setCustomerTargetPrice(hasNew.getProduct().getPrice());
-                    //hasNew.setSuggestedSalesPrice(hasNew.getSuggestedSalesPrice());
-                    if (hasNew.getIdVendor() == null) {
-                        hasNew.setIdVendor(null);
-                    }
-                    //h.setQtyFound(BigDecimal.ZERO);
-
                     hasFacade.create(hasNew);
                     quote.getHasList().add(hasNew);
                 }
@@ -267,12 +259,18 @@ public class EditQuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("add_part_quote"), ""));
             return false;
         } else {
-            if (operation.equals(OperationType.DONE.getOperationName())) {
-                for (Has h : partListHas) {
+
+            for (Has h : partListHas) {
+                if (operation.equals(OperationType.DONE.getOperationName())) {
                     if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && !typeAgent().equals("Sales")) {
                         FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
                         return false;
                     }
+                }
+
+                if (h.getCondition() == null) {
+                    FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
+                    return false;
                 }
 
             }
