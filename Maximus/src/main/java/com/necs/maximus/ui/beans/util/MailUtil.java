@@ -34,8 +34,8 @@ public class MailUtil {
 
     public static final String CONTENT_TYPE_TEXT_HTML = "text/html; charset=utf-8";
     public static final String PROPERTY_KEY_MAIL_SMTP_AUTH = "mail.smtp.auth";
-    public static final String PROPERTY_KEY_MAIL_USER = "mail.user";
-    public static final String PROPERTY_KEY_MAIL_PASSWORD = "mail.password";
+    public static final String PROPERTY_KEY_MAIL_USER = "mail.smtp.user";
+    public static final String PROPERTY_KEY_MAIL_PASSWORD = "mail.smtp.password";
     private Properties properties;
 
     public MailUtil(Properties properties) {
@@ -142,20 +142,6 @@ public class MailUtil {
             MimeBodyPart htmlPart = new MimeBodyPart();
             htmlPart.setContent(messageContent, contentType);
 
-//            if (nameFile != null && file != null) {
-//                MimeBodyPart attachment = new MimeBodyPart();
-//                InputStream attachmentDataStream = new ByteArrayInputStream(file);
-//                attachment.setFileName(nameFile);
-//                attachment.setHeader("Content-Type", "application/pdf");
-//                attachment.setContent(attachmentDataStream, "application/pdf");
-//                multiPart.addBodyPart(attachment);
-//            }
-//            MimeBodyPart attachment = new MimeBodyPart();
-//            String payload = Base64.getEncoder().encodeToString(file);
-//            attachment.setText(payload);
-//            attachment.setHeader("Content-Type", "application/pdf"); // Use x-pdf instead for backward compatibility with old / legacy software
-//            attachment.setHeader("Content-Transfer-Encoding", "base64");
-//            multiPart.addBodyPart(attachment);
             //construct the pdf body part
             DataSource dataSource = new ByteArrayDataSource(file, "application/pdf");
             MimeBodyPart attachment = new MimeBodyPart();
@@ -167,14 +153,6 @@ public class MailUtil {
 
             message.setContent(multiPart);
 
-//            MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-//            mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-//            mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-//            mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-//            mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-//            mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-//            CommandMap.setDefaultCommandMap(mc);
-//            Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
             // Send message
             Transport.send(message);
 

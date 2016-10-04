@@ -317,11 +317,18 @@ public class QuoteController extends AbstractController<Quote> {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", "smtp.gmail.com");
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.socketFactory.port", "465");
+            properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
             properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
             properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.user", "pruebasemailmaximus@gmail.com");
-            properties.put("mail.password", "maximus1234_");
+            //           properties.put("mail.smtp.port", "587");
+            properties.put("mail.smtp.debug", "true");
+            properties.put("mail.smtp.port", "465");
+            properties.put("mail.smtp.user", "pruebasemailmaximus@gmail.com");
+            properties.put("mail.smtp.password", "maximus1234_");
+            properties.put("mail.smtp.ssl.enable", "true");
+//            properties.put("mail.smtp.socketFactory.fallback", "false");
+//            properties.put("mail.transport.protocol", "smtps");
 
             MailUtil mail = new MailUtil(properties);
 
