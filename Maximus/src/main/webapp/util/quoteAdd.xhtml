@@ -301,33 +301,51 @@
                         <p:messages id="messagesDialog" showDetail="true" autoUpdate="true" closable="true"/>
 
                         <p:panel header="Search Part" id="panelSearch">
-                            <h:panelGrid columns="2" width="100%"> 
-                                <h:panelGrid columns="2" style="text-align: left" id="panelSearchInterno"> 
+                            <table  style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;"> 
+                                <tr style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+                                    <td style="text-align: left; vertical-align: top;">
+                                        <h:panelGrid columns="2" style="text-align: left"> 
 
-                                    <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
-                                    <p:autoComplete id="acSimple" value="#{createQuoteController.nroPart}" 
-                                                    completeMethod="#{createQuoteController.complete}"
+                                            <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
+                                            <p:autoComplete id="acSimple" value="#{createQuoteController.nroPart}" 
+                                                            completeMethod="#{createQuoteController.complete}"
+                                                            maxResults="10"/>
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
+                                            <p:inputText value="#{createQuoteController.manufacturePart}"  />
 
-                                                    maxResults="10"/>
-                                    <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
-                                    <p:inputText value="#{createQuoteController.manufacturePart}"  />
-
-                                    <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
-                                    <p:inputText value="#{createQuoteController.descriptionPart}" />
-
-
-                                    <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
-                                    <p:inputText value="#{createQuoteController.typePart}"  />
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
+                                            <p:inputText value="#{createQuoteController.descriptionPart}" />
 
 
-                                </h:panelGrid>
-                                <p:outputPanel autoUpdate="true"  style="text-align: left; margin-left: 50px; vertical-align: middle;" rendered="#{createQuoteController.observationField}" > 
-                                    <h:panelGrid columns="2" style="text-align: left; vertical-align: top;">
-                                        <h:outputText value="#{maximusBundle.label_observations}" style="margin-right: 10px;" />
-                                        <p:inputTextarea value="#{createQuoteController.observation}"  style="width: 500px;"/>
-                                    </h:panelGrid> 
-                                </p:outputPanel>
-                            </h:panelGrid>
+                                            <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
+                                            <p:inputText value="#{createQuoteController.typePart}"  />
+
+
+                                        </h:panelGrid>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+
+                                        <p:commandButton value="#{maximusBundle.new_part_button}" 
+                                                         actionListener="#{productController.prepareCreate}" 
+                                                         id="buttonNewPart"  
+                                                         update=":ProductCreateForm" 
+                                                         onclick="#{productController.createPartTrue()}" 
+                                                         oncomplete="PF('ProductCreateDialog').show()"
+                                                         style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;"
+                                                         rendered="#{createQuoteController.typeAgent()=='Administrator'}"/>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: top; margin: 0px 0px 0px 0px !important;">
+                                        <p:outputPanel autoUpdate="true"  style="text-align: left; margin-left: 50px; vertical-align: middle;" rendered="#{createQuoteController.observationField}" > 
+                                            <h:panelGrid columns="2" style="text-align: left; vertical-align: top;">
+                                                <h:outputText value="#{maximusBundle.label_observations}" style="margin-right: 10px;" />
+                                                <p:inputTextarea value="#{createQuoteController.observation}"  style="width: 500px;"/>
+                                            </h:panelGrid> 
+                                        </p:outputPanel>
+                                    </td>
+                                </tr>
+
+                            </table>
+
 
                         </p:panel>
 
@@ -433,7 +451,7 @@
             </p:dialog>
 
             <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
-
+            <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
             <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
         </ui:define>
 
