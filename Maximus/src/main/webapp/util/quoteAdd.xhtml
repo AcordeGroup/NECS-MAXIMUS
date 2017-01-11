@@ -222,14 +222,19 @@
                                     <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                                 </p:column>
 
-                                <p:column style="width : 90px">
+                                <p:column style="width : 80px">
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.condition_label}"/>
                                     </f:facet>
-                                    <p:selectOneButton value="#{item.condition}"  style="width: 120px; height: 25px">
-                                        <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}"  />
-                                        <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" />
-                                    </p:selectOneButton>
+
+                                    <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
+                                                   style="width:100px" >
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{createQuoteController.conditionList}" 
+                                                   var="condition" 
+                                                   itemLabel="#{condition.name}" 
+                                                   itemValue="#{condition}" />
+                                </p:selectOneMenu>
                                 </p:column>
 
                                 <p:column  style="width : 60px">

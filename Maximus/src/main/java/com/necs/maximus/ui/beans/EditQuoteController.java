@@ -6,6 +6,7 @@
 package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.db.entity.ConditionType;
 import com.necs.maximus.db.entity.Contact;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
@@ -17,6 +18,7 @@ import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.entity.Vendor;
 import com.necs.maximus.db.facade.AgentFacade;
+import com.necs.maximus.db.facade.ConditionTypeFacade;
 import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
@@ -83,6 +85,8 @@ public class EditQuoteController extends AbstractController<Quote> {
     private ManageFacade manageFacade;
     @EJB
     private IsSubstituteFacade isSubstituteFacade;
+    @EJB
+    private ConditionTypeFacade  conditionFacade;
 
     private Agent agent;
     private String nroPart;
@@ -111,6 +115,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     private String observation;
 
     private List<Customer> customerList;
+    private List<ConditionType> conditionList;
     private List<Contact> contactList;
     private List<Has> partListHas;
     private List<Product> partList;
@@ -142,6 +147,8 @@ public class EditQuoteController extends AbstractController<Quote> {
             }
         });
         vendorList = (List<Vendor>) vendorFacade.findAll();
+        
+         conditionList = conditionFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
 
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
@@ -271,7 +278,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 //                }
 //***********************************************************************************************
 
-                if (h.getCondition() == null) {
+                if (h.getConditionType() == null || h.getConditionType().equals(bundle.getString("SelectOneMessage"))) {
                     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
                     return false;
                 }
@@ -461,7 +468,7 @@ public class EditQuoteController extends AbstractController<Quote> {
         if (partListHas != null && !partListHas.isEmpty()) {
 
             if (productGeneric != null) {
-                object.setCondition(productGeneric.getCondition());
+                object.setConditionType(productGeneric.getConditionType());
                 object.setCustomerTargetPrice(productGeneric.getCustomerTargetPrice());
                 object.setSuggestedSalesPrice(productGeneric.getSuggestedSalesPrice());
                 object.setQtyFound(productGeneric.getQtyFound());
@@ -475,7 +482,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     }
                 }
             } else if (productReplace != null) {
-                object.setCondition(productReplace.getCondition());
+                object.setConditionType(productReplace.getConditionType());
                 object.setCustomerTargetPrice(productReplace.getCustomerTargetPrice());
                 object.setSuggestedSalesPrice(productReplace.getSuggestedSalesPrice());
                 object.setQtyFound(productReplace.getQtyFound());
@@ -546,8 +553,8 @@ public class EditQuoteController extends AbstractController<Quote> {
                 item.setExtended(item.getCustomerTargetPrice().multiply(new BigDecimal(item.getQtyRequested())));
             }
         } else {
-            if (item.getQtyRequested() != null && item.getSuggestedSalesPrice() != null) {
-                item.setExtended(item.getSuggestedSalesPrice().multiply(new BigDecimal(item.getQtyRequested())));
+            if (item.getQtyFound() != null && item.getSuggestedSalesPrice() != null) {
+                item.setExtended(item.getSuggestedSalesPrice().multiply(new BigDecimal(item.getQtyFound())));
             }
         }
     }
@@ -560,8 +567,8 @@ public class EditQuoteController extends AbstractController<Quote> {
                 item.setExtended(extended);
             }
         } else {
-            if (item.getQtyRequested() != null && item.getSuggestedSalesPrice() != null) {
-                extended = item.getSuggestedSalesPrice().multiply(new BigDecimal(item.getQtyRequested()));
+            if (item.getQtyFound() != null && item.getSuggestedSalesPrice() != null) {
+                extended = item.getSuggestedSalesPrice().multiply(new BigDecimal(item.getQtyFound()));
                 item.setExtended(extended);
             }
         }
@@ -977,5 +984,15 @@ public class EditQuoteController extends AbstractController<Quote> {
     public void setObservation(String observation) {
         this.observation = observation;
     }
+
+    public List<ConditionType> getConditionList() {
+        return conditionList;
+    }
+
+    public void setConditionList(List<ConditionType> conditionList) {
+        this.conditionList = conditionList;
+    }
+    
+    
 
 }

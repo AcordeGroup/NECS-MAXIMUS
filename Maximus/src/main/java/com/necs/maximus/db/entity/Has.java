@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Has.findBySuggestedSalesPrice", query = "SELECT h FROM Has h WHERE h.suggestedSalesPrice = :suggestedSalesPrice"),
     @NamedQuery(name = "Has.findByQtyFound", query = "SELECT h FROM Has h WHERE h.qtyFound = :qtyFound")})
 public class Has implements Serializable {
+   
+   
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,8 +58,6 @@ public class Has implements Serializable {
     private BigDecimal suggestedSalesPrice;
     @Column(name = "observation")
     private String observation;
-    @Column(name = "condition")
-    private String condition;
     @Column(name = "extended")
     private BigDecimal extended;
     @Column(name = "shipping_cost")
@@ -71,6 +71,9 @@ public class Has implements Serializable {
     @JoinColumn(name = "id_vendor", referencedColumnName = "id_vendor")
     @ManyToOne(optional = true)
     private Vendor idVendor;
+    @JoinColumn(name = "condition_type", referencedColumnName = "id_condition_type")
+    @ManyToOne(optional = false)
+    private ConditionType conditionType;
 
     public Has() {
     }
@@ -140,14 +143,6 @@ public class Has implements Serializable {
         this.observation = observation;
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
     public BigDecimal getShipping_cost() {
         return shipping_cost;
     }
@@ -203,6 +198,14 @@ public class Has implements Serializable {
     @Override
     public String toString() {
         return "com.necs.maximus.db.entity.Has[ hasId=" + hasId + " ]";
+    }
+
+    public ConditionType getConditionType() {
+        return conditionType;
+    }
+
+    public void setConditionType(ConditionType conditionType) {
+        this.conditionType = conditionType;
     }
 
 }

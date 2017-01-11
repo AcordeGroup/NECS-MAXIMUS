@@ -6,6 +6,7 @@
 package com.necs.maximus.ui.beans;
 
 import com.necs.maximus.db.entity.Agent;
+import com.necs.maximus.db.entity.ConditionType;
 import com.necs.maximus.db.entity.Contact;
 import com.necs.maximus.db.entity.Customer;
 import com.necs.maximus.db.entity.Has;
@@ -14,6 +15,7 @@ import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
+import com.necs.maximus.db.facade.ConditionTypeFacade;
 import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.db.facade.CustomerFacade;
 import com.necs.maximus.db.facade.HasFacade;
@@ -64,6 +66,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private AgentFacade agentFacade;
     @EJB
     private HasFacade hasFacade;
+    @EJB
+    private ConditionTypeFacade conditionFacade;
 
     private Customer customerSelected;
     private Contact contactSelected;
@@ -86,6 +90,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
     private String observation;
 
     private List<Customer> customerList;
+    private List<ConditionType> conditionList;
     private List<Contact> contactList;
     private List<Has> partListHas;
     private List<Product> partList;
@@ -112,6 +117,8 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 return t.getCompanyName().compareTo(t1.getCompanyName());
             }
         });
+        
+        conditionList = conditionFacade.findAll();
     }
 
     public String createNewRequest() {
@@ -193,7 +200,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
             return false;
         } else {
             for (Has h : partListHas) {
-                if (h.getCondition() == null) {
+                if (h.getConditionType() == null || h.getConditionType().equals(bundle.getString("SelectOneMessage"))) {
                     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
                     return false;
                 }
@@ -482,6 +489,15 @@ public class CreateQuoteController extends AbstractController<Quote> {
     public void setContactSelected(Contact contactSelected) {
         this.contactSelected = contactSelected;
     }
+
+    public List<ConditionType> getConditionList() {
+        return conditionList;
+    }
+
+    public void setConditionList(List<ConditionType> conditionList) {
+        this.conditionList = conditionList;
+    }
+    
 
     public void onCustomerChange() {
         if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {

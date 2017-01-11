@@ -212,14 +212,18 @@
                                 <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                             </p:column>
 
-                            <p:column style="width : 92px">
+                            <p:column style="width : 80px">
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
-                                <p:selectOneButton value="#{item.condition}"  style="width: 120px; height: 25px">
-                                    <f:selectItem itemLabel="#{maximusBundle.ref}" itemValue="#{maximusBundle.ref}" class="buttonCondition"  />
-                                    <f:selectItem itemLabel="#{maximusBundle.new}" itemValue="#{maximusBundle.new}" class="buttonCondition" />
-                                </p:selectOneButton>
+                                 <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
+                                                  style="width:100px" >
+                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}" />
+                                    <f:selectItems value="#{editQuoteController.conditionList}" 
+                                                   var="condition" 
+                                                   itemLabel="#{condition.name}" 
+                                                   itemValue="#{condition}" />
+                                </p:selectOneMenu>
                             </p:column>
 
                             <p:column  style="width : 49px">
@@ -235,7 +239,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.qty_found_label}"/>
                                 </f:facet>
-                                <p:spinner value="#{item.qtyFound}" size="2"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}"/>
+                                <p:spinner value="#{item.qtyFound}" size="2"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}">
+                                     <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
+                                </p:spinner>
                             </p:column>
 
                             <p:column  style="width : 63px">

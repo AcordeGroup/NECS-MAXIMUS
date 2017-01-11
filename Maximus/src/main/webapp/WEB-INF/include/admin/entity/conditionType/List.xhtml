@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ConditionTypeListForm">
+
+        <p:panel header="#{maximusBundle.ListConditionTypeTitle}">
+            <p:contextMenu id="ConditionTypeDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{maximusBundle.Create}" onclick="document.getElementById('ConditionTypeListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{maximusBundle.View}" onclick="document.getElementById('ConditionTypeListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{maximusBundle.Edit}" onclick="document.getElementById('ConditionTypeListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{maximusBundle.Delete}" onclick="document.getElementById('ConditionTypeListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{maximusBundle.ConditionTypeMenuItem_hasList}" icon="ui-icon-search"  action="#{conditionTypeController.navigateHasList}" disabled="#{empty conditionTypeController.selected.hasList}" ajax="false"/>  
+            </p:contextMenu>
+            <table style="text-align: right; width: 100%; margin-bottom: 10px;">
+                <tr >
+                    <td  style="text-align: right;">
+
+                        <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{maximusBundle.View}" update=":ConditionTypeViewForm" oncomplete="PF('ConditionTypeViewDialog').show()" disabled="#{empty conditionTypeController.selected}"/>
+                        <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{maximusBundle.Edit}" update=":ConditionTypeEditForm" oncomplete="PF('ConditionTypeEditDialog').show()" disabled="#{empty conditionTypeController.selected}"/>
+                        <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{maximusBundle.Delete}" actionListener="#{conditionTypeController.delete}" update=":growl,datalist" disabled="#{empty conditionTypeController.selected}">
+                            <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{conditionTypeController.prepareCreate}" update=":ConditionTypeCreateForm" oncomplete="PF('ConditionTypeCreateDialog').show()"/>
+                        <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{conditionTypeController.navigateToDashboard()}" />
+
+                    </td>
+                </tr>
+            </table>
+            <p:outputPanel style="text-align: left;">
+                <p:dataTable id="datalist"
+                             value="#{conditionTypeController.items}"
+                             lazy="false"
+                             rowKey="#{item.idConditionType}"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             selection="#{conditionTypeController.selected}">
+                    <!--
+                             To enable Lazy Loading, please copy/replace the following lines above,
+                             and be sure to replace the word HASH with the # symbol:
+                    
+                             value="HASH{conditionTypeController.lazyItems}"
+                             lazy="true"
+                             rowKey="HASH{item.idConditionType}"  <<< Remove this line
+                    -->
+
+
+                    <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ConditionTypeDataTableContextMenu"/>
+                    <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ConditionTypeDataTableContextMenu"/>
+                    <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('ConditionTypeListForm:viewButton').click();"/>
+
+                    <p:column sortBy="#{item.idConditionType}" filterBy="#{item.idConditionType}">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListConditionTypeTitle_idConditionType}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idConditionType}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.name}" filterBy="#{item.name}">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListConditionTypeTitle_name}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.description}" filterBy="#{item.description}">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ListConditionTypeTitle_description}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+            </p:outputPanel>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/admin/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

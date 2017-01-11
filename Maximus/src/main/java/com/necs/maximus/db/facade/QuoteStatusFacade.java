@@ -6,12 +6,8 @@
 
 package com.necs.maximus.db.facade;
 
-import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Quote;
-import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
-import java.util.Date;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

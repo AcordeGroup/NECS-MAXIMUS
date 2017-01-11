@@ -11,7 +11,7 @@
     <pm:page id="ProductCostListPage">
         <pm:header title="#{maximusBundle.ListProductCostTitle}">
             <h:form>
-                <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{myBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/adminmobile/index')}"/>
+                <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{maximusBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/adminmobile/index')}"/>
                 <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{maximusBundle.Create}" update=":ProductCostCreatePage:ProductCostCreateForm" actionListener="#{productCostController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:ProductCostCreatePage')}">
                     <f:actionListener binding="#{currentPageListener}"/>
                 </p:commandButton>
