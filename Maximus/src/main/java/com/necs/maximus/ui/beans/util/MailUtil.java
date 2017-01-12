@@ -143,12 +143,14 @@ public class MailUtil {
             htmlPart.setContent(messageContent, contentType);
 
             //construct the pdf body part
-            DataSource dataSource = new ByteArrayDataSource(file, "application/pdf");
-            MimeBodyPart attachment = new MimeBodyPart();
-            attachment.setDataHandler(new DataHandler(dataSource));
-            attachment.setFileName(nameFile);
-
-            multiPart.addBodyPart(attachment);
+            if (file != null) {
+                DataSource dataSource = new ByteArrayDataSource(file, "application/pdf");
+                MimeBodyPart attachment = new MimeBodyPart();
+                attachment.setDataHandler(new DataHandler(dataSource));
+                attachment.setFileName(nameFile);
+                multiPart.addBodyPart(attachment);
+            }
+           
             multiPart.addBodyPart(htmlPart);
 
             message.setContent(multiPart);

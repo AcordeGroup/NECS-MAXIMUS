@@ -96,7 +96,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
                             </f:facet>
-                            <h:outputText value="#{item.product.description}" rendered="#{item.product.partNumber != '555555'}"/>
+                            <h:outputText value="#{item.description}" rendered="#{item.product.partNumber != '555555'}"/>
                             <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                         </p:column>
 

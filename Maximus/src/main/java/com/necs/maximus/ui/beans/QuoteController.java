@@ -2,7 +2,6 @@ package com.necs.maximus.ui.beans;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -84,9 +83,8 @@ public class QuoteController extends AbstractController<Quote> {
 
     private Agent agent;
 
-    List<Quote> quoteOpen;
-    List<Quote> quoteClose;
-
+    private List<Quote> quoteOpen;
+    private List<Quote> quoteClose;
     private List<Quote> filteredQuote;
 
     /**
@@ -101,6 +99,11 @@ public class QuoteController extends AbstractController<Quote> {
     private final Locale locale = facesContext.getViewRoot().getLocale();
     protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
 
+    private final static Logger logger = Logger.getLogger(QuoteController.class.getName());
+
+    /**
+     * Constructor
+     */
     public QuoteController() {
         // Inform the Abstract parent controller of the concrete Quote Entity
         super(Quote.class);
@@ -108,6 +111,7 @@ public class QuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
+        logger.info("Start init()");
 
         HashMap param = new HashMap();
         param.put("idAgent", getUserManagedBean().getAgentId());
@@ -115,9 +119,17 @@ public class QuoteController extends AbstractController<Quote> {
         quoteClose = new ArrayList<>();
         quoteOpen = new ArrayList<>();
         inicializedListByStatus();
+
+        logger.info("End init()");
     }
 
+    /**
+     * Metodo encargado de inicializar las listas del dashboard segun el tipo de
+     * usuario logueddo
+     */
     public void inicializedListByStatus() {
+        logger.info("Start inicializedListByStatus()");
+
         List<String> status;
         if (agent == null) {
             HashMap param = new HashMap();
@@ -159,9 +171,19 @@ public class QuoteController extends AbstractController<Quote> {
 
         }
 
+        logger.info("End inicializedListByStatus()");
+
     }
 
+    /**
+     * Retorna el estatus del vendedor segun estatus de la cotizacion
+     *
+     * @param status
+     * @return
+     */
     public String getStatusPurchasing(String status) {
+        logger.info("Start getStatusPurchasing()");
+
         StringBuilder statusPurchasing = new StringBuilder("");
         switch (StatusType.getStatusByName(status)) {
             case OPEN:
@@ -180,21 +202,40 @@ public class QuoteController extends AbstractController<Quote> {
             default:
                 break;
         }
+        logger.info("End getStatusPurchasing()");
+
         return statusPurchasing.toString();
     }
 
+    /**
+     * obtiene un String con las primeras 5 numeros de partes asociadas a una
+     * cotización
+     *
+     * @param item
+     * @return
+     */
     public String getNumParts(Quote item) {
+        logger.info("Start getNumParts()");
         StringBuilder partsNumber = new StringBuilder("");
 
         int numPart = item.getHasList().size() < 4 ? item.getHasList().size() : 4;
         for (int i = 0; i < numPart; i++) {
-            partsNumber.append(item.getHasList().get(i).getProduct().getPartNumber() + ", ");
+            partsNumber.append(item.getHasList().get(i).getProduct().getPartNumber()).append(", ");
         }
+        logger.info("End getNumParts()");
         return partsNumber.toString();
     }
 
+    /**
+     * Retorna el color del div que denota el estado de la cotizacion segun sus
+     * dias de creacion
+     *
+     * @param status
+     * @param dateCreation
+     * @return
+     */
     public String getColorDiv(String status, Date dateCreation) {
-
+        logger.info("Start getColorDiv()");
         StringBuilder color = new StringBuilder("");
         Calendar actual = Calendar.getInstance();
 
@@ -234,11 +275,20 @@ public class QuoteController extends AbstractController<Quote> {
             default:
                 break;
         }
+
+        logger.info("End getColorDiv()");
         return color.toString();
 
     }
 
+    /**
+     * Metodo encargado de cambiar el estatus de una cotizaciona a OPEN, envia
+     * notificacion a vendedor de dicho evento
+     *
+     * @param quote
+     */
     public void reopenQuote(Quote quote) {
+        logger.info("Start reopenQuote()");
         try {
             if (quote != null) {
                 QuoteStatus qs = quote.getQuoteStatusList().get(0);
@@ -254,18 +304,28 @@ public class QuoteController extends AbstractController<Quote> {
                 Manage ma = quote.getManageList().get(0);
                 ma.setDeallocationDate(new Date());
                 manageFacade.edit(ma);
+
+                sentNotificationStatusQuote(quote);
+
                 init();
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
         }
+        logger.info("End reopenQuote()");
     }
 
+    /**
+     * Envia cotizacion al vendedor via email con el documento pdf adjunto
+     *
+     * @param quote
+     */
     public void sendQuote(Quote quote) {
+        logger.info("Start sendQuote()");
         try {
             if (quote != null) {
-                // aqui envio quote..... conversar con Carlos para conocer el flujo
+                // aqui envio quote.....
                 exportPdf(quote, OperationType.SEND.getOperationName());
                 RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
             }
@@ -277,9 +337,16 @@ public class QuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
         }
+        logger.info("End sendQuote()");
     }
 
+    /**
+     * Metodo encargado de cambiar el estatus de una cotizaciona a CLOSE
+     *
+     * @param quote
+     */
     public void closeQuote(Quote quote) {
+        logger.info("Start closeQuote()");
 
         if (quote != null) {
             QuoteStatus qs = quote.getQuoteStatusList().get(0);
@@ -294,9 +361,17 @@ public class QuoteController extends AbstractController<Quote> {
             quoteStatusFacade.create(statusNew);
             init();
         }
+        logger.info("End closeQuote()");
     }
 
+    /**
+     * verifica si una cotizacion esta siendo tratada por un agente particular
+     *
+     * @param quote
+     * @return
+     */
     public boolean isQuoteAdmin(Quote quote) {
+        logger.info("Start isQuoteAdmin()");
         if (agent == null) {
             HashMap param = new HashMap();
             param.put("idAgent", getUserManagedBean().getAgentId());
@@ -308,11 +383,18 @@ public class QuoteController extends AbstractController<Quote> {
                 return true;
             }
         }
+        logger.info("End isQuoteAdmin()");
         return false;
     }
 
+    /**
+     * Metodo encargado de armar las propiedades del mail y enviarlo.
+     *
+     * @param mailBean
+     * @throws MessagingException
+     */
     public void sendMail(MailBean mailBean) throws MessagingException {
-        Logger.getLogger(QuoteController.class.getName()).log(Level.INFO, "QuoteController.sendMail");
+        logger.info("Start sendMail()");
         try {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -337,13 +419,22 @@ public class QuoteController extends AbstractController<Quote> {
             Logger.getLogger(QuoteController.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+        logger.info("End sendMail()");
     }
 
+    /**
+     * Metodo encargado del armar el pdf de la cotizacion, enviarlo al sales o
+     * exportarlo a la maquina cliente depende de la operacion
+     *
+     * @param quote
+     * @param operation
+     * @throws MessagingException
+     */
     public void exportPdf(Quote quote, String operation) throws MessagingException {
         BigDecimal total = new BigDecimal(0);
-        Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "start ViewQuoteController.exportPdf");
+        logger.info("Start exportPdf()");
 
-        Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "quoteId=".concat(quote.getIdQuote().toString()));
+        logger.log(Level.INFO, "quoteId=".concat(quote.getIdQuote().toString()));
 
         try {
             // Se crea el documento
@@ -540,7 +631,7 @@ public class QuoteController extends AbstractController<Quote> {
 
                 tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getPartNumber() : "", null, null, fontDefaultBlue, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
                 tablaInter.addCell(createCell("U of M : Pieces", null, null, fontDefault, null, Element.ALIGN_RIGHT, defaultPadding, PdfPCell.NO_BORDER, null));
-                tablaInter.addCell(createCell(has.getProduct() != null ? has.getProduct().getDescription() : "", 2, null, fontDefaultBold, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
+                tablaInter.addCell(createCell(has.getDescription() != null ? has.getDescription() : "", 2, null, fontDefaultBold, null, Element.ALIGN_LEFT, defaultPadding, PdfPCell.NO_BORDER, null));
 
                 //suma text sales quote
                 PdfPCell cellInterDescription = new PdfPCell();
@@ -666,21 +757,27 @@ public class QuoteController extends AbstractController<Quote> {
 
             }
 
-            Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "file writed");
+            logger.log(Level.INFO, "file writed");
 
-            Logger.getLogger(ViewQuoteController.class.getName()).log(Level.INFO, "end ViewQuoteController.exportPdf");
         } catch (DocumentException | IOException ex) {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage("error_export"));
-            Logger.getLogger(ViewQuoteController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (MessagingException ex) {
             RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("error_send")));
-            Logger.getLogger(QuoteController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
             throw ex;
         }
+        logger.info("End exportPdf()");
     }
 
+    /**
+     * Utilitario para crear una celda tipo imagen del pfd
+     *
+     * @param path
+     * @return
+     */
     private PdfPCell createCellImage(String path) {
-
+        logger.info("Start createCellImage()");
         PdfPCell cell = null;
         try {
             Image img = Image.getInstance(path);
@@ -696,12 +793,26 @@ public class QuoteController extends AbstractController<Quote> {
         } catch (IOException ex) {
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        logger.info("End createCellImage()");
         return cell;
     }
 
+    /**
+     * Utilitario para crear una celda del pfd
+     *
+     * @param text
+     * @param span
+     * @param rSpan
+     * @param font
+     * @param backColor
+     * @param halign
+     * @param padding
+     * @param border
+     * @param height
+     * @return
+     */
     private PdfPCell createCell(String text, Integer span, Integer rSpan, Font font, BaseColor backColor, Integer halign, Float padding, Integer border, Float height) {
-
+        logger.info("Start createCell()");
         Phrase phrase = (font != null) ? new Phrase(text, font) : new Phrase(text);
         PdfPCell cell = new PdfPCell(phrase);
         if (span != null) {
@@ -728,60 +839,44 @@ public class QuoteController extends AbstractController<Quote> {
             cell.setFixedHeight(height);
 
         }
+        logger.info("End createCell()");
         return cell;
     }
 
-    private PdfPCell createCellTextColor(String text, String textColor, Integer span, Integer rSpan, Font font, Font fontTextColor, BaseColor backColor, Integer halign, Float padding, Integer border, Float height) {
-
-        Chunk product = new Chunk(text, font);
-        Chunk description = new Chunk(textColor, fontTextColor);
-        Phrase phrase = new Phrase(product);
-        phrase.add(description);
-        PdfPCell cell = new PdfPCell(phrase);
-
-        if (span != null) {
-            cell.setColspan(span);
-        }
-
-        if (rSpan != null) {
-            cell.setRowspan(rSpan);
-        }
-        if (backColor != null) {
-            cell.setBackgroundColor(backColor);
-        }
-        if (halign != null) {
-            cell.setHorizontalAlignment(halign);
-        }
-        if (padding != null) {
-            cell.setPadding(padding);
-        }
-        if (border != null) {
-            cell.setBorder(PdfPCell.NO_BORDER);
-
-        }
-        if (height != null) {
-            cell.setFixedHeight(height);
-
-        }
-        return cell;
-    }
-
+    /**
+     * Retorna el monto total de una quota, basado en la cantidad de propudtos
+     * asociados a la misma
+     *
+     * @param quote
+     * @return
+     */
     public BigDecimal amountTotalQuote(Quote quote) {
+        logger.info("Start amountTotalQuote()");
         BigDecimal total = new BigDecimal(0);
         if (quote != null) {
             for (Has h : quote.getHasList()) {
                 total = total.add(h.getExtended() == null ? new BigDecimal(0) : h.getExtended());
             }
         }
+        logger.info("End amountTotalQuote()");
         return total;
     }
 
+    /**
+     * Utilitario para convertir Data to String
+     *
+     * @param dateCreation
+     * @return
+     */
     private String convertDateToString(Date dateCreation) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         String date = sdf.format(dateCreation);
         return date;
     }
 
+    /**
+     * Clase utilitaria que representa el footer del pdf
+     */
     public class FooterTable extends PdfPageEventHelper {
 
         protected PdfPTable footer;
@@ -793,6 +888,45 @@ public class QuoteController extends AbstractController<Quote> {
         public void onEndPage(PdfWriter writer, Document document) {
             footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
         }
+    }
+
+    /**
+     * Metodo encargado de enviar notificaion cuando cambia el estatus al
+     * usuario sales en una de sus cotizaciones
+     *
+     * @param quote
+     */
+    public void sentNotificationStatusQuote(Quote quote) {
+        logger.info("Start sentNotificationStatusQuote()");
+        if (quote.getIdAgent() != null && null != quote.getIdAgent().getEmail()) {
+
+            if (emailValidator(quote.getIdAgent().getEmail())) {
+
+                try {
+                    List<String> to = new ArrayList<>();
+                    to.add(quote.getIdAgent().getEmail());
+
+                    MailBean mail = new MailBean();
+                    mail.setFrom(bundle.getString("email_remitent"));
+                    mail.setTo(to);
+                    mail.setNameFlie(null);
+                    mail.setSubject(bundle.getString("change_status_quote_subject").replace("{xxx}", quote.getIdQuote().toString()));
+                    mail.setBody(bundle.getString("change_status_quote_body").replace("{xxx}", quote.getIdQuote().toString()));
+                    mail.setFile(null);
+
+                    sendMail(mail);
+                } catch (MessagingException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("messageErrorEmailInvalid")));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("messageErrorEmailNull")));
+        }
+
+        logger.info("End sentNotificationStatusQuote()");
+
     }
 
     public void prepareIdCustomer(ActionEvent event) {

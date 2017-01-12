@@ -86,7 +86,7 @@ public class EditQuoteController extends AbstractController<Quote> {
     @EJB
     private IsSubstituteFacade isSubstituteFacade;
     @EJB
-    private ConditionTypeFacade  conditionFacade;
+    private ConditionTypeFacade conditionFacade;
 
     private Agent agent;
     private String nroPart;
@@ -140,15 +140,14 @@ public class EditQuoteController extends AbstractController<Quote> {
         partListHas = new ArrayList<>();
         customerList = (List<Customer>) customerFacade.findAll();
         Collections.sort(customerList, new Comparator<Customer>() {
-
             @Override
             public int compare(Customer t, Customer t1) {
                 return t.getCompanyName().compareTo(t1.getCompanyName());
             }
         });
         vendorList = (List<Vendor>) vendorFacade.findAll();
-        
-         conditionList = conditionFacade.findAll();
+
+        conditionList = conditionFacade.findAll();
         agent = agentFacade.listUniqueNamedQuery(Agent.class, "Agent.findByIdAgent", param);
 
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
@@ -269,7 +268,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
             for (Has h : partListHas) {
 // ********* esta validacion posiblemente se implementara para la 2da fase de MAXIMUS... a peticion del cliente
-                
+
 //                if (operation.equals(OperationType.DONE.getOperationName())) {
 //                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && !typeAgent().equals("Sales")) {
 //                        FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("change_generic_part"), ""));
@@ -277,7 +276,6 @@ public class EditQuoteController extends AbstractController<Quote> {
 //                    }
 //                }
 //***********************************************************************************************
-
                 if (h.getConditionType() == null || h.getConditionType().equals(bundle.getString("SelectOneMessage"))) {
                     FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("message_condition_select"), ""));
                     return false;
@@ -350,6 +348,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     Has object = new Has();
                     object.setProduct(pro);
                     object.setQtyFound(0);
+                    object.setDescription(pro.getDescription());
                     object.setQtyRequested(0);
                     object.setObservation(observation);
                     auxPartHas.add(object);
@@ -992,7 +991,5 @@ public class EditQuoteController extends AbstractController<Quote> {
     public void setConditionList(List<ConditionType> conditionList) {
         this.conditionList = conditionList;
     }
-    
-    
 
 }

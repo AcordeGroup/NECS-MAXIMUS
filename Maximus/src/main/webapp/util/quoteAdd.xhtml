@@ -204,7 +204,10 @@
                                          value="#{createQuoteController.partListHas}"
                                          var="item"
                                          emptyMessage="list Empty"
+                                         editable="true" 
+                                         editMode="cell"
                                          rendered="#{createQuoteController.partListHas != null}"
+
                                          >
 
                                 <p:column  style="width : 100px">
@@ -214,12 +217,18 @@
                                     <h:outputText value="#{item.product.partNumber}"/>
                                 </p:column>
 
-                                <p:column  style="width : 170px" >
-                                    <f:facet name="header">
-                                        <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.product.description}" rendered="#{item.product.partNumber != '555555'}"/>
-                                    <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
+                                <p:column  style="width : 170px" headerText="#{maximusBundle.CreateProductTitle_description}"  >
+                                    <p:cellEditor>
+                                        <f:facet name="output" >
+                                            <h:outputText value="#{item.description}" rendered="#{item.product.partNumber != '555555'}"/>
+                                            <h:outputText value="#{createQuoteController.observation}" rendered="#{item.product.partNumber == '555555'}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputTextarea value="#{item.description}" rendered="#{item.product.partNumber != '555555'}" style="width: 260px; height: 50px;"  />
+                                            <h:inputTextarea value="#{createQuoteController.observation}" rendered="#{item.product.partNumber == '555555'}" style="width: 220px; height: 35px;" />
+
+                                        </f:facet>
+                                    </p:cellEditor>
                                 </p:column>
 
                                 <p:column style="width : 80px">
@@ -228,13 +237,13 @@
                                     </f:facet>
 
                                     <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
-                                                   style="width:100px" >
-                                    <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
-                                    <f:selectItems value="#{createQuoteController.conditionList}" 
-                                                   var="condition" 
-                                                   itemLabel="#{condition.name}" 
-                                                   itemValue="#{condition}" />
-                                </p:selectOneMenu>
+                                                     style="width:100px" >
+                                        <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{createQuoteController.conditionList}" 
+                                                       var="condition" 
+                                                       itemLabel="#{condition.name}" 
+                                                       itemValue="#{condition}" />
+                                    </p:selectOneMenu>
                                 </p:column>
 
                                 <p:column  style="width : 60px">
@@ -283,6 +292,8 @@
                                                    process="datalistProduct" />
 
                                 </p:column>
+
+
                             </p:dataTable>
                         </p:outputPanel>
                         <p:spacer />

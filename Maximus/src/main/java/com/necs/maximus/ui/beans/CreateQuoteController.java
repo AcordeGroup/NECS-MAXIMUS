@@ -117,7 +117,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 return t.getCompanyName().compareTo(t1.getCompanyName());
             }
         });
-        
+
         conditionList = conditionFacade.findAll();
     }
 
@@ -264,14 +264,16 @@ public class CreateQuoteController extends AbstractController<Quote> {
                 mostrarObservationField = false;
             } else {
                 List<Has> auxPartHas = new ArrayList<>();
+
                 for (Product pro : selectedPart) {
                     Has object = new Has();
                     object.setProduct(pro);
                     object.setQtyFound(0);
+                    object.setDescription(pro.getDescription());
                     object.setQtyRequested(0);
-                    object.setObservation(observation);
                     auxPartHas.add(object);
                 }
+
                 partListHas.addAll(auxPartHas);
 
                 RequestContext.getCurrentInstance().update("form:datalistProduct");
@@ -497,7 +499,6 @@ public class CreateQuoteController extends AbstractController<Quote> {
     public void setConditionList(List<ConditionType> conditionList) {
         this.conditionList = conditionList;
     }
-    
 
     public void onCustomerChange() {
         if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {

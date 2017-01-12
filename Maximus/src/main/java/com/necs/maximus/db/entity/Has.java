@@ -74,6 +74,8 @@ public class Has implements Serializable {
     @JoinColumn(name = "condition_type", referencedColumnName = "id_condition_type")
     @ManyToOne(optional = false)
     private ConditionType conditionType;
+    @Column(name = "description")
+    private String description;
 
     public Has() {
     }
@@ -173,6 +175,14 @@ public class Has implements Serializable {
 
     public void setHasId(Integer hasId) {
         this.hasId = hasId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
