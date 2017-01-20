@@ -214,7 +214,18 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.product.partNumber}"/>
+                                    <h:outputText value="#{item.product.partNumber}" rendered="#{createQuoteController.typeAgent() == 'Sales'}"/>
+                                    <div>
+                                        <p:commandLink id="partNumberLink" 
+                                                       value="#{item.product.partNumber}"
+                                                       ajax="true"
+                                                       actionListener="#{createQuoteController.viewInfoProduct(item.product)}"
+                                                       process="@this"
+                                                       oncomplete="PF('dialogProductInfo').show()" 
+                                                       rendered="#{createQuoteController.typeAgent() != 'Sales'}"
+                                                        update=":formDialogProductInfo:panelPrincipalDialog"/>
+
+                                    </div>
                                 </p:column>
 
                                 <p:column  style="width : 170px" headerText="#{maximusBundle.CreateProductTitle_description}"  >
@@ -466,9 +477,18 @@
                 </h:form>
             </p:dialog>
 
+            <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+                <h:form id="formDialogProductInfo">
+                    <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+                </h:form>
+            </p:dialog>
+
             <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
             <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
             <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
+
+
+
         </ui:define>
 
     </ui:composition>

@@ -7,9 +7,11 @@
 package com.necs.maximus.db.facade;
 
 import com.necs.maximus.db.entity.Has;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +30,14 @@ public class HasFacade extends AbstractFacade<Has> {
 
     public HasFacade() {
         super(Has.class);
+    }
+    
+     public List<Has> findHasByIdProduct(String idProduct) {
+
+        Query query = em.createNamedQuery("Has.findByPartNumber");
+        query.setParameter("partNumber", idProduct);
+        return query.getResultList();
+
     }
 
 }

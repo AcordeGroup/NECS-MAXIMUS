@@ -102,6 +102,10 @@
             <from-outcome>Administrator</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>see</from-outcome>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -118,6 +122,10 @@
             <from-outcome>Administrator</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>see</from-outcome>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
      <navigation-rule>
@@ -129,6 +137,10 @@
          <navigation-case>
             <from-outcome>Administrator</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>see</from-outcome>
+            <to-view-id>/util/quoteView.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

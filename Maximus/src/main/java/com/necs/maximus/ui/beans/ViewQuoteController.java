@@ -8,6 +8,7 @@ package com.necs.maximus.ui.beans;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteNote;
+import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteNoteFacade;
 import com.necs.maximus.enums.AgentType;
@@ -25,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -33,6 +35,7 @@ import javax.inject.Named;
 @Named(value = "viewQuoteController")
 @ViewScoped
 public class ViewQuoteController extends AbstractController<Quote> {
+
 
     @Inject
     private QuoteController quotecontroll;
@@ -43,7 +46,6 @@ public class ViewQuoteController extends AbstractController<Quote> {
 
     private Quote quote;
     private List<QuoteNote> quoteListNote;
-
     private boolean mostrarQtyFound;
     private boolean mostrarShippingCostPerItem;
     private boolean mostrarSuggestedSalesPrice;
@@ -60,6 +62,7 @@ public class ViewQuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
+        inicializedObject();
         String quoteId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idQuote");
         if (quoteId != null) {
             String status = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("statusQuote");
@@ -74,6 +77,8 @@ public class ViewQuoteController extends AbstractController<Quote> {
                 quoteListNote = quoteNoteFacade.findQuoteNoteByIdQuote(quote);
                 evaluateQtyFound(quote.getHasList());
             }
+            RequestContext.getCurrentInstance().execute("PF('dialogProductInfo').hide();");
+            RequestContext.getCurrentInstance().update("form");
 
         }
 
@@ -176,4 +181,14 @@ public class ViewQuoteController extends AbstractController<Quote> {
         this.mostrarVendor = mostrarVendor;
     }
 
+    public void inicializedObject() {
+        this.mostrarQtyFound = false;
+        this.mostrarShippingCostPerItem = false;
+        this.mostrarSuggestedSalesPrice = false;
+        this.mostrarVendor = false;
+        this.nroColumnVariable = 0;
+        this.quote = null;
+        this.quoteListNote = null;
+
+    }
 }

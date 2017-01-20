@@ -180,12 +180,12 @@
                         <p:separator />
                         <p:outputPanel style="text-align: right; width: 100% ">
                             <p:commandButton  
-                                              id="buttonAddPart" 
-                                              value="#{maximusBundle.add_part_button}" 
-                                              onclick="PF('dialogPart').show()" 
-                                              ajax="true" 
-                                              oncomplete="#{editQuoteController.reset()}" 
-                                              process="datalistProduct"/>
+                                id="buttonAddPart" 
+                                value="#{maximusBundle.add_part_button}" 
+                                onclick="PF('dialogPart').show()" 
+                                ajax="true" 
+                                oncomplete="#{editQuoteController.reset()}" 
+                                process="datalistProduct"/>
                         </p:outputPanel>
                         <p:spacer />
                         <p:dataTable id="datalistProduct"
@@ -195,7 +195,7 @@
                                      editable="true"
                                      editMode="cell"
                                      rendered="#{editQuoteController.partListHas != null}"
-                                     
+
                                      >
                             <p:ajax event="rowEdit"  update=":form:datalistProduct" />
                             <p:ajax event="rowEditCancel"  update=":form:datalistProduct" />
@@ -203,9 +203,17 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.product.partNumber}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                                </h:outputText>
+                                <h:outputText value="#{item.product.partNumber}" rendered="#{editQuoteController.typeAgent() == 'Sales'}"/>
+                                <div>
+                                    <p:commandLink id="partNumberLink" 
+                                                   value="#{item.product.partNumber}"
+                                                   ajax="true"
+                                                   actionListener="#{editQuoteController.viewInfoProduct(item.product)}"
+                                                   process="@this"
+                                                   oncomplete="PF('dialogProductInfo').show()"
+                                                   rendered="#{editQuoteController.typeAgent() != 'Sales'}"
+                                                    update=":formDialogProductInfo:panelPrincipalDialog"/>
+                                </div>
                             </p:column>
 
                             <p:column  style="width : 170px" headerText="#{maximusBundle.CreateProductTitle_description}"  >
@@ -227,8 +235,8 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{maximusBundle.condition_label}"/>
                                 </f:facet>
-                                 <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
-                                                  style="width:100px" >
+                                <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
+                                                 style="width:100px" >
                                     <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}" />
                                     <f:selectItems value="#{editQuoteController.conditionList}" 
                                                    var="condition" 
@@ -251,7 +259,7 @@
                                     <h:outputText value="#{maximusBundle.qty_found_label}"/>
                                 </f:facet>
                                 <p:spinner value="#{item.qtyFound}" size="2"  min="0" required="true" requiredMessage="#{maximusBundle.message_qty_product}">
-                                     <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
+                                    <p:ajax update=":form:datalistProduct:extended" listener="#{editQuoteController.addExtended(item)}" />
                                 </p:spinner>
                             </p:column>
 
@@ -368,7 +376,7 @@
                         <p:spacer />
                         <h:panelGrid width="100%" style="text-align: left;">
                             <h:panelGrid style="background-color: #C2C7C1; width: 100%;">
-                                <h:outputText value="#{maximusBundle.ViewProductTitle_notes}" rendered="#{viewQuoteController.quoteListNote != null and viewQuoteController.quoteListNote.size() > 0}" style="font-size: 16px ; font-weight: bold;" />
+                                <h:outputText value="#{maximusBundle.ViewProductTitle_notes}" rendered="#{editQuoteController.quoteListNote != null and editQuoteController.quoteListNote.size() > 0}" style="font-size: 16px ; font-weight: bold;" />
                             </h:panelGrid>
                             <p:dataList
                                 value="#{editQuoteController.quoteListNote}" 
@@ -606,7 +614,7 @@
                                          oncomplete="PF('dialogPart').hide()" 
                                          update=":form:datalistProduct,:formDialog" 
                                          actionListener="#{editQuoteController.inicializedObject()}"/>
-                        
+
                         <p:commandButton value="#{maximusBundle.add}" 
                                          id="buttonAdd" 
                                          ajax="true" 
@@ -743,9 +751,15 @@
                 </h:form>
             </p:dialog>
 
-
+            <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+                <h:form id="formDialogProductInfo">
+                    <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+                </h:form>
+            </p:dialog>
+            
             <ui:include src="/util/DialogSustituteForm.xhtml"/> 
             <ui:include src="/util/DialogReplace.xhtml"/> 
+
             <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
 
             <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>

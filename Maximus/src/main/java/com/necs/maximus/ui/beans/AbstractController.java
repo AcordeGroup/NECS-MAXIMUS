@@ -1,12 +1,16 @@
 package com.necs.maximus.ui.beans;
 
+import com.necs.maximus.db.entity.Has;
+import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.facade.AbstractFacade;
+import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.LazyEntityDataModel;
 import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +22,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ejb.EJBException;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.el.ELContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -40,12 +47,20 @@ public abstract class AbstractController<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // se crea variable que identifica que controller esta actualmente utilizaondo la modal
+    public static final String SESSION_CONTROLLER_WRAPPER = "session_controller_wrapper";
+    public static final String NAME_CLASS = "NAME_CLASS";
+    public static final String NAME_CONTROLLER = "NAME_CONTROLLER";
+
     @Inject
     private AbstractFacade<T> ejbFacade;
     private Class<T> itemClass;
     private T selected;
     private Collection<T> items;
     private LazyEntityDataModel<T> lazyItems;
+
+    @EJB
+    private HasFacade hasFacade;
 
     private enum PersistAction {
 
@@ -283,14 +298,11 @@ public abstract class AbstractController<T> implements Serializable {
         }
     }
 
-    public UserManagedBean getUserManagedBean() {
-        return userManagedBean;
-    }
-
-    public void setUserManagedBean(UserManagedBean userManagedBean) {
-        this.userManagedBean = userManagedBean;
-    }
-
+    /**
+     * Metodo comun que permite navegar al home deacuerdo al usuario logueado
+     *
+     * @return
+     */
     public String navigateToDashboard() {
         String index = null;
         switch (AgentType.valueOf(getUserManagedBean().getType())) {
@@ -308,8 +320,13 @@ public abstract class AbstractController<T> implements Serializable {
         }
         return index;
     }
-    
-      public String appMenu() {
+
+    /**
+     * Muestra el menu segun el tipo de usuario loqueado
+     *
+     * @return
+     */
+    public String appMenu() {
         String menu = null;
         switch (AgentType.valueOf(getUserManagedBean().getType())) {
 
@@ -327,15 +344,102 @@ public abstract class AbstractController<T> implements Serializable {
         return menu;
     }
 
+    /**
+     * retorna el tipo de agente logueado
+     *
+     * @return
+     */
     public String typeAgent() {
         return getUserManagedBean().getType();
     }
 
+    /**
+     * Utilitario que valida el formato correcto de un email
+     *
+     * @param email
+     * @return
+     */
     public boolean emailValidator(String email) {
         Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\.\\-+])+@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$");
 
         Matcher m = pattern.matcher(email);
         return m.matches();
+    }
+
+    /**
+     * Metodo encargado de crear un objeto de session que almacena informacion
+     * del controlador actual de la estación.
+     *
+     * @param nameController
+     * @param nameClase
+     */
+    public void createWrapperSesionController(String nameController, Object nameClase) {
+
+        HashMap<String, Object> var = new HashMap<>();
+        FacesContext contex = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) contex.getExternalContext().getSession(true);
+
+        if (session.getAttribute(SESSION_CONTROLLER_WRAPPER) != null) {
+            session.removeAttribute(SESSION_CONTROLLER_WRAPPER);
+        }
+
+        var.put(NAME_CLASS, nameClase);
+        var.put(NAME_CONTROLLER, nameController);
+
+        session.setAttribute(SESSION_CONTROLLER_WRAPPER, var);
+
+    }
+
+    /**
+     * Metodo encargado de recuperar el valor almacenado en el objeto de seccion
+     * dado
+     *
+     * @param value
+     * @return HashMap<String, Object>
+     */
+    public HashMap<String, Object> getValueSessionVar(String value) {
+
+        HashMap<String, Object> var = null;
+        FacesContext contex = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) contex.getExternalContext().getSession(false);
+
+        if (session != null && session.getAttribute(value) != null) {
+            var = (HashMap<String, Object>) session.getAttribute(value);
+        }
+        return var;
+
+    }
+
+    /**
+     * Metodo encargado de setear la informacion del producto el atributos del
+     * controlaro DialogProductInfoController, el mismo nutre de informacion al
+     * dialogo
+     *
+     * @param product
+     */
+    public void viewInfoProduct(Product product) {
+        List<Has> quoteListByProduct;
+
+        ELContext context = FacesContext.getCurrentInstance().getELContext();
+        DialogProductInfoController controller = (DialogProductInfoController) context.getELResolver()
+                .getValue(context, null, "dialogProductInfoController");
+        if (null != product) {
+            controller.setPartNumber(product.getPartNumber());
+            quoteListByProduct = hasFacade.findHasByIdProduct(product.getPartNumber());
+
+            controller.setQuoteListByProduct(quoteListByProduct);
+            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
+                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
+            }
+        }
+    }
+
+    public UserManagedBean getUserManagedBean() {
+        return userManagedBean;
+    }
+
+    public void setUserManagedBean(UserManagedBean userManagedBean) {
+        this.userManagedBean = userManagedBean;
     }
 
 }

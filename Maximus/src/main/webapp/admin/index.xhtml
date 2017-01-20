@@ -108,8 +108,17 @@
                                 <f:facet name="header">
                                     <h:outputText value="Parts Number"/>
                                 </f:facet>
-                                <h:outputText value="#{quoteController.getNumParts(item)}"/>
-
+                                <ui:repeat id="repeatProduct" var="produc" value="#{quoteController.getNumParts(item)}" >
+                                    <p:commandLink id="partNumberLink" 
+                                                   value="#{produc.partNumber}"
+                                                   oncomplete="PF('dialogProductInfo').show()" 
+                                                   ajax="true"
+                                                   actionListener="#{quoteController.viewInfoProduct(produc)}"
+                                                   process="@this"
+                                                    update=":formDialogProductInfo:panelPrincipalDialog"
+                                                   />
+                                    <h:outputText value=","/> 
+                                </ui:repeat>
                             </p:column>
 
                             <p:column style="width : 110px; text-align: center;">
@@ -119,7 +128,7 @@
 
                                 <p:commandLink id="btnView" 
                                                value="#{maximusBundle.view}"
-                                               action="see" ajax="true"
+                                               action="see" ajax="false"
                                                >  
                                     <f:param value="#{item.idQuote}" name="idQuote"/>
                                 </p:commandLink>
@@ -225,8 +234,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="Parts Number"/>
                                 </f:facet>
-                                <h:outputText value="#{quoteController.getNumParts(item)}"/>
-
+                                <ui:repeat id="repeatProduct" var="produc" value="#{quoteController.getNumParts(item)}" >
+                                    <h:outputText value="#{produc.partNumber}, "/>
+                                </ui:repeat>
                             </p:column>
 
                             <p:column style="width : 110px">
@@ -285,11 +295,20 @@
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
+                <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+                    <h:form id="formDialogProductInfo">
+                        <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+                    </h:form>
+                </p:dialog>
+
                 <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//agent/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//vendor/Create.xhtml"/>
+
+
+
             </p:panel>
 
         </ui:define>

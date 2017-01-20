@@ -59,6 +59,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class EditQuoteController extends AbstractController<Quote> {
 
+
     @Inject
     private ProductController proController;
     @Inject
@@ -498,12 +499,14 @@ public class EditQuoteController extends AbstractController<Quote> {
 
             if (operation.equals(OperationType.SUSTITUIR.getOperationName())) {
                 if (selectedPartSubtitute != null) {
+                    object.setDescription(selectedPartSubtitute.getDescription());
                     object.setProduct(selectedPartSubtitute);
                     partListHas.add(object);
                 }
             }
             if (operation.equals(OperationType.CREAR.getOperationName())) {
                 if (productCreado != null) {
+                    object.setDescription(selectedPartSubtitute.getDescription());
                     object.setProduct(productCreado);
                     partListHas.add(object);
                 }
@@ -725,6 +728,7 @@ public class EditQuoteController extends AbstractController<Quote> {
             contactSelected = null;
         }
     }
+   
 
     public List<Customer> getCustomerList() {
         customerList = (List<Customer>) customerFacade.findAll();

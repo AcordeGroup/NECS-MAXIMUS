@@ -12,10 +12,10 @@
         </ui:define>
         <ui:define name="menu">
             <!-- Menu here. Also a layout and a way to log a user out -->
-            <ui:include src="#{createQuoteController.appMenu()}" />
+            <ui:include src="#{viewQuoteController.appMenu()}" />
         </ui:define>
         <ui:define name="body">
-            <h:form>
+            <h:form id="form">
                 <p:panel header="#{maximusBundle.request_label}" id="panelRequest" style="width: 100%">
                     <table style="width: 100%; vertical-align: top; text-align: right;"> 
                         <tr>
@@ -87,9 +87,17 @@
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                             </f:facet>
-                            <h:outputText value="#{item.product.partNumber}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{item.product.partNumber}" rendered="#{viewQuoteController.typeAgent() == 'Sales'}"/>
+                            <div>
+                                <p:commandLink id="partNumberLink" 
+                                               value="#{item.product.partNumber}"
+                                               ajax="true"
+                                               actionListener="#{viewQuoteController.viewInfoProduct(item.product)}"
+                                               process="@this"
+                                               oncomplete="PF('dialogProductInfo').show()" 
+                                               rendered="#{viewQuoteController.typeAgent() != 'Sales'}"
+                                               update=":formDialogProductInfo:panelPrincipalDialog"/>
+                            </div>
                         </p:column>
 
                         <p:column  style="width : 170px" >
@@ -257,6 +265,14 @@
                 </p:panel>
                 <p:commandButton value="#{maximusBundle.ok}" action="#{viewQuoteController.getTypeAgent()}" id="buttonOk" ajax="false" />
             </h:form> 
+
+            <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+                <h:form id="formDialogProductInfo">
+                    <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+                </h:form>
+            </p:dialog>
+
+
         </ui:define>
     </ui:composition>
 </html>

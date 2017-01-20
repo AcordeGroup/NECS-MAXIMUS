@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:panel  id="panelPrincipalDialog">
+            <p:messages id="messagesDialogInfo" showDetail="true" autoUpdate="true" closable="true"/>
+            <h:panelGrid  style="text-align: left" width="100%">
+                <p:outputLabel value="#{maximusBundle.quoteassociate} : #{dialogProductInfoController.partNumber}" style="text-align: left; padding-bottom: 15px;"/>
+            </h:panelGrid> 
+            <p:outputPanel  rendered="#{dialogProductInfoController.quoteListByProduct != null}" id="quoteListPanel">
+
+                <p:dataTable id="datalistPartDialog"
+                             value="#{dialogProductInfoController.quoteListByProduct}"
+                             var="item"
+                             paginator="true"
+                             rows="6"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             emptyMessage="#{maximusBundle.no_search_result}"
+                             paginatorPosition="bottom"
+                             rowKey="#{item.quote.idQuote}"
+                             scrollable="true"
+                             scrollHeight="200"
+                             style="margin-top: 5px;"
+                             sortOrder="descending"
+                             sortBy="#{item.quote.idQuote}">
+
+                    <p:column  style="width :70px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateQuoteNoteTitle_idQuote}"/>
+                        </f:facet>
+                        <p:commandLink id="linkView" 
+                                       value="#{item.quote.idQuote}"
+                                       action="see">  
+                            <f:param value="#{item.quote.idQuote}" name="idQuote"/>
+                        </p:commandLink>
+
+                    </p:column>
+
+                    <p:column  style="width : 80px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateQuoteTitle_creationDate}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quote.creationDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width : 80px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateAgentTitle_idAgent}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quote.idAgent.name}"/>
+                    </p:column>
+
+                    <p:column  style="width : 85px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateHasTitle_suggestedSalesPrice}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.suggestedSalesPrice}"/>
+                    </p:column>
+
+                    <p:column  style="width : 100px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateVendorTitle_idVendor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVendor.companyName}"/>
+                    </p:column>
+
+                    <p:column style="width : 75px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateHasTitle_qtyFound}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.qtyFound}"/>
+
+                    </p:column>
+
+                    <p:column style="width : 100px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.ViewQuoteTitle_idCustomer}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quote.idContact.companyName.companyName}"/>  
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:outputPanel>
+            <p:spacer/>
+            <h:panelGrid  style="text-align: left" width="100%">
+                <p:outputLabel value="#{maximusBundle.sustitutes} :  #{dialogProductInfoController.partNumber}" style="text-align: left; padding: 20px 0px 15px 0px;"/>
+            </h:panelGrid>
+            <p:outputPanel  rendered="#{dialogProductInfoController.partListSubstitutes != null}" id="quoteListPanelSubstitutes">
+
+                <p:dataTable id="datalistPartSubstitutes"
+                             var="item"
+                             value="#{dialogProductInfoController.partListSubstitutes}"
+                             rows="6"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             emptyMessage="#{maximusBundle.no_search_result}"
+                             paginatorPosition="bottom"
+                             rowKey="#{item.partNumberSubstitute.partNumber}"
+                             scrollable="true"
+                             scrollHeight="200"
+                             style="margin-top: 5px;">
+                    <p:column  style="width :90px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.partNumber}"/>
+
+                    </p:column>
+
+                    <p:column  style="width : 90px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.manufacture}"/>
+                    </p:column>
+
+                    <p:column style="width : 140px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_description}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.description}"/>
+                    </p:column>
+
+                    <p:column  style="width : 85px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_type}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.type}"/>
+                    </p:column>
+
+                    <p:column  style="width : 140px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_notes}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.notes}"/>
+                    </p:column>
+
+                    <p:column style="width : 85px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_retailPrice}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.retailPrice}">
+                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width : 120px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_wholesalePrice}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.wholesalePrice}">  
+                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width : 80px">
+                        <f:facet name="header">
+                            <h:outputText value="#{maximusBundle.CreateProductTitle_price}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.partNumberSubstitute.price}">
+                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+            </p:outputPanel>
+        </p:panel>
+
+
+    </ui:composition>
+
+</html>

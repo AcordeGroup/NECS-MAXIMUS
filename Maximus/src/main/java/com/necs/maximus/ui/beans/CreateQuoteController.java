@@ -50,6 +50,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class CreateQuoteController extends AbstractController<Quote> {
 
+
     @EJB
     private QuoteNoteFacade quoteNoteFacade;
     @EJB
@@ -312,6 +313,22 @@ public class CreateQuoteController extends AbstractController<Quote> {
         }
     }
 
+    public void onCustomerChange() {
+        if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
+            inicializedContact();
+            contactList = customerSelected.getContactList();
+            shippingTo = customerSelected.getCompanyAddress();
+        } else {
+            contactList = new ArrayList<>();
+        }
+    }
+
+    public void inicializedContact() {
+        if (contactSelected != null) {
+            contactSelected = null;
+        }
+    }
+
     public List<Customer> getCustomerList() {
         init();
         return customerList;
@@ -498,22 +515,6 @@ public class CreateQuoteController extends AbstractController<Quote> {
 
     public void setConditionList(List<ConditionType> conditionList) {
         this.conditionList = conditionList;
-    }
-
-    public void onCustomerChange() {
-        if (customerSelected != null && !customerSelected.getCompanyName().equals(bundle.getString("SelectOneMessage"))) {
-            inicializedContact();
-            contactList = customerSelected.getContactList();
-            shippingTo = customerSelected.getCompanyAddress();
-        } else {
-            contactList = new ArrayList<>();
-        }
-    }
-
-    public void inicializedContact() {
-        if (contactSelected != null) {
-            contactSelected = null;
-        }
     }
 
 }

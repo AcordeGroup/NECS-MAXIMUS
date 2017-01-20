@@ -16,9 +16,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.necs.maximus.db.entity.Agent;
 import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.Manage;
+import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
+import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.ManageFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
@@ -63,6 +65,7 @@ import org.primefaces.model.StreamedContent;
 @Named(value = "quoteController")
 @ViewScoped
 public class QuoteController extends AbstractController<Quote> {
+
 
     @Inject
     private ContactController idContactController;
@@ -111,7 +114,7 @@ public class QuoteController extends AbstractController<Quote> {
 
     @PostConstruct
     public void init() {
-        logger.info("Start init()");
+        logger.log(Level.INFO, "Start init()");
 
         HashMap param = new HashMap();
         param.put("idAgent", getUserManagedBean().getAgentId());
@@ -120,7 +123,7 @@ public class QuoteController extends AbstractController<Quote> {
         quoteOpen = new ArrayList<>();
         inicializedListByStatus();
 
-        logger.info("End init()");
+        logger.log(Level.INFO, "End init()");
     }
 
     /**
@@ -128,7 +131,7 @@ public class QuoteController extends AbstractController<Quote> {
      * usuario logueddo
      */
     public void inicializedListByStatus() {
-        logger.info("Start inicializedListByStatus()");
+        logger.log(Level.INFO, "Start inicializedListByStatus()");
 
         List<String> status;
         if (agent == null) {
@@ -171,7 +174,7 @@ public class QuoteController extends AbstractController<Quote> {
 
         }
 
-        logger.info("End inicializedListByStatus()");
+        logger.log(Level.INFO, "End inicializedListByStatus()");
 
     }
 
@@ -182,7 +185,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     public String getStatusPurchasing(String status) {
-        logger.info("Start getStatusPurchasing()");
+        logger.log(Level.INFO, "Start getStatusPurchasing()");
 
         StringBuilder statusPurchasing = new StringBuilder("");
         switch (StatusType.getStatusByName(status)) {
@@ -202,7 +205,7 @@ public class QuoteController extends AbstractController<Quote> {
             default:
                 break;
         }
-        logger.info("End getStatusPurchasing()");
+        logger.log(Level.INFO, "End getStatusPurchasing()");
 
         return statusPurchasing.toString();
     }
@@ -214,16 +217,16 @@ public class QuoteController extends AbstractController<Quote> {
      * @param item
      * @return
      */
-    public String getNumParts(Quote item) {
-        logger.info("Start getNumParts()");
-        StringBuilder partsNumber = new StringBuilder("");
+    public List<Product> getNumParts(Quote item) {
+        logger.log(Level.INFO, "Start getNumParts()");
+        List<Product> listPartNumber = new ArrayList<>();
 
         int numPart = item.getHasList().size() < 4 ? item.getHasList().size() : 4;
         for (int i = 0; i < numPart; i++) {
-            partsNumber.append(item.getHasList().get(i).getProduct().getPartNumber()).append(", ");
+            listPartNumber.add(item.getHasList().get(i).getProduct());
         }
-        logger.info("End getNumParts()");
-        return partsNumber.toString();
+        logger.log(Level.INFO, "End getNumParts()");
+        return listPartNumber;
     }
 
     /**
@@ -235,7 +238,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     public String getColorDiv(String status, Date dateCreation) {
-        logger.info("Start getColorDiv()");
+        logger.log(Level.INFO, "Start getColorDiv()");
         StringBuilder color = new StringBuilder("");
         Calendar actual = Calendar.getInstance();
 
@@ -276,7 +279,7 @@ public class QuoteController extends AbstractController<Quote> {
                 break;
         }
 
-        logger.info("End getColorDiv()");
+        logger.log(Level.INFO, "End getColorDiv()");
         return color.toString();
 
     }
@@ -288,7 +291,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @param quote
      */
     public void reopenQuote(Quote quote) {
-        logger.info("Start reopenQuote()");
+        logger.log(Level.INFO, "Start reopenQuote()");
         try {
             if (quote != null) {
                 QuoteStatus qs = quote.getQuoteStatusList().get(0);
@@ -313,7 +316,7 @@ public class QuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
         }
-        logger.info("End reopenQuote()");
+        logger.log(Level.INFO, "End reopenQuote()");
     }
 
     /**
@@ -322,7 +325,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @param quote
      */
     public void sendQuote(Quote quote) {
-        logger.info("Start sendQuote()");
+        logger.log(Level.INFO, "Start sendQuote()");
         try {
             if (quote != null) {
                 // aqui envio quote.....
@@ -337,7 +340,7 @@ public class QuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
 
         }
-        logger.info("End sendQuote()");
+        logger.log(Level.INFO, "End sendQuote()");
     }
 
     /**
@@ -346,7 +349,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @param quote
      */
     public void closeQuote(Quote quote) {
-        logger.info("Start closeQuote()");
+        logger.log(Level.INFO, "Start closeQuote()");
 
         if (quote != null) {
             QuoteStatus qs = quote.getQuoteStatusList().get(0);
@@ -361,7 +364,7 @@ public class QuoteController extends AbstractController<Quote> {
             quoteStatusFacade.create(statusNew);
             init();
         }
-        logger.info("End closeQuote()");
+        logger.log(Level.INFO, "End closeQuote()");
     }
 
     /**
@@ -371,7 +374,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     public boolean isQuoteAdmin(Quote quote) {
-        logger.info("Start isQuoteAdmin()");
+        logger.log(Level.INFO, "Start isQuoteAdmin()");
         if (agent == null) {
             HashMap param = new HashMap();
             param.put("idAgent", getUserManagedBean().getAgentId());
@@ -383,7 +386,7 @@ public class QuoteController extends AbstractController<Quote> {
                 return true;
             }
         }
-        logger.info("End isQuoteAdmin()");
+        logger.log(Level.INFO, "End isQuoteAdmin()");
         return false;
     }
 
@@ -394,7 +397,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @throws MessagingException
      */
     public void sendMail(MailBean mailBean) throws MessagingException {
-        logger.info("Start sendMail()");
+        logger.log(Level.INFO, "Start sendMail()");
         try {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -419,7 +422,7 @@ public class QuoteController extends AbstractController<Quote> {
             Logger.getLogger(QuoteController.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
-        logger.info("End sendMail()");
+        logger.log(Level.INFO, "End sendMail()");
     }
 
     /**
@@ -432,7 +435,7 @@ public class QuoteController extends AbstractController<Quote> {
      */
     public void exportPdf(Quote quote, String operation) throws MessagingException {
         BigDecimal total = new BigDecimal(0);
-        logger.info("Start exportPdf()");
+        logger.log(Level.INFO, "Start exportPdf()");
 
         logger.log(Level.INFO, "quoteId=".concat(quote.getIdQuote().toString()));
 
@@ -767,7 +770,7 @@ public class QuoteController extends AbstractController<Quote> {
             logger.log(Level.SEVERE, null, ex);
             throw ex;
         }
-        logger.info("End exportPdf()");
+        logger.log(Level.INFO, "End exportPdf()");
     }
 
     /**
@@ -777,7 +780,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     private PdfPCell createCellImage(String path) {
-        logger.info("Start createCellImage()");
+        logger.log(Level.INFO, "Start createCellImage()");
         PdfPCell cell = null;
         try {
             Image img = Image.getInstance(path);
@@ -793,7 +796,7 @@ public class QuoteController extends AbstractController<Quote> {
         } catch (IOException ex) {
             Logger.getLogger(ViewQuoteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        logger.info("End createCellImage()");
+        logger.log(Level.INFO, "End createCellImage()");
         return cell;
     }
 
@@ -812,7 +815,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     private PdfPCell createCell(String text, Integer span, Integer rSpan, Font font, BaseColor backColor, Integer halign, Float padding, Integer border, Float height) {
-        logger.info("Start createCell()");
+        logger.log(Level.INFO, "Start createCell()");
         Phrase phrase = (font != null) ? new Phrase(text, font) : new Phrase(text);
         PdfPCell cell = new PdfPCell(phrase);
         if (span != null) {
@@ -839,7 +842,7 @@ public class QuoteController extends AbstractController<Quote> {
             cell.setFixedHeight(height);
 
         }
-        logger.info("End createCell()");
+        logger.log(Level.INFO, "End createCell()");
         return cell;
     }
 
@@ -851,14 +854,14 @@ public class QuoteController extends AbstractController<Quote> {
      * @return
      */
     public BigDecimal amountTotalQuote(Quote quote) {
-        logger.info("Start amountTotalQuote()");
+        logger.log(Level.INFO, "Start amountTotalQuote()");
         BigDecimal total = new BigDecimal(0);
         if (quote != null) {
             for (Has h : quote.getHasList()) {
                 total = total.add(h.getExtended() == null ? new BigDecimal(0) : h.getExtended());
             }
         }
-        logger.info("End amountTotalQuote()");
+        logger.log(Level.INFO, "End amountTotalQuote()");
         return total;
     }
 
@@ -897,7 +900,7 @@ public class QuoteController extends AbstractController<Quote> {
      * @param quote
      */
     public void sentNotificationStatusQuote(Quote quote) {
-        logger.info("Start sentNotificationStatusQuote()");
+        logger.log(Level.INFO, "Start sentNotificationStatusQuote()");
         if (quote.getIdAgent() != null && null != quote.getIdAgent().getEmail()) {
 
             if (emailValidator(quote.getIdAgent().getEmail())) {
@@ -925,10 +928,10 @@ public class QuoteController extends AbstractController<Quote> {
             FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "", bundle.getString("messageErrorEmailNull")));
         }
 
-        logger.info("End sentNotificationStatusQuote()");
+        logger.log(Level.INFO, "End sentNotificationStatusQuote()");
 
     }
-
+    
     public void prepareIdCustomer(ActionEvent event) {
         if (this.getSelected() != null && idContactController.getSelected() == null) {
             idContactController.setSelected(this.getSelected().getIdContact());
