@@ -5,13 +5,19 @@ import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.convert.FacesConverter;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Named;
 
-@FacesConverter(value = "productConverter")
+/**
+ *
+ * @author Luis Castañeda <luis.castaneda at acorde.com.ve>
+ */
+@Named(value = "productConverter")
+@ManagedBean
 public class ProductConverter implements Converter {
 
     @Inject

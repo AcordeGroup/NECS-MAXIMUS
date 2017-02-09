@@ -56,7 +56,7 @@
                         <pm:field>
                             <p:outputLabel value="#{maximusBundle.CreateCustomerLabel_companyName}" for="companyName" />
                             <h:panelGroup>
-                                <p:selectOneMenu id="companyName" value="#{contactController.selected.companyName}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_companyName}" converter="customerConverter">
+                                <p:selectOneMenu id="companyName" value="#{contactController.selected.companyName}" required="true" requiredMessage="#{maximusBundle.CreateCustomerRequiredMessage_companyName}" converter="#{customerConverter}">
                                     <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{customerController.items}"
                                                    var="companyNameItem"

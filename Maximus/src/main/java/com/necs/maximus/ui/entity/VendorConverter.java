@@ -12,17 +12,20 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.inject.Named;
+
 
 /**
  *
- * @author luis
+ * @author Luis Castañeda <luis.castaneda at acorde.com.ve>
  */
-@FacesConverter(value = "vendorConverter")
+@Named(value = "vendorConverter")
+@ManagedBean
 public class VendorConverter implements Converter {
 
     @Inject

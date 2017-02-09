@@ -29,7 +29,7 @@
 
                                                 <td > <p:selectOneMenu id="customer" 
                                                                        value="#{createQuoteController.customerSelected}" 
-                                                                       converter="customerConverter" 
+                                                                       converter="#{customerConverter}" 
                                                                        style="width:255px; height: 30px !important; margin: 0 0 0 0 !important;"
                                                                        effect="fade" 
                                                                        filter="true" 
@@ -79,7 +79,7 @@
                                                 </td>
                                                 <td> <p:selectOneMenu   id="contactSelect"
                                                                         value="#{createQuoteController.contactSelected}" 
-                                                                        converter="contactConverter" 
+                                                                        converter="#{contactConverter}" 
                                                                         style="width:255px; margin: 0px 0px 0px 0px !important;"
                                                                         effect="fade" 
                                                                         filter="true" 
@@ -214,8 +214,16 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.product.partNumber}" rendered="#{createQuoteController.typeAgent() == 'Sales'}"/>
-                                    <div>
+                                    <!--<h:outputText value="#{item.product.partNumber}" rendered="#{createQuoteController.typeAgent() == 'Sales'}"/>-->
+                                    <p:commandLink id="partNumberLinkSales" 
+                                                   value="#{item.product.partNumber}"
+                                                   ajax="true"
+                                                   actionListener="#{createQuoteController.viewInfoProductByIdAgent(item.product, userManagedBean.agentId)}"
+                                                   process="@this"
+                                                   oncomplete="PF('dialogProductInfo').show()" 
+                                                   rendered="#{createQuoteController.typeAgent() == 'Sales'}"
+                                                   update=":formDialogProductInfo:panelPrincipalDialog"/>
+                                   
                                         <p:commandLink id="partNumberLink" 
                                                        value="#{item.product.partNumber}"
                                                        ajax="true"
@@ -223,9 +231,9 @@
                                                        process="@this"
                                                        oncomplete="PF('dialogProductInfo').show()" 
                                                        rendered="#{createQuoteController.typeAgent() != 'Sales'}"
-                                                        update=":formDialogProductInfo:panelPrincipalDialog"/>
+                                                       update=":formDialogProductInfo:panelPrincipalDialog"/>
 
-                                    </div>
+                                    
                                 </p:column>
 
                                 <p:column  style="width : 170px" headerText="#{maximusBundle.CreateProductTitle_description}"  >
@@ -247,7 +255,7 @@
                                         <h:outputText value="#{maximusBundle.condition_label}"/>
                                     </f:facet>
 
-                                    <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="conditionTypeConverter" panelStyle="width:160px;"
+                                    <p:selectOneMenu id="condition" value="#{item.conditionType}" converter="#{conditionTypeConverter}" panelStyle="width:160px;"
                                                      style="width:100px" >
                                         <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                         <f:selectItems value="#{createQuoteController.conditionList}" 
@@ -262,7 +270,7 @@
                                         <h:outputText value="#{maximusBundle.qty_label}"/>
                                     </f:facet>
                                     <p:spinner id="basic" value="#{item.qtyRequested}" size="3"  min="0" required="true"  requiredMessage="#{maximusBundle.message_qty_product}"  >
-                                        <p:ajax update=":form:datalistProduct:extended" listener="#{createQuoteController.addExtended(item)}" />
+                                        <p:ajax update=":form:datalistProduct:extended" listener="#{createQuoteController.addExtended(item)}" delay="2000"  />
                                     </p:spinner>
                                 </p:column>
 

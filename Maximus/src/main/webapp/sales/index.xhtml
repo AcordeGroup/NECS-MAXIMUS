@@ -92,7 +92,17 @@
                                 <f:facet name="header">
                                     <h:outputText value="Parts Number"/>
                                 </f:facet>
-                                <h:outputText value="#{quoteController.getNumParts(item)}"/>
+                                <ui:repeat id="repeatProductLink" var="produc" value="#{quoteController.getNumParts(item)}" >
+                                    <p:commandLink id="partNumberLink" 
+                                                   value="#{produc.partNumber}"
+                                                   oncomplete="PF('dialogProductInfo').show()" 
+                                                   ajax="true"
+                                                   actionListener="#{quoteController.viewInfoProductByIdAgent(produc,userManagedBean.agentId)}"
+                                                   process="@this"
+                                                   update=":formDialogProductInfo:panelPrincipalDialog"
+                                                   />
+                                    <h:outputText value=","/> 
+                                </ui:repeat>
 
                             </p:column>
 
@@ -208,7 +218,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="Parts Number"/>
                                 </f:facet>
-                                <h:outputText value="#{quoteController.getNumParts(item)}"/>
+                                <ui:repeat id="repeatProduct" var="produc" value="#{quoteController.getNumParts(item)}" >
+                                    <h:outputText value="#{produc.partNumber}, "/>
+                                </ui:repeat>
 
                             </p:column>
 
@@ -251,6 +263,13 @@
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
+                 <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+                    <h:form id="formDialogProductInfo">
+                        <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+                    </h:form>
+                </p:dialog>
+                
+                
                 <ui:include src="/WEB-INF/include/admin/entity//contact/Create.xhtml"/>
                 <ui:include src="/WEB-INF/include/admin/entity//customer/Create.xhtml"/>
             </p:panel>

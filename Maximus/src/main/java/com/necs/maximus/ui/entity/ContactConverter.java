@@ -5,13 +5,18 @@ import com.necs.maximus.db.facade.ContactFacade;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.convert.FacesConverter;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
-@FacesConverter(value = "contactConverter")
+import javax.inject.Named;
+/**
+ *
+ * @author Luis Castañeda <luis.castaneda at acorde.com.ve>
+ */
+@Named(value = "contactConverter")
+@ManagedBean
 public class ContactConverter implements Converter {
 
     @Inject

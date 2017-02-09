@@ -17,7 +17,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.partNumberBase}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="productConverter" style="width: 390px;">
+                            <p:selectOneMenu id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.partNumberBase}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"
@@ -32,7 +32,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.partNumberSubstitute}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="productConverter" style="width: 390px;">
+                            <p:selectOneMenu id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.partNumberSubstitute}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"

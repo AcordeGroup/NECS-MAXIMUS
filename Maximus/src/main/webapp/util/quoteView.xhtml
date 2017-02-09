@@ -87,8 +87,18 @@
                             <f:facet name="header">
                                 <h:outputText value="#{maximusBundle.CreateProductCostTitle_partNumber}"/>
                             </f:facet>
-                            <h:outputText value="#{item.product.partNumber}" rendered="#{viewQuoteController.typeAgent() == 'Sales'}"/>
-                            <div>
+                            <!--<h:outputText value="#{item.product.partNumber}" rendered="#{viewQuoteController.typeAgent() == 'Sales'}"/>-->
+                            
+                                <p:commandLink id="partNumberLinkSales" 
+                                               value="#{item.product.partNumber}"
+                                               ajax="true"
+                                               actionListener="#{viewQuoteController.viewInfoProductByIdAgent(item.product, userManagedBean.agentId)}"
+                                               process="@this"
+                                               oncomplete="PF('dialogProductInfo').show()" 
+                                               rendered="#{viewQuoteController.typeAgent() == 'Sales'}"
+                                               update=":formDialogProductInfo:panelPrincipalDialog"/>
+                                
+                            
                                 <p:commandLink id="partNumberLink" 
                                                value="#{item.product.partNumber}"
                                                ajax="true"
@@ -97,7 +107,7 @@
                                                oncomplete="PF('dialogProductInfo').show()" 
                                                rendered="#{viewQuoteController.typeAgent() != 'Sales'}"
                                                update=":formDialogProductInfo:panelPrincipalDialog"/>
-                            </div>
+                            
                         </p:column>
 
                         <p:column  style="width : 170px" >

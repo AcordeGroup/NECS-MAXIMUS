@@ -12,25 +12,27 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Luis Castañeda <luis.castaneda at acorde.com.ve>
  */
-@FacesConverter(value = "conditionTypeConverter")
+@Named(value = "conditionTypeConverter")
+@ManagedBean
 public class ConditionTypeConverter implements Converter {
-    
+
     @Inject
     private ConditionTypeFacade facade;
-    
+
     private final Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     protected ResourceBundle bundle = ResourceBundle.getBundle("/MaximusBundle", locale);
-    
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value) || value.equals(bundle.getString("SelectOneMessage"))) {
@@ -38,7 +40,7 @@ public class ConditionTypeConverter implements Converter {
         }
         return this.facade.find(getKey(value));
     }
-    
+
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object object) {
         if (object == null
@@ -53,17 +55,17 @@ public class ConditionTypeConverter implements Converter {
             return null;
         }
     }
-    
+
     String getStringKey(java.lang.Integer value) {
         StringBuffer sb = new StringBuffer();
         sb.append(value);
         return sb.toString();
     }
-    
+
     java.lang.Integer getKey(String value) {
         java.lang.Integer key;
         key = Integer.valueOf(value);
         return key;
     }
-    
+
 }

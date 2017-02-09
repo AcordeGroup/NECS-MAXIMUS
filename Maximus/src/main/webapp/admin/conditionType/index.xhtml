@@ -10,6 +10,11 @@
         <h:outputText value="#{maximusBundle.ConditionTypeTitle}"/>
     </ui:define>
 
+    <ui:define name="menu">
+        <!-- Menu here. Also a layout and a way to log a user out -->
+        <ui:include src="#{conditionTypeController.appMenu()}" />
+    </ui:define>
+
     <ui:define name="body">
 
         <ui:include src="/WEB-INF/include/admin/entity//conditionType/List.xhtml"/>

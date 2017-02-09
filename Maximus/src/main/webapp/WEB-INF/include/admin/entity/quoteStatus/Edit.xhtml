@@ -41,7 +41,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditQuoteStatusLabel_idQuote}" for="idQuote" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="idQuote" value="#{quoteStatusController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.EditQuoteStatusRequiredMessage_idQuote}" converter="quoteConverter">
+                            <p:selectOneMenu id="idQuote" value="#{quoteStatusController.selected.idQuote}" required="true" requiredMessage="#{maximusBundle.EditQuoteStatusRequiredMessage_idQuote}" converter="#{quoteConverter}">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{quoteController.items}"
                                                var="idQuoteItem"

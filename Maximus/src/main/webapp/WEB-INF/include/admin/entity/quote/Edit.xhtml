@@ -35,7 +35,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditQuoteLabel_idAgent}" for="idAgent" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="idAgent" value="#{quoteController.selected.idAgent}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idAgent}" converter="agentConverter">
+                            <p:selectOneMenu id="idAgent" value="#{quoteController.selected.idAgent}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idAgent}" converter="#{agentConverter}">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{agentController.items}"
                                                var="idAgentItem"
@@ -49,7 +49,7 @@
 
                         <p:outputLabel value="#{maximusBundle.EditQuoteLabel_idCustomer}" for="idCustomer" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="idCustomer" value="#{quoteController.selected.idContact}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idCustomer}" converter="customerConverter">
+                            <p:selectOneMenu id="idCustomer" value="#{quoteController.selected.idContact}" required="true" requiredMessage="#{maximusBundle.EditQuoteRequiredMessage_idCustomer}" converter="#{customerConverter}">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{contactController.items}"
                                                var="idCustomerItem"

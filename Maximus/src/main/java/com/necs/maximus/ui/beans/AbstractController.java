@@ -434,6 +434,30 @@ public abstract class AbstractController<T> implements Serializable {
         }
     }
 
+    /**
+     * Metodo encargado de setear la informacion del producto asociado al agente
+     * de vetas a los atributos del controlador DialogProductInfoController, el
+     * mismo nutre de informacion al dialogo
+     *
+     * @param product
+     */
+    public void viewInfoProductByIdAgent(Product product, String idAgent) {
+        List<Has> quoteListByProduct;
+
+        ELContext context = FacesContext.getCurrentInstance().getELContext();
+        DialogProductInfoController controller = (DialogProductInfoController) context.getELResolver()
+                .getValue(context, null, "dialogProductInfoController");
+        if (null != product) {
+            controller.setPartNumber(product.getPartNumber());
+            quoteListByProduct = hasFacade.findHasByIdProductAndIdAgent(product.getPartNumber(), idAgent);
+
+            controller.setQuoteListByProduct(quoteListByProduct);
+            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
+                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
+            }
+        }
+    }
+
     public UserManagedBean getUserManagedBean() {
         return userManagedBean;
     }

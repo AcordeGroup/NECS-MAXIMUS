@@ -39,5 +39,15 @@ public class HasFacade extends AbstractFacade<Has> {
         return query.getResultList();
 
     }
+     
+     public List<Has> findHasByIdProductAndIdAgent(String idProduct, String idAgent) {
+
+        Query query = em.createQuery("SELECT h from Has h WHERE h.product.partNumber = :idProduct "
+                + "AND h.quote.idAgent.idAgent = :idAgent ");
+        query.setParameter("idProduct", idProduct);
+        query.setParameter("idAgent", idAgent);
+        return query.getResultList();
+
+    }
 
 }

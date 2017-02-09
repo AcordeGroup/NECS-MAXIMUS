@@ -61,7 +61,24 @@
                         <f:facet name="header">
                             <h:outputText value="#{maximusBundle.ListProductTitle_partNumber}"/>
                         </f:facet>
-                        <h:outputText value="#{item.partNumber}"/>
+                        <p:commandLink id="partNumberLinkSales" 
+                                       value="#{item.partNumber}"
+                                       ajax="true"
+                                       actionListener="#{productController.viewInfoProductByIdAgent(item, userManagedBean.agentId)}"
+                                       process="@this"
+                                       oncomplete="PF('dialogProductInfo').show()" 
+                                       rendered="#{productController.typeAgent() == 'Sales'}"
+                                       update=":formDialogProductInfo:panelPrincipalDialog"/>
+
+
+                        <p:commandLink id="partNumberLink" 
+                                       value="#{item.partNumber}"
+                                       ajax="true"
+                                       actionListener="#{productController.viewInfoProduct(item)}"
+                                       process="@this"
+                                       oncomplete="PF('dialogProductInfo').show()" 
+                                       rendered="#{productController.typeAgent() != 'Sales'}"
+                                       update=":formDialogProductInfo:panelPrincipalDialog"/>
                     </p:column>
 
 

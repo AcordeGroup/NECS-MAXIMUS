@@ -48,7 +48,7 @@
                         <pm:field>
                             <p:outputLabel value="#{maximusBundle.CreateProductCostLabel_partNumber}" for="partNumber" />
                             <h:panelGroup>
-                                <p:selectOneMenu id="partNumber" value="#{productCostController.selected.partNumber}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_partNumber}" converter="productConverter">
+                                <p:selectOneMenu id="partNumber" value="#{productCostController.selected.partNumber}" required="true" requiredMessage="#{maximusBundle.CreateProductCostRequiredMessage_partNumber}" converter="#{productConverter}">
                                     <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{productController.items}"
                                                    var="partNumberItem"

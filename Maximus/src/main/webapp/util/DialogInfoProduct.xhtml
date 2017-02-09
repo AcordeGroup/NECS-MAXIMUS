@@ -39,6 +39,7 @@
                                        value="#{item.quote.idQuote}"
                                        action="see">  
                             <f:param value="#{item.quote.idQuote}" name="idQuote"/>
+                            <f:param value="#{item.quote.quoteStatusList.get(item.quote.quoteStatusList.size()-1).status}" name="statusQuote"/>
                         </p:commandLink>
 
                     </p:column>

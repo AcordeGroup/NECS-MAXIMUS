@@ -5,13 +5,19 @@ import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.convert.FacesConverter;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Named;
 
-@FacesConverter(value = "quoteConverter")
+/**
+ *
+ * @author Luis Castañeda <luis.castaneda at acorde.com.ve>
+ */
+@Named(value = "quoteConverter")
+@ManagedBean
 public class QuoteConverter implements Converter {
 
     @Inject

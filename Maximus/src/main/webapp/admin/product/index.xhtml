@@ -9,6 +9,10 @@
     <ui:define name="title">
         <h:outputText value="#{maximusBundle.ProductTitle}"/>
     </ui:define>
+    <ui:define name="menu">
+        <!-- Menu here. Also a layout and a way to log a user out -->
+        <ui:include src="#{productController.appMenu()}" />
+    </ui:define>
 
     <ui:define name="body">
 
@@ -16,6 +20,12 @@
         <ui:include src="/WEB-INF/include/admin/entity//product/View.xhtml"/>
         <ui:include src="/WEB-INF/include/admin/entity//product/Edit.xhtml"/>
         <ui:include src="/WEB-INF/include/admin/entity//product/Create.xhtml"/>
+
+        <p:dialog header="Info product"  widgetVar="dialogProductInfo"  id="dialogProductInfoId" resizable="true" draggable="true"  maximizable="true" modal="true" position="center" width="80%" height="80%">
+            <h:form id="formDialogProductInfo">
+                <ui:include src="/util/DialogInfoProduct.xhtml"/> 
+            </h:form>
+        </p:dialog>
 
     </ui:define>
 

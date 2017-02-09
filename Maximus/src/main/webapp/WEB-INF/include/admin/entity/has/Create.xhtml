@@ -53,7 +53,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_product}" for="product" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="product" value="#{hasController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_product}" converter="productConverter" style="width: 390px;">
+                            <p:selectOneMenu id="product" value="#{hasController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"
@@ -67,7 +67,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateHasLabel_quote}" for="quote" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="quote" value="#{hasController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_quote}" converter="quoteConverter" style="width: 390px;">
+                            <p:selectOneMenu id="quote" value="#{hasController.selected.quote}" required="true" requiredMessage="#{maximusBundle.CreateHasRequiredMessage_quote}" converter="#{quoteConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{quoteController.items}"
                                                var="quoteItem"

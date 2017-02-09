@@ -40,7 +40,7 @@
                         <pm:field>
                             <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_product}" for="product" />
                             <h:panelGroup>
-                                <p:selectOneMenu id="product" value="#{isSubstituteController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="productConverter">
+                                <p:selectOneMenu id="product" value="#{isSubstituteController.selected.product}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}">
                                     <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{productController.items}"
                                                    var="productItem"
