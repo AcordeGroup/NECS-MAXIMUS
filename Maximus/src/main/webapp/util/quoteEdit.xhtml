@@ -333,7 +333,7 @@
                                     <p:column colspan="9" footerText="#{maximusBundle.shipping_cost_label} $" style="text-align:right"/>
                                     <p:column footerText="#{editQuoteController.quote.shipping_cost}" >
                                         <f:facet name="footer">
-                                            <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{editQuoteController.quote.shipping_cost}" required="true" requiredMessage="#{maximusBundle.message_shipping_cost}" size="7"/>
+                                            <p:inputText converter="javax.faces.Double" converterMessage="#{maximusBundlemessage_only_numbers}" value="#{editQuoteController.quote.shipping_cost}"  size="7"/>
                                         </f:facet>
                                     </p:column>
                                 </p:row>
@@ -347,7 +347,7 @@
                                                    value="#{maximusBundle.remove_button}" 
                                                    actionListener="#{editQuoteController.removePart(item)}" 
                                                    ajax="true" update=":form:datalistProduct" 
-                                                   process="datalistProduct"/>
+                                                   process="@this"/>
                                 </div>
                                 <div>
                                     <p:commandLink id="btnReplace" 
@@ -357,7 +357,7 @@
                                                    actionListener="#{editQuoteController.fillPartReplace(item)}"
                                                    update=":formDialogSubstitute:panelPrincipalSubstitute, :form:datalistProduct" 
                                                    rendered="#{(userManagedBean.type != 'Sales') and (item.observation == null)}"
-                                                   process="datalistProduct"/>   
+                                                   process="@this"/>   
                                 </div>
                                 <div>
                                     <p:commandLink id="btnChange" 
@@ -367,7 +367,7 @@
                                                    actionListener="#{editQuoteController.fillPartGeneric(item)}"
                                                    update=":form:datalistProduct" 
                                                    rendered="#{(userManagedBean.type != 'Sales') and (item.observation != null)}"
-                                                   process="datalistProduct"/> 
+                                                   process="@this"/> 
                                 </div>
                             </p:column>
                         </p:dataTable>

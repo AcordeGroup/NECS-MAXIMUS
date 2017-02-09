@@ -476,7 +476,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                 object.setExtended(productGeneric.getExtended());
                 object.setQtyRequested(productGeneric.getQtyRequested());
                 for (Has h : partListHas) {
-                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC)) {
+                    if (h.getProduct().getType().toUpperCase().equals(PRODUCT_GENERIC) && h.getObservation().equals(productGeneric.getObservation())) {
                         partListHas.remove(h);
                         break;
                     }
@@ -506,7 +506,7 @@ public class EditQuoteController extends AbstractController<Quote> {
             }
             if (operation.equals(OperationType.CREAR.getOperationName())) {
                 if (productCreado != null) {
-                    object.setDescription(selectedPartSubtitute.getDescription());
+                    object.setDescription(productCreado.getDescription());
                     object.setProduct(productCreado);
                     partListHas.add(object);
                 }

@@ -232,11 +232,11 @@
                                     <p:cellEditor>
                                         <f:facet name="output" >
                                             <h:outputText value="#{item.description}" rendered="#{item.product.partNumber != '555555'}"/>
-                                            <h:outputText value="#{createQuoteController.observation}" rendered="#{item.product.partNumber == '555555'}"/>
+                                            <h:outputText value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}"/>
                                         </f:facet>
                                         <f:facet name="input">
                                             <h:inputTextarea value="#{item.description}" rendered="#{item.product.partNumber != '555555'}" style="width: 260px; height: 50px;"  />
-                                            <h:inputTextarea value="#{createQuoteController.observation}" rendered="#{item.product.partNumber == '555555'}" style="width: 220px; height: 35px;" />
+                                            <h:inputTextarea value="#{item.observation}" rendered="#{item.product.partNumber == '555555'}" style="width: 220px; height: 35px;" />
 
                                         </f:facet>
                                     </p:cellEditor>

@@ -271,6 +271,7 @@ public class CreateQuoteController extends AbstractController<Quote> {
                     object.setProduct(pro);
                     object.setQtyFound(0);
                     object.setDescription(pro.getDescription());
+                    object.setObservation(observation);
                     object.setQtyRequested(0);
                     auxPartHas.add(object);
                 }
