@@ -16,21 +16,26 @@
 
                     <p:panel header="Search Part" id="panelSearch">
 
-                        <h:panelGrid columns="2" style="text-align: left"> 
+                        <h:panelGrid columns="3" style="text-align: left"> 
 
                             <h:outputText value="#{maximusBundle.CreateHasTitle_hasPK_partNumber}" />
                             <p:autoComplete id="acSimple" value="#{editQuoteController.nroPart}" 
                                             completeMethod="#{editQuoteController.complete}"
                                             maxResults="10"/>
+                            <p:commandButton value="#{maximusBundle.new_part_button}"  id="buttonNewPart"  update=":ProductCreateForm" actionListener="#{editQuoteController.proController.prepareCreateProduct()}" oncomplete="PF('ProductCreateDialogInterno').show()" style="height: 25px; vertical-align: middle; margin: 0 0 0 0 !important; width: 98px;"/>
+                            
                             <h:outputText value="#{maximusBundle.CreateProductTitle_manufacture}" />
                             <p:inputText value="#{editQuoteController.manufacturePart}"  />
+                            <h:outputText value="" />
 
                             <h:outputText value="#{maximusBundle.CreateProductTitle_description}" />
                             <p:inputText value="#{editQuoteController.descriptionPart}" />
+                            <h:outputText value="" />
 
 
                             <h:outputText value="#{maximusBundle.CreateProductTitle_type}" />
                             <p:inputText value="#{editQuoteController.typePart}"  />
+                            <h:outputText value="" />
 
 
                         </h:panelGrid>

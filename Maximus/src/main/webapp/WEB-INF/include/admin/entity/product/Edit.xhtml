@@ -23,43 +23,43 @@
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_manufacture}" for="manufacture" />
                         <h:panelGroup>
-                            <p:inputText id="manufacture" value="#{productController.selected.manufacture}" title="#{maximusBundle.EditProductTitle_manufacture}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_manufacture}" size="25" maxlength="25"/>
+                            <p:inputText id="manufacture" value="#{productController.selected.manufacture}" title="#{maximusBundle.EditProductTitle_manufacture}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_manufacture}" size="45" maxlength="100"/>
                             <p:tooltip for="manufacture" value="#{productController.getComponentMessages('manufacture', maximusBundle.EditProductHelpText_manufacture)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_description}" for="description" />
                         <h:panelGroup>
-                            <p:inputText id="description" value="#{productController.selected.description}" title="#{maximusBundle.EditProductTitle_description}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_description}" size="100" maxlength="100"/>
+                            <p:inputTextarea id="description" value="#{productController.selected.description}" title="#{maximusBundle.EditProductTitle_description}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_description}" style="width: 345px;"/>
                             <p:tooltip for="description" value="#{productController.getComponentMessages('description', maximusBundle.EditProductHelpText_description)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_type}" for="type" />
                         <h:panelGroup>
-                            <p:inputText id="type" value="#{productController.selected.type}" title="#{maximusBundle.EditProductTitle_type}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_type}" size="25" maxlength="25"/>
+                            <p:inputText id="type" value="#{productController.selected.type}" title="#{maximusBundle.EditProductTitle_type}" required="true" requiredMessage="#{maximusBundle.EditProductRequiredMessage_type}" size="45" maxlength="100"/>
                             <p:tooltip for="type" value="#{productController.getComponentMessages('type', maximusBundle.EditProductHelpText_type)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_notes}" for="notes" />
                         <h:panelGroup>
-                            <p:inputText id="notes" value="#{productController.selected.notes}" title="#{maximusBundle.EditProductTitle_notes}" size="100" maxlength="100"/>
+                            <p:inputTextarea id="notes" value="#{productController.selected.notes}" title="#{maximusBundle.EditProductTitle_notes}" style="width: 345px;"/>
                             <p:tooltip for="notes" value="#{productController.getComponentMessages('notes', maximusBundle.EditProductHelpText_notes)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_retailPrice}" for="retailPrice" />
                         <h:panelGroup>
-                            <p:inputText id="retailPrice" value="#{productController.selected.retailPrice}" title="#{maximusBundle.EditProductTitle_retailPrice}"/>
+                            <p:inputText id="retailPrice" value="#{productController.selected.retailPrice}" title="#{maximusBundle.EditProductTitle_retailPrice}" size="45" maxlength="100"/>
                             <p:tooltip for="retailPrice" value="#{productController.getComponentMessages('retailPrice', maximusBundle.EditProductHelpText_retailPrice)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_wholesalePrice}" for="wholesalePrice" />
                         <h:panelGroup>
-                            <p:inputText id="wholesalePrice" value="#{productController.selected.wholesalePrice}" title="#{maximusBundle.EditProductTitle_wholesalePrice}"/>
+                            <p:inputText id="wholesalePrice" value="#{productController.selected.wholesalePrice}" title="#{maximusBundle.EditProductTitle_wholesalePrice}" size="45" maxlength="100"/>
                             <p:tooltip for="wholesalePrice" value="#{productController.getComponentMessages('wholesalePrice', maximusBundle.EditProductHelpText_wholesalePrice)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.EditProductLabel_price}" for="price" />
                         <h:panelGroup>
-                            <p:inputText id="price" value="#{productController.selected.price}" title="#{maximusBundle.EditProductTitle_price}"/>
+                            <p:inputText id="price" value="#{productController.selected.price}" title="#{maximusBundle.EditProductTitle_price}" size="45" maxlength="100"/>
                             <p:tooltip for="price" value="#{productController.getComponentMessages('price', maximusBundle.EditProductHelpText_price)}"/>
                         </h:panelGroup>
                     </p:panelGrid>

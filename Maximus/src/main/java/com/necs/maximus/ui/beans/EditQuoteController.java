@@ -59,9 +59,10 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class EditQuoteController extends AbstractController<Quote> {
 
-
     @Inject
     private ProductController proController;
+    @Inject
+    private IsSubstituteController substitute;
     @Inject
     private QuoteController quoteController;
     @EJB
@@ -211,7 +212,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     // envio notificacion al sales
                     quoteController.sendQuote(quote);
-                    RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
+                    //RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
                 }
 
                 if (note != null && !note.equals("")) {
@@ -639,6 +640,27 @@ public class EditQuoteController extends AbstractController<Quote> {
             setProductReplace(product);
         }
     }
+    
+    
+        /**
+     * valida los campos del producto substituto...
+     *
+     * @param product
+     */
+    public void validateFieldSubstitute(Product product) {
+        if (product != null) {
+            if (product.getPartNumber() == null) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", "The Part Number field must not be empty"));
+            } else if (product.getManufacture() == null) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", "The Manufacture field must not be empty"));
+            } else if (product.getDescription() == null) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", "The Description field must not be empty"));
+            } else if (product.getType() == null) {
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "", "The Type field must not be empty"));
+            }
+
+        }
+    }
 
     public void crearProductSustitute(boolean isGeneric) {
         try {
@@ -651,6 +673,19 @@ public class EditQuoteController extends AbstractController<Quote> {
 
                     productFacade.create(proController.getSelected());
                     setProductCreado(proController.getSelected());
+
+                    if (proController.getProductSubstitute() != null && proController.isCreateSubstitute()) {
+                        validateFieldSubstitute(proController.getProductSubstitute());
+                        productFacade.create(proController.getProductSubstitute());
+                        substitute.getSelected().setPartNumberBase(proController.getSelected());
+                        substitute.getSelected().setPartNumberSubstitute(proController.getProductSubstitute());
+                        substitute.saveNew(null);
+                    }
+                    //inicializo el objeto product
+                    proController.setSelected(null);
+                    proController.setProductSubstitute(null);
+                    proController.setCreateSubstitute(false);
+                    
                     if (isGeneric) {
                         RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
                     } else {
@@ -660,6 +695,8 @@ public class EditQuoteController extends AbstractController<Quote> {
             }
 
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_WARN, "", bundle.getString("error_save")));
+            e.printStackTrace();
         }
 
     }
@@ -707,6 +744,7 @@ public class EditQuoteController extends AbstractController<Quote> {
 
     public void fillDescriptionGeneric() {
         proController.prepareCreate(null);
+        substitute.prepareCreate(null);
         proController.getSelected().setDescription(productGeneric.getObservation());
     }
 
@@ -728,7 +766,6 @@ public class EditQuoteController extends AbstractController<Quote> {
             contactSelected = null;
         }
     }
-   
 
     public List<Customer> getCustomerList() {
         customerList = (List<Customer>) customerFacade.findAll();

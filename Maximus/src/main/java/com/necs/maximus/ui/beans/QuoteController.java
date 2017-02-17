@@ -20,13 +20,13 @@ import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
-import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.ManageFacade;
 import com.necs.maximus.db.facade.QuoteFacade;
 import com.necs.maximus.db.facade.QuoteStatusFacade;
 import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.enums.OperationType;
 import com.necs.maximus.enums.StatusType;
+import com.necs.maximus.ui.beans.util.Constantes;
 import com.necs.maximus.ui.beans.util.MailBean;
 import com.necs.maximus.ui.beans.util.MailUtil;
 import com.necs.maximus.ui.beans.util.MobilePageController;
@@ -65,7 +65,6 @@ import org.primefaces.model.StreamedContent;
 @Named(value = "quoteController")
 @ViewScoped
 public class QuoteController extends AbstractController<Quote> {
-
 
     @Inject
     private ContactController idContactController;
@@ -309,7 +308,7 @@ public class QuoteController extends AbstractController<Quote> {
                 manageFacade.edit(ma);
 
                 sentNotificationStatusQuote(quote);
-
+                RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
                 init();
             }
         } catch (Exception e) {
@@ -735,7 +734,7 @@ public class QuoteController extends AbstractController<Quote> {
                             mail.setTo(to);
                             mail.setNameFlie(filename);
                             mail.setSubject(bundle.getString("processed_quote"));
-                            mail.setBody(bundle.getString("body_email").replace("{0}", quote.getIdQuote().toString()));
+                            mail.setBody(constructBodyMail(quote, bundle.getString("body_email")));
                             mail.setFile(fileA);
 
                             sendMail(mail);
@@ -914,7 +913,7 @@ public class QuoteController extends AbstractController<Quote> {
                     mail.setTo(to);
                     mail.setNameFlie(null);
                     mail.setSubject(bundle.getString("change_status_quote_subject").replace("{xxx}", quote.getIdQuote().toString()));
-                    mail.setBody(bundle.getString("change_status_quote_body").replace("{xxx}", quote.getIdQuote().toString()));
+                    mail.setBody(constructBodyMail(quote, bundle.getString("change_status_quote_body")));
                     mail.setFile(null);
 
                     sendMail(mail);
@@ -931,7 +930,60 @@ public class QuoteController extends AbstractController<Quote> {
         logger.log(Level.INFO, "End sentNotificationStatusQuote()");
 
     }
-    
+
+    /**
+     * Metodo encargado de construir dinamicamente el body del correo con la
+     * cotizacion
+     *
+     * @param quote
+     * @return
+     */
+    public String constructBodyMail(Quote quote, String body) {
+        String bodyInfoProduct = new String();
+        StringBuilder bodyDescription = new StringBuilder();
+        //BigDecimal total = new BigDecimal(0);
+
+        bodyInfoProduct = body
+                .replace("{xxx}", String.valueOf(quote.getIdQuote()))
+                .replace(Constantes.SALES_QUOTE_NUMBER, String.valueOf(quote.getIdQuote()))
+                .replace(Constantes.CUSTOMER_QUOTE, quote.getIdContact().getCompanyName().getCompanyName())
+                .replace(Constantes.BILL_TO, quote.getShipping_to())
+                .replace(Constantes.SHIP_TO, quote.getShipping_to())
+                .replace(Constantes.QUOTE_DATE, convertDateToString(quote.getCreationDate()))
+                // se comenta intencionalmente a peticion del cliente, de momento no se mostrara esta info
+                //.replace(Constantes.SHIP_VIA, "")
+                //.replace(Constantes.FOB, "")
+                //.replace(Constantes.CUSTOMER_PO_NUMBER, "")
+                //.replace(Constantes.PAYMENT_METHOD, "")
+                //.replace(Constantes.ENTERED_BY, quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()))
+                .replace(Constantes.SALES_PERSON, quote.getIdAgent().getName().concat(" ").concat(quote.getIdAgent().getLastName()));
+        //.replace(Constantes.ORDERED_BY, "")
+        //.replace(Constantes.RESALE_NUMBER, "");
+
+        for (Has h : quote.getHasList()) {
+            String bodyDes = bundle.getString("bodyDescription")
+                    .replace(Constantes.QUANTITY_FOUND, String.valueOf(h.getQtyFound()))
+                    //.replace(Constantes.ORDER_QUANTITY, String.valueOf(h.getQtyRequested()))
+                    //.replace(Constantes.APPROVE_QUANTITY, String.valueOf(h.getQtyFound()))
+                    .replace(Constantes.DESCRIPTION, h.getProduct().getPartNumber() + " " + h.getProduct().getDescription())
+                    .replace(Constantes.UNIT_PRICE, String.valueOf(h.getSuggestedSalesPrice()))
+                    .replace(Constantes.EXTENDED_PRICE, String.valueOf(h.getExtended()));
+            bodyDescription.append(bodyDes);
+
+            // total = total.add(h.getExtended() == null ? BigDecimal.ZERO : h.getExtended());
+        }
+        bodyInfoProduct = bodyInfoProduct.replace(Constantes.BODY_DESCRIPTION, bodyDescription.toString());
+
+        // se comenta intencionalmente a peticion del cliente, de momento no se mostrara esta info
+        //  .replace(Constantes.PRINT_DATE, convertDateToString(new Date()).substring(0, 10))
+        //  .replace(Constantes.PRINT_TIME, convertDateToString(new Date()).substring(10))
+        //  .replace(Constantes.SUB_TOTAL, total.toString())
+        //  .replace(Constantes.FREIGHT, "0")
+        //  .replace(Constantes.SALES_TAX, (total.multiply(new BigDecimal(16)).divide(new BigDecimal(100))).toString())
+        //  .replace(Constantes.ORDER_TOTAL, bundle.getString("usd").concat(" ").concat("$").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100)).add(total)).toString()));
+        return bodyInfoProduct;
+    }
+
     public void prepareIdCustomer(ActionEvent event) {
         if (this.getSelected() != null && idContactController.getSelected() == null) {
             idContactController.setSelected(this.getSelected().getIdContact());

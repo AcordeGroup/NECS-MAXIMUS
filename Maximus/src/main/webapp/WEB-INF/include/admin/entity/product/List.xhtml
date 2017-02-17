@@ -28,7 +28,7 @@
                             <p:confirm header="#{maximusBundle.ConfirmationHeader}" message="#{maximusBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
                         </p:commandButton>
                         <p:commandButton id="homeButton"  icon="ui-icon-home"   value="#{maximusBundle.back_home}" action="#{productController.navigateToDashboard()}" />
-                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productController.prepareCreate}" update=":ProductCreateForm" oncomplete="PF('ProductCreateDialog').show()"/>
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{maximusBundle.Create}" actionListener="#{productController.prepareCreateProduct()}" update=":ProductCreateForm" oncomplete="PF('ProductCreateDialog').show()"/>
                     </td>
                 </tr>
             </table>

@@ -5,6 +5,7 @@ import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.facade.AbstractFacade;
 import com.necs.maximus.db.facade.HasFacade;
 import com.necs.maximus.db.facade.LazyEntityDataModel;
+import com.necs.maximus.db.facade.ProductFacade;
 import com.necs.maximus.enums.AgentType;
 import com.necs.maximus.ui.beans.util.JsfUtil;
 import java.io.Serializable;
@@ -61,6 +62,8 @@ public abstract class AbstractController<T> implements Serializable {
 
     @EJB
     private HasFacade hasFacade;
+    @EJB
+    private ProductFacade productFacade;
 
     private enum PersistAction {
 
@@ -428,9 +431,11 @@ public abstract class AbstractController<T> implements Serializable {
             quoteListByProduct = hasFacade.findHasByIdProduct(product.getPartNumber());
 
             controller.setQuoteListByProduct(quoteListByProduct);
-            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
-                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
-            }
+            //            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
+            //                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
+            //            }
+
+            controller.setPartListSubstitutes(product.getIsSubstituteList());
         }
     }
 
@@ -452,9 +457,10 @@ public abstract class AbstractController<T> implements Serializable {
             quoteListByProduct = hasFacade.findHasByIdProductAndIdAgent(product.getPartNumber(), idAgent);
 
             controller.setQuoteListByProduct(quoteListByProduct);
-            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
-                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
-            }
+//            if (quoteListByProduct != null && !quoteListByProduct.isEmpty()) {
+//                controller.setPartListSubstitutes(quoteListByProduct.get(0).getProduct().getIsSubstituteList());
+//            }
+            controller.setPartListSubstitutes(product.getIsSubstituteList());
         }
     }
 

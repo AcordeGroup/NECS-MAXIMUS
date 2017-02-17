@@ -17,7 +17,7 @@
 
                         <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber1}" for="isSubstitutePK_partNumber1" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.partNumberBase}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
+                            <h:selectOneMenu id="isSubstitutePK_partNumber1" value="#{isSubstituteController.selected.partNumberBase}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"
@@ -26,13 +26,13 @@
                                                
                                                />
 
-                            </p:selectOneMenu>
-                            <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.CreateIsSubstituteHelpText_product)}"/>
+                            </h:selectOneMenu>
+                            <p:tooltip for="isSubstitutePK_partNumber1" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber1', maximusBundle.CreateIsSubstituteHelpText_product)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{maximusBundle.CreateIsSubstituteLabel_isSubstitutePK_partNumber2}" for="isSubstitutePK_partNumber2" />
                         <h:panelGroup>
-                            <p:selectOneMenu id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.partNumberSubstitute}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
+                            <h:selectOneMenu id="isSubstitutePK_partNumber2" value="#{isSubstituteController.selected.partNumberSubstitute}" required="true" requiredMessage="#{maximusBundle.CreateIsSubstituteRequiredMessage_product}" converter="#{productConverter}" style="width: 390px;">
                                 <f:selectItem itemLabel="#{maximusBundle.SelectOneMessage}"/>
                                 <f:selectItems value="#{productController.items}"
                                                var="productItem"
@@ -40,8 +40,8 @@
                                                itemLabel="#{productItem.description.toString()}"
                                                />
 
-                            </p:selectOneMenu>
-                            <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('product', maximusBundle.CreateIsSubstituteHelpText_product)}"/>
+                            </h:selectOneMenu>
+                            <p:tooltip for="isSubstitutePK_partNumber2" value="#{isSubstituteController.getComponentMessages('isSubstitutePK_partNumber2', maximusBundle.CreateIsSubstituteHelpText_product)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{isSubstituteController.saveNew}" value="#{maximusBundle.Save}" update="display,:IsSubstituteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IsSubstituteCreateDialog'));">

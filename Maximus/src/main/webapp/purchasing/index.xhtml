@@ -20,7 +20,7 @@
                 <h:form id="formPurchasing">
                     <h:panelGrid columns="2" id="panelButton">
                         <p:commandButton value="#{maximusBundle.new_vendor_button}" actionListener="#{vendorController.prepareCreate}" id="buttonVendor"  update=":VendorCreateForm" onclick="#{vendorController.createVendorTrue()}" oncomplete="PF('VendorCreateDialog').show()" />
-                        <p:commandButton value="#{maximusBundle.enter_new_part_button}" actionListener="#{productController.prepareCreate}" id="buttonNewPart"  update=":ProductCreateForm" onclick="#{productController.createPartTrue()}" oncomplete="PF('ProductCreateDialog').show()"/>
+                        <p:commandButton value="#{maximusBundle.enter_new_part_button}" actionListener="#{productController.prepareCreateProduct()}" id="buttonNewPart"  update=":ProductCreateForm" onclick="#{productController.createPartTrue()}" oncomplete="PF('ProductCreateDialog').show()"/>
                     </h:panelGrid>
                     <p:spacer/>
                     <p:fieldset legend="Open request" toggleable="true" toggleSpeed="500" collapsed="false" style="text-align: left" id="fildsetOpen"> 
