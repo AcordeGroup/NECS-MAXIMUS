@@ -643,8 +643,8 @@ public class QuoteController extends AbstractController<Quote> {
 
                 tablePart3.addCell(cellInterDescription);
 
-                tablePart3.addCell(createCell(has.getSuggestedSalesPrice() != null ? has.getSuggestedSalesPrice().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
-                tablePart3.addCell(createCell(has.getExtended() != null ? has.getExtended().toString() : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
+                tablePart3.addCell(createCell(has.getSuggestedSalesPrice() != null ? bundle.getString("usd").concat("$ ").concat(has.getSuggestedSalesPrice().toString()) : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
+                tablePart3.addCell(createCell(has.getExtended() != null ? bundle.getString("usd").concat("$ ").concat(has.getExtended().toString()) : "", null, null, fontDefault, null, Element.ALIGN_LEFT, defaultPadding, null, null));
 
                 total = total.add(has.getExtended() == null ? BigDecimal.ZERO : has.getExtended());
             }
@@ -686,13 +686,13 @@ public class QuoteController extends AbstractController<Quote> {
             tablaFooterInterRigth.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
             tablaFooterInterRigth.addCell(createCell(bundle.getString("subtotal"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaFooterInterRigth.addCell(createCell(total.toString(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat("$ ").concat(total.toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell(bundle.getString("freight"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell("0", null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell(bundle.getString("sales_tax"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaFooterInterRigth.addCell(createCell((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100))).toString(), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat("$ ").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100))).toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
             tablaFooterInterRigth.addCell(createCell(bundle.getString("order_total"), null, null, fontDefaultBold, baseColor, Element.ALIGN_RIGHT, defaultPadding, null, null));
-            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat(" ").concat("$").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100)).add(total)).toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
+            tablaFooterInterRigth.addCell(createCell(bundle.getString("usd").concat("$ ").concat((total.multiply(new BigDecimal(16)).divide(new BigDecimal(100)).add(total)).toString()), null, null, fontDefault, null, Element.ALIGN_CENTER, defaultPadding, null, null));
 
             //suma text sales quote
             PdfPCell cellFooterInterRigth = new PdfPCell();
