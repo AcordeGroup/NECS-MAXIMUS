@@ -40,6 +40,12 @@ public class Constantes {
     public static final String ORDER_TOTAL = "{orderTotal}";
     public static final String BODY_DESCRIPTION = "{bodyDescription}";
     
+    //NOTES
+    public static final String BODY_NOTES = "{bodyNotes}";
+    public static final String ID_AGENT = "{idAgent}";
+    public static final String NOTE = "{note}";
+    public static final String CREATION_DATE = "{creationDate}";
+    
     
     
 

@@ -270,7 +270,7 @@
                                         <h:outputText value="#{maximusBundle.qty_label}"/>
                                     </f:facet>
                                     <p:spinner id="basic" value="#{item.qtyRequested}" size="3"  min="0" required="true"  requiredMessage="#{maximusBundle.message_qty_product}"  >
-                                        <p:ajax update=":form:datalistProduct:extended" listener="#{createQuoteController.addExtended(item)}" delay="2000"  />
+                                        <p:ajax update=":form:datalistProduct:extended" listener="#{createQuoteController.addExtended(item)}"  event="blur" />
                                     </p:spinner>
                                 </p:column>
 

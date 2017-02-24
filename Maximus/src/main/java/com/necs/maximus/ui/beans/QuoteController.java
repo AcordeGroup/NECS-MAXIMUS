@@ -18,6 +18,7 @@ import com.necs.maximus.db.entity.Has;
 import com.necs.maximus.db.entity.Manage;
 import com.necs.maximus.db.entity.Product;
 import com.necs.maximus.db.entity.Quote;
+import com.necs.maximus.db.entity.QuoteNote;
 import com.necs.maximus.db.entity.QuoteStatus;
 import com.necs.maximus.db.facade.AgentFacade;
 import com.necs.maximus.db.facade.ManageFacade;
@@ -941,6 +942,7 @@ public class QuoteController extends AbstractController<Quote> {
     public String constructBodyMail(Quote quote, String body) {
         String bodyInfoProduct = new String();
         StringBuilder bodyDescription = new StringBuilder();
+        StringBuilder bodyNotes = new StringBuilder();
         //BigDecimal total = new BigDecimal(0);
 
         bodyInfoProduct = body
@@ -960,6 +962,7 @@ public class QuoteController extends AbstractController<Quote> {
         //.replace(Constantes.ORDERED_BY, "")
         //.replace(Constantes.RESALE_NUMBER, "");
 
+        // adicono informacion de los productos cotizados
         for (Has h : quote.getHasList()) {
             String bodyDes = bundle.getString("bodyDescription")
                     .replace(Constantes.QUANTITY_FOUND, String.valueOf(h.getQtyFound()))
@@ -972,7 +975,22 @@ public class QuoteController extends AbstractController<Quote> {
 
             // total = total.add(h.getExtended() == null ? BigDecimal.ZERO : h.getExtended());
         }
-        bodyInfoProduct = bodyInfoProduct.replace(Constantes.BODY_DESCRIPTION, bodyDescription.toString());
+        // adiciono informacion de los comentarios asociados a la quote.
+        for (QuoteNote note : quote.getQuoteNoteList()) {
+            String bodyN = bundle.getString("bodyNotes")
+                    .replace(Constantes.ID_AGENT, String.valueOf(note.getIdAgent().getName() + " " + note.getIdAgent().getLastName()))
+                    //.replace(Constantes.ORDER_QUANTITY, String.valueOf(h.getQtyRequested()))
+                    //.replace(Constantes.APPROVE_QUANTITY, String.valueOf(h.getQtyFound()))
+                    .replace(Constantes.CREATION_DATE, convertDateToString(note.getCreationDate()))
+                    .replace(Constantes.NOTE, note.getNote());
+
+            bodyNotes.append(bodyN);
+
+            // total = total.add(h.getExtended() == null ? BigDecimal.ZERO : h.getExtended());
+        }
+
+        bodyInfoProduct = bodyInfoProduct.replace(Constantes.BODY_DESCRIPTION, bodyDescription.toString())
+                .replace(Constantes.BODY_NOTES, bodyNotes.toString());
 
         // se comenta intencionalmente a peticion del cliente, de momento no se mostrara esta info
         //  .replace(Constantes.PRINT_DATE, convertDateToString(new Date()).substring(0, 10))

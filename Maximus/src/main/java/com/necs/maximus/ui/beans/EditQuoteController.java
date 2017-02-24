@@ -198,6 +198,16 @@ public class EditQuoteController extends AbstractController<Quote> {
                 quote.setIdContact(contactSelected);
                 quoteFacade.edit(quote);
 
+                if (note != null && !note.equals("")) {
+                    // create nota entity
+                    QuoteNote nota = new QuoteNote();
+                    nota.setCreationDate(new Date());
+                    nota.setIdQuote(quote);
+                    nota.setNote(note);
+                    nota.setIdAgent(agent);
+                    quoteNoteFacade.create(nota);
+                }
+
                 if (operation.equals(OperationType.DONE.getOperationName())) {
                     QuoteStatus qs = quote.getQuoteStatusList().get(0);
                     qs.setEndDate(new Date());
@@ -213,16 +223,6 @@ public class EditQuoteController extends AbstractController<Quote> {
                     // envio notificacion al sales
                     quoteController.sendQuote(quote);
                     //RequestContext.getCurrentInstance().execute("PF('dialogSuccess').show();");
-                }
-
-                if (note != null && !note.equals("")) {
-                    // create nota entity
-                    QuoteNote nota = new QuoteNote();
-                    nota.setCreationDate(new Date());
-                    nota.setIdQuote(quote);
-                    nota.setNote(note);
-                    nota.setIdAgent(agent);
-                    quoteNoteFacade.create(nota);
                 }
 
                 FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("update_success_quote"), ""));
@@ -640,9 +640,8 @@ public class EditQuoteController extends AbstractController<Quote> {
             setProductReplace(product);
         }
     }
-    
-    
-        /**
+
+    /**
      * valida los campos del producto substituto...
      *
      * @param product
@@ -685,7 +684,7 @@ public class EditQuoteController extends AbstractController<Quote> {
                     proController.setSelected(null);
                     proController.setProductSubstitute(null);
                     proController.setCreateSubstitute(false);
-                    
+
                     if (isGeneric) {
                         RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
                     } else {

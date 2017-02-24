@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.necs.maximus.db.facade;
 
 import java.util.HashMap;
@@ -32,14 +31,17 @@ public abstract class AbstractFacade<T> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        getEntityManager().flush();
     }
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
+        getEntityManager().flush();
     }
 
     public T find(Object id) {
@@ -200,10 +202,11 @@ public abstract class AbstractFacade<T> {
         return expression;
     }
 
-     /**
-     * Create an instance of {@link Query} for executing a named query (in the Java 
-     * Persistence query language or in native SQL) and set the query's parameters.
-     * 
+    /**
+     * Create an instance of {@link Query} for executing a named query (in the
+     * Java Persistence query language or in native SQL) and set the query's
+     * parameters.
+     *
      * @param <T>
      * @param entityType the type of entity
      * @param namedQuery named query
