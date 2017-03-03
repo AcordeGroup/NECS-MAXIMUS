@@ -673,17 +673,20 @@ public class EditQuoteController extends AbstractController<Quote> {
                     productFacade.create(proController.getSelected());
                     setProductCreado(proController.getSelected());
 
-                    if (proController.getProductSubstitute() != null && proController.isCreateSubstitute()) {
-                        validateFieldSubstitute(proController.getProductSubstitute());
-                        productFacade.create(proController.getProductSubstitute());
-                        substitute.getSelected().setPartNumberBase(proController.getSelected());
-                        substitute.getSelected().setPartNumberSubstitute(proController.getProductSubstitute());
-                        substitute.saveNew(null);
+                    if (proController.getProductSubstituteList() != null && !proController.getProductSubstituteList().isEmpty()) {
+                        //validateFieldSubstitute(proController.getProductSubstitute());
+                        for (Product pro : proController.getProductSubstituteList()) {
+                            productFacade.create(pro);
+                            substitute.getSelected().setPartNumberBase(proController.getSelected());
+                            substitute.getSelected().setPartNumberSubstitute(pro);
+                            substitute.saveNew(null);
+                        }
+
                     }
                     //inicializo el objeto product
                     proController.setSelected(null);
                     proController.setProductSubstitute(null);
-                    proController.setCreateSubstitute(false);
+                    proController.setProductSubstituteList(null);
 
                     if (isGeneric) {
                         RequestContext.getCurrentInstance().execute("PF('dialogPartConfirmCreate').show();");
