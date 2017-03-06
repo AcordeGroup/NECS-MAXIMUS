@@ -70,7 +70,7 @@
                         </p:panelGrid>
                     </h:panelGroup>
                 </p:outputPanel>
-                <p:commandButton style="margin: 0px 0px 0px 35px !important;" actionListener="#{productController.addSubstitute()}" value="#{maximusBundle.add}" update="displaySubs,#{productController.createPart ? '' : ':ProductListForm:datalist,:growl'}" oncomplete="handleSubmit(xhr,status,args,PF('ProductCreateDialogSubs'));" ajax="true"/>
+                <p:commandButton style="margin: 0px 0px 0px 35px !important;" actionListener="#{productController.addSubstitute()}" value="#{maximusBundle.add}" update="displaySubs,:ProductCreateForm:display" oncomplete="handleSubmit(xhr,status,args,PF('ProductCreateDialogSubs'));" ajax="true"/>
 
 
 
