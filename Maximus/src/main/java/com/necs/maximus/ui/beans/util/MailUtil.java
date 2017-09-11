@@ -121,7 +121,7 @@ public class MailUtil {
 
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
-            Multipart multiPart = new MimeMultipart("alternative");
+            Multipart multiPart = new MimeMultipart();
 
             // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
